@@ -1,0 +1,33 @@
+
+/* body title English*/
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/inter/Inter-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* header title English*/
+@font-face {
+  font-family: 'Poppins';
+  src: url('../assets/fonts/Poppins/Poppins-Black.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* header title Khmer*/
+@font-face {
+  font-family: 'Kantumruy Pro';
+  src: url('../assets/fonts/Kantumruy_Pro/static/KantumruyPro-Bold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* body title Khmer */
+@font-face {
+  font-family: 'Battambang';
+  src: url('../assets/fonts/Battambang/Battambang-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}

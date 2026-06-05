@@ -39,9 +39,9 @@ export function PromotionPage() {
         {/* Flash Sale header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-1 h-8 bg-[#9B1C1C] rounded-full" />
+            <div className="w-1 h-8 bg-primary rounded-full" />
             <div className="flex items-center gap-2">
-              <Zap className="w-5 h-5 text-[#C9A84C] fill-[#C9A84C]" />
+              {/* <Zap className="w-5 h-5 text-[#C9A84C] fill-[#C9A84C]" /> */}
               <h2
                 className={`text-xl font-semibold text-[#1C1917] ${
                   kh ? "font-header-kh" : "font-header-en"
@@ -51,9 +51,9 @@ export function PromotionPage() {
               </h2>
             </div>
             <span className="flex items-center gap-1 px-2 py-0.5 bg-[#9B1C1C]/10 rounded-full">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#9B1C1C] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#fc2c2c] animate-pulse" />
               <span
-                className={`text-[11px] font-semibold text-[#9B1C1C] ${
+                className={`text-[11px] font-semibold text-[#ff0000] ${
                   kh ? "font-body-kh" : "font-body-en"
                 }`}
               >

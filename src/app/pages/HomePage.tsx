@@ -39,7 +39,7 @@ export function HomePage() {
   const kh = lang === "km";
 
   return (
-    <div className={`${kh ? "font-khmer" : ""} bg-[#FAF6EF] min-h-screen`}>
+    <div className={`${kh ? "font-khmer" : ""} bg-[#FAF6EF] min-h-screen `}>
       {/* Slideshow */}
       <Slideshow />
 
@@ -61,20 +61,18 @@ export function HomePage() {
           linkTo="/products"
           linkLabel={t("home.viewAll")}
         />
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {/* show all */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-5">
           {products
             .filter((p) => p.isPopular)
             .slice(0, 6)
             .map((product) => (
-              // new arrival card for popular products
               <NewArrivalCard key={product.id} product={product} />
             ))}
         </div>
       </section>
       {/* Gold divider */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="h-px bg-gradient-to-r from-transparent via-[#C9A84C] to-transparent" />
+        <div className="h-px bg-gradient-to-r from-transparent via-[#ff0303] to-transparent" />
       </div>
 
       {/* Featured products */}
@@ -84,13 +82,13 @@ export function HomePage() {
           linkTo="/products"
           linkLabel={t("home.viewAll")}
         />
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-5">
           {/* show all */}
           {products
             .filter((p) => p.isPopular)
             .slice(0, 8)
             .map((product) => (
-              <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} />
             ))}
         </div>
       </section>

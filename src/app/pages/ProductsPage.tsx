@@ -105,7 +105,7 @@ export function ProductsPage() {
 
         {/* Expandable filter panel */}
         {showFilters && (
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 mb-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {/* Category */}
             <div>
               <p className={`text-xs text-gray-500 uppercase tracking-wider mb-3 ${kh ? 'font-khmer' : ''}`}>
@@ -174,7 +174,7 @@ export function ProductsPage() {
 
         {/* Results */}
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5">
             {filtered.map(product => (
               <ProductCard key={product.id} product={product} />
             ))}

@@ -1,6 +1,7 @@
 import { Send } from "lucide-react";
 import { useLang, Lang } from "../context/LanguageContext";
 import { Product } from "../data/products";
+import { Link } from "react-router";
 
 interface PromotionCardProps {
   product: Product;
@@ -16,6 +17,7 @@ export function PromotionCard({ product }: PromotionCardProps) {
       : product.price;
 
   const handleOrder = () => {
+    const detailLink = `${window.location.origin}/products/${product.id}`;
     const message = `
       NEW SHOE ORDER
       -------------------
@@ -24,7 +26,7 @@ export function PromotionCard({ product }: PromotionCardProps) {
       Category: ${product.category}
       Discount: ${product.discount}%
       Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
-      Image: ${product.image}
+      Product page: ${detailLink}
     `;
     const url = `https://t.me/small_team_bot?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
@@ -38,26 +40,29 @@ export function PromotionCard({ product }: PromotionCardProps) {
     >
       {/* Image */}
       <div className="relative overflow-hidden bg-gray-50 aspect-square">
-        <img
-          src={product.image}
-          alt={product.name[lang as Lang]}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
+        {/*  */}
+        <Link to={`/products/${product.id}`} >
+          <img
+            src={product.images?.[0]}
+            alt={product.name[lang as Lang]}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </Link>
 
         {/* Badge — top left circle like screenshot */}
         {(product.discount > 0 || product.isNew) && (
           <div className="absolute top-2 left-2">
             {product.discount > 0 ? (
-              <div className="flex flex-col items-center justify-center w-10 h-10 rounded-full bg-black/70 text-white text-center leading-tight">
-                <span className="text-[8px] uppercase font-bold">OFF</span>
-                <span className="text-[11px] font-extrabold leading-none">
+              <div className="flex flex-col items-center justify-center w-12 h-12 rounded-full bg-black/70 text-white text-center leading-tight">
+                <span className="text-[11px] uppercase font-bold">OFF</span>
+                <span className="text-[12px] font-extrabold leading-none">
                   {product.discount}%
                 </span>
               </div>
             ) : product.isNew ? (
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-red-500 text-white">
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-500 text-white">
                 <span
-                  className={`text-[9px] font-bold uppercase ${
+                  className={`text-[14px] font-bold uppercase ${
                     kh ? "font-khmer" : "font-header-en"
                   }`}
                 >

@@ -23,7 +23,7 @@ export function CategoryPage() {
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {categories.map(cat => (
               <CategoryCard key={cat.slug} category={cat} />
             ))}
@@ -66,7 +66,7 @@ export function CategoryPage() {
 
         <div className="absolute inset-0 flex flex-col justify-end max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
           <Link
-            to="/category"
+            to="/products"
             className="inline-flex items-center gap-1.5 text-white/70 hover:text-white text-sm mb-4 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -98,7 +98,7 @@ export function CategoryPage() {
             <h2 className={`text-[#1C1917] mb-8 ${kh ? 'font-khmer text-xl' : 'font-display text-2xl font-semibold'}`}>
               {category.name[lang as Lang]}
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5">
               {categoryProducts.map(product => (
                 <ProductCard key={product.id} product={product} />
               ))}
@@ -120,9 +120,9 @@ export function CategoryPage() {
           <h2 className={`text-[#1C1917] mb-8 ${kh ? 'font-khmer text-xl' : 'font-display text-2xl font-semibold'}`}>
             {kh ? 'ប្រភេទផ្សេងទៀត' : 'Other Categories'}
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {categories.filter(c => c.slug !== slug).map(cat => (
-              <CategoryCard key={cat.slug} category={cat} />
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+            {products.filter(c => c.slug !== slug).map(cat => (
+              <ProductCard key={cat.slug} product={cat} />
             ))}
           </div>
         </div>

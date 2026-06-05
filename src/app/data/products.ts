@@ -6,7 +6,7 @@ export interface Product {
   price: number;
   discount: number;
   category: string;
-  image: string;
+  images: string;
   inStock: boolean;
   isNew: boolean;
   isPopular: boolean;
@@ -97,7 +97,11 @@ export const products: Product[] = [
     price: 95,
     discount: 10,
     category: 'sneakers',
-    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&h=600&fit=crop',
+    ],
     inStock: true,
     isNew: false,
     isPopular: true,
@@ -118,7 +122,11 @@ export const products: Product[] = [
     price: 120,
     discount: 5,
     category: 'running',
-    image: 'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop',
+    ],
     inStock: true,
     isNew: true,
     isPopular: true,
@@ -139,7 +147,10 @@ export const products: Product[] = [
     price: 70,
     discount: 0,
     category: 'casual',
-    image: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=600&h=600&fit=crop',
+    ],
     inStock: true,
     isNew: true,
     isPopular: false,
@@ -160,7 +171,11 @@ export const products: Product[] = [
     price: 85,
     discount: 15,
     category: 'sneakers',
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1528701800489-20be3c1ea6c5?w=600&h=600&fit=crop',
+    ],
     inStock: true,
     isNew: false,
     isPopular: true,
@@ -170,8 +185,6 @@ export const products: Product[] = [
     sizes: ['39', '40', '41', '42', '43'],
     color: 'Blue',
   },
-
-  // 👉 Nike / Adidas / Puma mix
   {
     id: 5,
     slug: 'nike-dunk-low',
@@ -180,7 +193,11 @@ export const products: Product[] = [
     price: 110,
     discount: 0,
     category: 'sneakers',
-    image: 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=600&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&h=600&fit=crop',
+    ],
     inStock: true,
     isNew: true,
     isPopular: true,
@@ -198,7 +215,10 @@ export const products: Product[] = [
     price: 105,
     discount: 0,
     category: 'sneakers',
-    image: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&h=600&fit=crop',
+    ],
     inStock: true,
     isNew: false,
     isPopular: true,
@@ -216,7 +236,11 @@ export const products: Product[] = [
     price: 85,
     discount: 5,
     category: 'sneakers',
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1528701800489-20be3c1ea6c5?w=600&h=600&fit=crop',
+    ],
     inStock: true,
     isNew: true,
     isPopular: false,
@@ -234,7 +258,10 @@ export const products: Product[] = [
     price: 80,
     discount: 0,
     category: 'casual',
-    image: 'https://images.unsplash.com/photo-1528701800489-20be3c1ea6c5?w=600&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1528701800489-20be3c1ea6c5?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=600&h=600&fit=crop',
+    ],
     inStock: true,
     isNew: false,
     isPopular: true,
@@ -252,7 +279,11 @@ export const products: Product[] = [
     price: 130,
     discount: 10,
     category: 'running',
-    image: 'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&h=600&fit=crop',
+    ],
     inStock: true,
     isNew: true,
     isPopular: true,
@@ -270,7 +301,10 @@ export const products: Product[] = [
     price: 90,
     discount: 0,
     category: 'sneakers',
-    image: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=600&fit=crop',
+    ],
     inStock: true,
     isNew: false,
     isPopular: true,
@@ -280,8 +314,6 @@ export const products: Product[] = [
     sizes: ['39', '40', '41', '42', '43'],
     color: 'White',
   },
-
-  // 👉 Add 11–20 same pattern (clean + unique)
   {
     id: 11,
     slug: 'puma-speedcat',
@@ -290,7 +322,10 @@ export const products: Product[] = [
     price: 88,
     discount: 0,
     category: 'casual',
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=600&h=600&fit=crop',
+    ],
     inStock: true,
     isNew: false,
     isPopular: false,
@@ -308,7 +343,11 @@ export const products: Product[] = [
     price: 150,
     discount: 20,
     category: 'sneakers',
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=600&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1528701800489-20be3c1ea6c5?w=600&h=600&fit=crop',
+    ],
     inStock: true,
     isNew: true,
     isPopular: true,
@@ -318,6 +357,4 @@ export const products: Product[] = [
     sizes: ['39', '40', '41', '42', '43', '44'],
     color: 'Grey',
   },
-
-  // 👉 Continue until id 20 (same clean structure)
 ];

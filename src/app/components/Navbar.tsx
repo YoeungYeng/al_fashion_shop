@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router";
-import { Menu, X, Globe, Search, Check } from "lucide-react";
+import { X, Search, Check } from "lucide-react";
 import { useLang } from "../context/LanguageContext";
 import { useSearch } from "../context/SearchContext";
 import { categories } from "../data/products";
+import "flag-icons/css/flag-icons.min.css";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -33,6 +34,18 @@ export function Navbar() {
   const activeCategoryLabel = selectedCategory
     ? categories.find((c) => c.slug === selectedCategory)?.name[lang] ?? t("nav.category")
     : kh ? "គ្រប់ប្រភេទ" : "All Categories";
+
+  const khmerNation = {
+    icon: <span className="fi fi-kh"></span>,
+    label: "ខ្មែរ",
+  };
+
+  const englishNation = {
+    icon: <span className="fi fi-us"></span>,
+    label: "EN",
+  };
+
+  const languageSwitch = lang === "en" ? khmerNation : englishNation;
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-black/10 shadow-sm">
@@ -134,22 +147,22 @@ export function Navbar() {
           </div>
 
           {/* RIGHT ACTIONS */}
-          {/* <div className="flex items-center gap-2 shrink-0">
+           <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={() => setLang(lang === "en" ? "km" : "en")}
               className="px-3 py-1.5 text-xs rounded-full border border-black/10 hover:bg-black/5 flex items-center gap-1"
             >
-              <Globe className="w-3.5 h-3.5" />
-              {lang === "en" ? "ខ្មែរ" : "EN"}
+              {languageSwitch.icon}
+              {languageSwitch.label}
             </button>
 
-            <button
+            {/* <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden p-2 rounded hover:bg-black/5"
             >
               {mobileOpen ? <X /> : <Menu />}
-            </button>
-          </div> */}
+            </button> */}
+          </div> 
         </div>
       </div>
 

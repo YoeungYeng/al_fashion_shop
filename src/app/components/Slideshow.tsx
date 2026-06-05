@@ -173,7 +173,7 @@ export function Slideshow() {
             onClick={() => go(i)}
             className={`h-2 rounded-full transition-all ${
               i === current
-                ? "w-7 bg-accent"
+                ? "w-7 bg-primary"
                 : "w-2 bg-white/50 hover:bg-white/80"
             }`}
           />

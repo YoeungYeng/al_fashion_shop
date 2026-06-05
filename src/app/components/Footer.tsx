@@ -22,7 +22,7 @@ export function Footer() {
   const kh = lang === 'km';
 
   return (
-    <footer className={`bg-white border-t border-black/10 text-black ${kh ? "font-khmer" : "font-body-en"}`}>
+    <footer className={`bg-white border-t border-black/10 text-black ${kh ? 'font-body-kh' : 'font-body-en'}`}>
 
       {/* TOP RED LINE (brand identity like navbar) */}
       <div className="h-[3px] bg-primary" />
@@ -40,7 +40,7 @@ export function Footer() {
               </div>
 
               <div>
-                <p className={`font-bold text-lg leading-none ${kh ? 'font-khmer' : ''}`}>
+                <p className={`font-bold text-lg leading-none ${kh ? 'font-header-kh' : ''}`}>
                   Shoes Store
                 </p>
                 <p className="text-xs text-primary uppercase tracking-widest">
@@ -50,7 +50,7 @@ export function Footer() {
 
             </div>
 
-            <p className={`text-sm text-black/60 ${kh ? 'font-khmer' : ''}`}>
+            <p className="text-sm text-black/60">
               {t('footer.tagline')}
             </p>
 
@@ -150,9 +150,9 @@ export function Footer() {
         </div>
 
         {/* BOTTOM */}
-        <div className="mt-10 pt-6 border-t border-black/10 flex flex-col sm:flex-row justify-between items-center text-xs text-black/50">
+        <div className={`mt-10 pt-6 border-t border-black/10 flex flex-col sm:flex-row justify-between items-center text-sm text-black/50 ${kh ? 'font-body-kh' : 'font-body-en'}`}>
           <p>© 2026 Shoes Store. All rights reserved.</p>
-          <span>🇰🇭 Made in Cambodia</span>
+          <span>KH Made in Cambodia</span>
         </div>
 
       </div>

@@ -74,7 +74,7 @@ export function ProductsPage() {
         {/* Controls bar */}
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
           {/* Sort */}
-          <div className="relative min-w-[160px]">
+          {/* <div className="relative min-w-[160px]">
             <select
               value={sortKey}
               onChange={e => setSortKey(e.target.value as SortKey)}
@@ -86,10 +86,10 @@ export function ProductsPage() {
               <option value="price_desc">{t('product.sortPriceDesc')}</option>
             </select>
             <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-          </div>
+          </div> */}
 
           {/* Filter toggle */}
-          <button
+          {/* <button
             onClick={() => setShowFilters(!showFilters)}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border text-sm font-medium transition-colors ${
               showFilters || hasFilters
@@ -100,7 +100,7 @@ export function ProductsPage() {
             <SlidersHorizontal className="w-4 h-4" />
             {t('product.filter')}
             {hasFilters && <span className="w-2 h-2 bg-[#C9A84C] rounded-full" />}
-          </button>
+          </button> */}
         </div>
 
         {/* Expandable filter panel */}

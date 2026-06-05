@@ -259,7 +259,7 @@ export const products: Product[] = [
     discount: 0,
     category: 'casual',
     images: [
-      'https://images.unsplash.com/photo-1528701800489-20be3c1ea6c5?w=600&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=600&h=600&fit=crop',
       'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=600&h=600&fit=crop',
     ],
     inStock: true,

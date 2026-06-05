@@ -27,7 +27,7 @@ export const translations: Record<string, Record<Lang, string>> = {
   'home.new':             { en: 'New',                     km: 'ថ្មី' },
   'home.contactSection':  { en: 'Find Us',                 km: 'រកយើងឃើញ' },
 
-  'product.search':       { en: 'Search products…',        km: 'ស្វែងរកផលិតផល…' },
+  'product.search':       { en: 'Search products',        km: 'ស្វែងរកផលិតផល' },
   'product.filter':       { en: 'Filter',                  km: 'តម្រង' },
   'product.sortBy':       { en: 'Sort by',                 km: 'តម្រៀបតាម' },
   'product.sortName':     { en: 'Name',                    km: 'ឈ្មោះ' },

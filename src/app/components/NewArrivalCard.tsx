@@ -13,7 +13,6 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
   const { lang, t } = useLang();
   const kh = lang === "km";
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showRight, setShowRight] = useState(true);
   const images = product.images;
   const hasMultiple = images.length > 1;
 
@@ -52,7 +51,7 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
       -------------------
       Images:
       ${allImages}
-          `;
+    `;
 
     const url = `https://t.me/small_team_bot?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
@@ -60,7 +59,7 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
 
   return (
     <div
-      className={`group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col border border-gray-100 hover:-translate-y-1 ${kh ? "font-khmer" : "font-body-en"}`}
+      className={`group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col border border-gray-100 hover:-translate-y-1 ${kh ? "font-body-kh" : "font-body-en"}`}
     >
       {/* Image Carousel */}
       <div className="relative overflow-hidden bg-[#FAF6EF] aspect-square">
@@ -110,14 +109,14 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
         <div className="absolute top-2 left-2 flex flex-col gap-1">
           {product.isNew && (
             <span
-              className={`px-2 py-0.5 bg-primary text-white text-[12px] font-semibold rounded-full uppercase ${kh ? "font-khmer" : ""}`}
+              className={`px-2 py-0.5 bg-primary text-white text-[12px] font-semibold rounded-full uppercase ${kh ? "font-body-kh" : "font-body-en"}`}
             >
               {t("home.new")}
             </span>
           )}
           {product.isPopular && (
             <span
-              className={`px-2 py-0.5 bg-[#cfa83a] text-white text-[12px] font-semibold rounded-full uppercase ${kh ? "font-khmer" : ""}`}
+              className={`px-2 py-0.5 bg-[#cfa83a] text-white text-[12px] font-semibold rounded-full uppercase ${kh ? "font-body-kh" : "font-body-en"}`}
             >
               {t("home.popular")}
             </span>
@@ -133,7 +132,7 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
         {!product.inStock && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
             <span
-              className={`px-3 py-1.5 bg-gray-800 text-gray-200 text-[12px] font-semibold rounded ${kh ? "font-khmer" : ""}`}
+              className={`px-3 py-1.5 bg-gray-800 text-gray-200 text-[12px] font-semibold rounded ${kh ? "font-body-kh" : "font-body-en"}`}
             >
               {t("product.outOfStock")}
             </span>
@@ -144,12 +143,16 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
       {/* Body */}
       <div className="flex flex-col flex-1 p-3 gap-1">
         <h3
-          className={`text-[#1C1917] font-semibold line-clamp-2 leading-snug ${kh ? "Battambang text-base" : "Inter text-sm"}`}
+          className={`text-[#1C1917] font-semibold line-clamp-2 leading-snug ${
+            kh ? "font-header-kh text-base" : "font-header-en text-sm"
+          }`}
         >
           {product.name[lang as Lang]}
         </h3>
         <p
-          className={`text-gray-500 text-xs line-clamp-2 flex-1 ${kh ? "Battambang leading-relaxed" : "Inter"}`}
+          className={`text-gray-500 text-xs line-clamp-2 flex-1 ${
+            kh ? "font-body-kh leading-relaxed" : "font-body-en"
+          }`}
         >
           {product.description[lang as Lang]}
         </p>
@@ -171,7 +174,7 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
               product.inStock
                 ? "bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-md"
                 : "bg-muted text-muted-foreground cursor-not-allowed opacity-60 pointer-events-none"
-            } ${kh ? "font-khmer" : ""}`}
+            } ${kh ? "font-body-kh" : "font-body-en"}`}
         >
           <Send className="w-3.5 h-3.5 flex-shrink-0" />
           {t("product.orderTelegram")}

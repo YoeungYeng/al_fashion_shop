@@ -52,7 +52,7 @@ export function Navbar() {
           </NavLink>
 
           {/* SEARCH + DROPDOWN — together as one search bar unit */}
-          <div className="flex flex-1 items-center max-w-xl border border-gray-200 rounded-lg overflow-hidden bg-gray-50 focus-within:ring-2 focus-within:ring-[#C9A84C]/40 focus-within:border-[#C9A84C] transition">
+          <div className="flex flex-1 items-center max-w-xl border border-gray-200 rounded-lg overflow-hidden bg-gray-50 focus-within:ring-2 focus-within:ring-[#ff0000]/50 focus-within:border-[#ff0000] transition">
 
             {/* CATEGORY DROPDOWN — left side of search bar */}
             <DropdownMenu>
@@ -134,7 +134,7 @@ export function Navbar() {
           </div>
 
           {/* RIGHT ACTIONS */}
-          <div className="flex items-center gap-2 shrink-0">
+          {/* <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={() => setLang(lang === "en" ? "km" : "en")}
               className="px-3 py-1.5 text-xs rounded-full border border-black/10 hover:bg-black/5 flex items-center gap-1"
@@ -149,7 +149,7 @@ export function Navbar() {
             >
               {mobileOpen ? <X /> : <Menu />}
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
 

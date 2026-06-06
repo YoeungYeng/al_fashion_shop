@@ -41,7 +41,7 @@ export function PromotionCard({ product }: PromotionCardProps) {
       {/* Image */}
       <div className="relative overflow-hidden bg-gray-50 aspect-square">
         {/*  */}
-        <Link to={`/products/${product.id}`} >
+        <Link to={`/products/${product.id}`}>
           <img
             src={product.images?.[0]}
             alt={product.name[lang as Lang]}
@@ -91,15 +91,14 @@ export function PromotionCard({ product }: PromotionCardProps) {
       <div className="p-3 flex flex-col gap-1.5">
         {/* Price row — original struck through + discounted red, like screenshot */}
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-[#E53E3E] font-bold text-sm">
-            {product.discount > 0 && (
-            discountedPrice.toFixed(2)
-          )}
+          <span className="text-[#9B1C1C] font-bold text-base">
+            ${discountedPrice.toFixed(2)}
           </span>
-            <span className="text-gray-400  text-xs line-through">
+          {product.discount > 0 && (
+            <span className="text-gray-400 text-xs line-through">
               ${product.price.toFixed(2)}
             </span>
-          
+          )}
         </div>
 
         {/* Name */}

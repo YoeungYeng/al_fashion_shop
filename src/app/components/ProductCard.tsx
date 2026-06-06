@@ -156,7 +156,7 @@ ${imageLines}`;
       {/* Body */}
       <div className="flex flex-col flex-1 p-3 gap-1">
         <div className="flex items-center gap-2">
-          <span className="text-[#9B1C1C] font-bold text-base">
+          <span className="text-[#9B1C1C] font-bold text-sm">
             ${discountedPrice.toFixed(2)}
           </span>
           {product.discount > 0 && (
@@ -166,7 +166,7 @@ ${imageLines}`;
           )}
         </div>
         <h3
-          className={`text-[#1C1917] font-semibold line-clamp-2 leading-snug ${kh ? "font-khmer text-base" : "text-sm"}`}
+          className={`text-[#1C1917] font-semibold line-clamp-2 leading-snug ${kh ? "font-khmer text-sm" : "text-sm"}`}
         >
           {product.name[lang as Lang]}
         </h3>

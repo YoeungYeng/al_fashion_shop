@@ -143,7 +143,7 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
       {/* Body */}
       <div className="flex flex-col flex-1 p-3 gap-1">
         <div className="flex items-center gap-2">
-          <span className="text-[#9B1C1C] font-bold text-base">
+          <span className="text-[#9B1C1C] font-bold text-sm">
             ${discountedPrice.toFixed(2)}
           </span>
           {product.discount > 0 && (
@@ -154,7 +154,7 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
         </div>
         <h3
           className={`text-[#1C1917] font-light line-clamp-2 leading-snug ${
-            kh ? "font-header-kh text-base" : "font-header-en text-sm"
+            kh ? "font-header-kh text-sm" : "font-header-en text-sm"
           }`}
         >
           {product.name[lang as Lang]}

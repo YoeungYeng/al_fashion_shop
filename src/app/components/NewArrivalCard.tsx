@@ -59,7 +59,7 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
 
   return (
     <div
-      className={`group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col border border-gray-100 hover:-translate-y-1 ${kh ? "font-body-kh" : "font-body-en"}`}
+      className={`group bg-white rounded-xl overflow-hidden  hover:shadow-md transition-all duration-300 flex flex-col border border-gray-100 hover:-translate-y-1 ${kh ? "font-body-kh" : "font-body-en"}`}
     >
       {/* Image Carousel */}
       <div className="relative overflow-hidden bg-[#FAF6EF] aspect-square">
@@ -106,7 +106,7 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
         )}
 
         {/* Badges */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1">
+        <div className="absolute top-2 left-2 flex justify-center items-center flex-col gap-1">
           {product.isNew && (
             <span
               className={`px-2 py-0.5 bg-primary text-white text-[12px] font-semibold rounded-full uppercase ${kh ? "font-body-kh" : "font-body-en"}`}
@@ -142,20 +142,6 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
 
       {/* Body */}
       <div className="flex flex-col flex-1 p-3 gap-1">
-        <h3
-          className={`text-[#1C1917] font-semibold line-clamp-2 leading-snug ${
-            kh ? "font-header-kh text-base" : "font-header-en text-sm"
-          }`}
-        >
-          {product.name[lang as Lang]}
-        </h3>
-        <p
-          className={`text-gray-500 text-xs line-clamp-2 flex-1 ${
-            kh ? "font-body-kh leading-relaxed" : "font-body-en"
-          }`}
-        >
-          {product.description[lang as Lang]}
-        </p>
         <div className="flex items-center gap-2">
           <span className="text-[#9B1C1C] font-bold text-base">
             ${discountedPrice.toFixed(2)}
@@ -166,6 +152,21 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
             </span>
           )}
         </div>
+        <h3
+          className={`text-[#1C1917] font-light line-clamp-2 leading-snug ${
+            kh ? "font-header-kh text-base" : "font-header-en text-sm"
+          }`}
+        >
+          {product.name[lang as Lang]}
+        </h3>
+        {/* <p
+          className={`text-gray-500 text-xs line-clamp-2 flex-1 ${
+            kh ? "font-body-kh leading-relaxed" : "font-body-en"
+          }`}
+        >
+          {product.description[lang as Lang]}
+        </p> */}
+        
         <button
           onClick={handleOrder}
           disabled={!product.inStock}

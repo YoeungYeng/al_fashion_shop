@@ -36,16 +36,16 @@ export function Footer() {
             <div className="flex items-center gap-3 mb-4">
 
               <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-white font-bold text-sm">S</span>
+                <span className="text-white font-bold text-sm">
+                  AL
+                </span>
               </div>
 
               <div>
                 <p className={`font-bold text-lg leading-none ${kh ? 'font-header-kh' : ''}`}>
-                  Shoes Store
+                  AL Fashion Store
                 </p>
-                <p className="text-xs text-primary uppercase tracking-widest">
-                  Premium Sneakers
-                </p>
+                
               </div>
 
             </div>
@@ -151,7 +151,7 @@ export function Footer() {
 
         {/* BOTTOM */}
         <div className={`mt-10 pt-6 border-t border-black/10 flex flex-col sm:flex-row justify-between items-center text-sm text-black/50 ${kh ? 'font-body-kh' : 'font-body-en'}`}>
-          <p>© 2026 Shoes Store. All rights reserved.</p>
+          <p>© 2026 AL Fashion Store. All rights reserved.</p>
           <span>KH Made in Cambodia</span>
         </div>
 

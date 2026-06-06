@@ -55,7 +55,7 @@ export function PromotionCard({ product }: PromotionCardProps) {
             {product.discount > 0 ? (
               <div className="flex flex-col items-center justify-center w-12 h-12 rounded-full bg-black/70 text-white text-center leading-tight">
                 <span className="text-[11px] uppercase font-bold">OFF</span>
-                <span className="text-[12px] font-extrabold leading-none">
+                <span className="text-[12px]  font-extrabold leading-none">
                   {product.discount}%
                 </span>
               </div>
@@ -91,14 +91,15 @@ export function PromotionCard({ product }: PromotionCardProps) {
       <div className="p-3 flex flex-col gap-1.5">
         {/* Price row — original struck through + discounted red, like screenshot */}
         <div className="flex items-center gap-1.5 flex-wrap">
-          {product.discount > 0 && (
-            <span className="text-gray-400 text-xs line-through">
+          <span className="text-[#E53E3E] font-bold text-sm">
+            {product.discount > 0 && (
+            discountedPrice.toFixed(2)
+          )}
+          </span>
+            <span className="text-gray-400  text-xs line-through">
               ${product.price.toFixed(2)}
             </span>
-          )}
-          <span className="text-[#E53E3E] font-bold text-sm">
-            ${discountedPrice.toFixed(2)}
-          </span>
+          
         </div>
 
         {/* Name */}

@@ -169,7 +169,7 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
         <button
           onClick={handleOrder}
           disabled={!product.inStock}
-          className={`mt-1 w-1/2 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all active:scale-95
+          className={`mt-1 w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all active:scale-95
             ${
               product.inStock
                 ? "bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-md"

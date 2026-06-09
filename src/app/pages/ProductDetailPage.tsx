@@ -3,6 +3,7 @@ import { Send, ChevronUp, ChevronDown, Minus, Plus } from "lucide-react";
 import { useLang, Lang } from "../context/LanguageContext";
 import { products } from "../data/products";
 import { ProductCard } from "../components/ProductCard";
+import { SocialBar } from "../components/SocialBar";
 
 const DEMO_PRODUCT = products[0];
 
@@ -105,36 +106,7 @@ export function ProductDetailPage() {
       ? product.price * (1 - product.discount / 100)
       : product.price;
 
-  const handleOrder = () => {
-    const allImages = images
-      .map((img) => {
-        const fileName = img.split("/").pop()?.split("?")[0] || "image";
-        return `${fileName}\n${img}`;
-      })
-      .join("\n\n");
-
-    const message = `
-NEW SHOE ORDER
--------------------
-Name: ${product.name[lang]}
-Price: $${product.price}
-Qty: ${qty}
-Size: ${selectedSize ?? "Not selected"}
-Total: $${(discountedPrice * qty).toFixed(2)}
-Category: ${product.category}
-Discount: ${product.discount}%
-Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
-
--------------------
-Images:
-${allImages}
-    `;
-    window.open(
-      `https://t.me/small_team_bot?text=${encodeURIComponent(message)}`,
-      "_blank",
-    );
-  };
-
+ 
   // related products — same category, fallback to popular
   const related = products.filter(
     (p) => p.category === product.category && p.id !== product.id,
@@ -144,13 +116,65 @@ ${allImages}
       ? related
       : products.filter((p) => p.isPopular && p.id !== product.id);
 
+  const handleTelegram = () => {
+    const allImages = images
+      .map((img) => {
+        const fileName = img.split("/").pop()?.split("?")[0] || "image";
+        return `${fileName}\n${img}`;
+      })
+      .join("\n\n");
+
+    const message = `
+      NEW SHOE ORDER
+      -------------------
+      Name: ${product.name[lang]}
+      Price: $${product.price}
+      Category: ${product.category}
+      Discount: ${product.discount}%
+      Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
+
+      -------------------
+      Images:
+      ${allImages}
+    `;
+
+    const url = `https://t.me/yoeungyeng?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  };
+
+  const handleMessenger = () => {
+    const allImages = images
+      .map((img) => {
+        const fileName = img.split("/").pop()?.split("?")[0] || "image";
+        return `${fileName}\n${img}`;
+      })
+      .join("\n\n");
+
+    const message = `
+      NEW SHOE ORDER
+      -------------------
+      Name: ${product.name[lang]}
+      Price: $${product.price}
+      Category: ${product.category}
+      Discount: ${product.discount}%
+      Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
+
+      -------------------
+      Images:
+      ${allImages}
+    `;
+
+    const url = `https://m.me/smallTeam760?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  };
+
   return (
     <div
       className={`min-h-screen bg-[#FAF6EF] ${kh ? "font-khmer" : "font-body-en"}`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+     <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* ── Main product card ── */}
-        <div className="rounded-3xl bg-white p-6 sm:p-8 shadow-sm border border-gray-100">
+        <div className="p-6 sm:p-8 ">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* LEFT: thumbnail strip + main image */}
             <div className="flex gap-3 flex-1">
@@ -344,57 +368,14 @@ ${allImages}
 
               <div className="h-px bg-gray-100" />
 
-              {/* Quantity */}
-              {/* <div className="flex items-center gap-3">
-                <span className="text-sm text-gray-500 w-32">
-                  {kh ? "បរិមាណ:" : "Quantity:"}
-                </span>
-                <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
-                  <button
-                    onClick={() => setQty((q) => Math.max(1, q - 1))}
-                    className="px-3 py-2 hover:bg-gray-100 transition-colors text-gray-600"
-                  >
-                    <Minus className="w-3.5 h-3.5" />
-                  </button>
-                  <span className="px-4 py-2 text-sm font-semibold text-[#1C1917] min-w-[40px] text-center border-x border-gray-200">
-                    {qty}
-                  </span>
-                  <button
-                    onClick={() => setQty((q) => q + 1)}
-                    className="px-3 py-2 hover:bg-gray-100 transition-colors text-gray-600"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div> */}
-
-              {/* Total */}
-              {/* <div className="flex items-center gap-3">
-                <span className="text-sm text-gray-500 w-32">
-                  {kh ? "សរុប:" : "Total Price:"}
-                </span>
-                <span className="text-xl font-bold text-[#9B1C1C]">
-                  ${(discountedPrice * qty).toFixed(2)}
-                </span>
-              </div> */}
-
               <div className="h-px bg-gray-100" />
 
               {/* Order button */}
               <div className="flex flex-col sm:flex-row gap-3">
-                <button
-                  onClick={handleOrder}
-                  disabled={!product.inStock}
-                  className={`flex items-center hover:cursor-pointer justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all active:scale-95
-                    ${
-                      product.inStock
-                        ? "bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-md"
-                        : "bg-muted text-muted-foreground cursor-not-allowed opacity-60"
-                    } ${kh ? "font-khmer" : ""}`}
-                >
-                  <Send className="w-4 h-4" />
-                  {t("product.orderTelegram")}
-                </button>
+                <SocialBar
+                  onTelegram={handleTelegram}
+                  onMessenger={handleMessenger}
+                />
               </div>
 
               {!product.inStock && (
@@ -424,7 +405,7 @@ ${allImages}
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-4 gap-4">
             {displayProducts.slice(0, 10).map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}

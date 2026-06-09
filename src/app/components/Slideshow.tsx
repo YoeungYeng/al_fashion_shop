@@ -7,7 +7,7 @@ const slides = [
   {
     id: 1,
     image:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1400&h=700&fit=crop&auto=format",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PW1-66210006-41-5_1800x1800.jpg?v=1780462049",
     title: { en: "Step Into Style", km: "ជំហានទៅកាន់ម៉ូដទាន់សម័យ" },
     subtitle: {
       en: "Discover the latest sneakers and footwear collections",
@@ -19,7 +19,7 @@ const slides = [
   {
     id: 2,
     image:
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=1400&h=700&fit=crop&auto=format",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PW1-66210006-41-5_1800x1800.jpg?v=1780462049",
     title: { en: "Premium Running Shoes", km: "ស្បែកជើងរត់គុណភាពខ្ពស់" },
     subtitle: {
       en: "Comfort, speed, and performance for every runner",
@@ -31,7 +31,7 @@ const slides = [
   {
     id: 3,
     image:
-      "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=1400&h=700&fit=crop&auto=format",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-46380091-29-2_e0c8f614-60bc-49be-bac2-1dd4bc381d79_1800x1800.jpg?v=1749086562",
     title: { en: "Casual & Lifestyle Collection", km: "ស្បែកជើងប្រចាំថ្ងៃ និងម៉ូដ" },
     subtitle: {
       en: "Perfect shoes for work, travel, and everyday wear",
@@ -66,7 +66,7 @@ export function Slideshow() {
   const slide = slides[current];
 
   return (
-    <div className="relative w-full h-[380px] sm:h-[480px] lg:h-[600px] overflow-hidden bg-black">
+    <div className="relative w-full h-[480px] sm:h-[480px] lg:h-[600px] overflow-hidden bg-black">
 
       {/* IMAGE */}
       <img

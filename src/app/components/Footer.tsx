@@ -29,7 +29,7 @@ export function Footer() {
       {/* TOP RED LINE (brand identity like navbar) */}
       <div className="h-[3px] bg-primary" />
 
-      <div className="max-w-7xl mx-auto px-6 py-14">
+      <div className="max-w-[1700px] mx-auto px-6 py-14">
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
@@ -138,9 +138,9 @@ export function Footer() {
             </p>
 
             <a
-              href="https://t.me/small_team_bot"
+              href="https://t.me/yoeungyeng"
               target="_blank"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-semibold hover:opacity-90 transition"
+              className="inline-flex items-center bg-[#229ED9] gap-2 px-4 py-2  text-white rounded-lg font-semibold hover:opacity-90 transition"
             >
               <Send className="w-4 h-4" />
               {kh ? 'តេលេក្រាម' : 'Telegram'}

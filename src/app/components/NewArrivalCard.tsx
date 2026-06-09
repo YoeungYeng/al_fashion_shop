@@ -1,9 +1,10 @@
-import { Send } from "lucide-react";
+import { MessageCircleMore, Send } from "lucide-react";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLang, Lang } from "../context/LanguageContext";
 import { Product } from "../data/products";
 import { Link } from "react-router";
+import { SocialBar } from "./SocialBar";
 
 interface NewArrivalCardProps {
   product: Product;
@@ -57,9 +58,61 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
     window.open(url, "_blank");
   };
 
+  const handleTelegram = () => {
+    const allImages = images
+      .map((img) => {
+        const fileName = img.split("/").pop()?.split("?")[0] || "image";
+        return `${fileName}\n${img}`;
+      })
+      .join("\n\n");
+
+    const message = `
+      NEW SHOE ORDER
+      -------------------
+      Name: ${product.name[lang]}
+      Price: $${product.price}
+      Category: ${product.category}
+      Discount: ${product.discount}%
+      Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
+
+      -------------------
+      Images:
+      ${allImages}
+    `;
+
+    const url = `https://t.me/yoeungyeng?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  };
+
+  const handleMessenger = () => {
+    const allImages = images
+      .map((img) => {
+        const fileName = img.split("/").pop()?.split("?")[0] || "image";
+        return `${fileName}\n${img}`;
+      })
+      .join("\n\n");
+
+    const message = `
+      NEW SHOE ORDER
+      -------------------
+      Name: ${product.name[lang]}
+      Price: $${product.price}
+      Category: ${product.category}
+      Discount: ${product.discount}%
+      Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
+
+      -------------------
+      Images:
+      ${allImages}
+    `;
+
+    const url = `https://m.me/smallTeam760?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  };
+
   return (
     <div
-      className={`group bg-white rounded-xl overflow-hidden  hover:shadow-md transition-all duration-300 flex flex-col border border-gray-100 hover:-translate-y-1 ${kh ? "font-body-kh" : "font-body-en"}`}
+      className={`group bg-transparent overflow-hidden  hover:shadow-md transition-all duration-300 flex flex-col border border-gray-100 hover:-translate-y-1 ${kh ? "font-body-kh" : "font-body-en"}`}
     >
       {/* Image Carousel */}
       <div className="relative overflow-hidden bg-[#FAF6EF] aspect-square">
@@ -109,23 +162,23 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
         <div className="absolute top-2 left-2 flex justify-center items-center flex-col gap-1">
           {product.isNew && (
             <span
-              className={`px-2 py-0.5 bg-primary text-white text-[12px] font-semibold rounded-full uppercase ${kh ? "font-body-kh" : "font-body-en"}`}
+              className={`px-2 py-0.5 w-8 h-8 flex justify-center items-center bg-primary text-white text-[14px] font-semibold rounded-full uppercase ${kh ? "font-body-kh" : "font-body-en"}`}
             >
               {t("home.new")}
             </span>
           )}
-          {product.isPopular && (
+          {/* {product.isPopular && (
             <span
               className={`px-2 py-0.5 bg-[#cfa83a] text-white text-[12px] font-semibold rounded-full uppercase ${kh ? "font-body-kh" : "font-body-en"}`}
             >
               {t("home.popular")}
             </span>
-          )}
-          {product.discount > 0 && (
+          )} */}
+          {/* {product.discount > 0 && (
             <span className="inline-flex items-center px-2.5 py-1 bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold rounded-full shadow-sm">
               -{product.discount}% {t("product.discount")}
             </span>
-          )}
+          )} */}
         </div>
 
         {/* Out of stock overlay */}
@@ -166,20 +219,9 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
         >
           {product.description[lang as Lang]}
         </p> */}
-        
-        <button
-          onClick={handleOrder}
-          disabled={!product.inStock}
-          className={`mt-1 w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all active:scale-95
-            ${
-              product.inStock
-                ? "bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-md"
-                : "bg-muted text-muted-foreground cursor-not-allowed opacity-60 pointer-events-none"
-            } ${kh ? "font-body-kh" : "font-body-en"}`}
-        >
-          <Send className="w-3.5 h-3.5 flex-shrink-0" />
-          {t("product.orderTelegram")}
-        </button>
+
+        {/* CONTACT BUTTONS */}
+        <SocialBar onTelegram={handleTelegram} onMessenger={handleMessenger} />
       </div>
     </div>
   );

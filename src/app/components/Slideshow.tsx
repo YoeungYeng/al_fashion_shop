@@ -79,8 +79,8 @@ export function Slideshow() {
       />
 
       {/* OVERLAY */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+      {/* <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" /> */}
 
       {/* CONTENT */}
       <div
@@ -92,10 +92,10 @@ export function Slideshow() {
           <div className="max-w-xl">
 
             {/* Accent line */}
-            <div className="w-10 sm:w-14 h-[3px] bg-primary mb-4 sm:mb-5 rounded-full" />
+            {/* <div className="w-10 sm:w-14 h-[3px] bg-primary mb-4 sm:mb-5 rounded-full" /> */}
 
             {/* TITLE */}
-            <h1
+            {/* <h1
               className={`text-white mb-3 sm:mb-4 leading-tight font-semibold
                 ${kh
                   ? "font-header-kh text-2xl sm:text-3xl lg:text-4xl"
@@ -103,10 +103,10 @@ export function Slideshow() {
                 }`}
             >
               {slide.title[lang]}
-            </h1>
+            </h1> */}
 
             {/* SUBTITLE */}
-            <p
+            {/* <p
               className={`text-white/80 mb-6 sm:mb-8 font-normal
                 ${kh
                   ? "font-body-kh text-sm sm:text-base"
@@ -114,37 +114,37 @@ export function Slideshow() {
                 }`}
             >
               {slide.subtitle[lang]}
-            </p>
+            </p> */}
 
             {/* CTA BUTTON */}
-            <button
+            {/* <button
               onClick={() => navigate(slide.link)}
               className={`inline-flex items-center gap-2 px-5 sm:px-7 py-2.5 sm:py-3.5 rounded-lg font-semibold transition-all hover:scale-105 shadow-lg
                 bg-primary text-primary-foreground hover:bg-primary/90 text-sm sm:text-base
                 ${kh ? "font-header-kh" : "font-header-en"}`}
             >
               {slide.cta[lang]}
-            </button>
+            </button> */}
 
           </div>
         </div>
       </div>
 
       {/* PREV */}
-      <button
+      {/* <button
         onClick={() => go(current - 1)}
         className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-black/40 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition"
       >
         <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-      </button>
+      </button> */}
 
       {/* NEXT */}
-      <button
+      {/* <button
         onClick={() => go(current + 1)}
         className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-black/40 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition"
       >
         <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
-      </button>
+      </button> */}
 
       {/* DOTS */}
       <div className="absolute bottom-4 sm:bottom-5 left-1/2 -translate-x-1/2 flex gap-2">

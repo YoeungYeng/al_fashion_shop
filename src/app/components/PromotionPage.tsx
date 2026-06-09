@@ -8,107 +8,181 @@ import { PromotionCard } from "./PromotionCard";
 export function PromotionPage() {
   const { lang } = useLang();
   const kh = lang === "km";
+
   const scrollRef = useRef<HTMLDivElement>(null);
+
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(true);
 
   const promotionProducts = products.filter(
-    (p) => p.discount > 0 || p.isNew || p.isPopular,
+    (p) => p.discount > 0 || p.isNew || p.isPopular
   );
 
   const handleScroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
+
+    const width = scrollRef.current.clientWidth;
+
     scrollRef.current.scrollBy({
-      left: dir === "left" ? -320 : 320,
+      left: dir === "left" ? -width * 0.8 : width * 0.8,
       behavior: "smooth",
     });
   };
 
   const handleScrollUpdate = () => {
     const el = scrollRef.current;
+
     if (!el) return;
+
     setShowLeft(el.scrollLeft > 10);
-    setShowRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 10);
+
+    setShowRight(
+      el.scrollLeft + el.clientWidth < el.scrollWidth - 10
+    );
   };
 
   return (
     <div className={kh ? "font-body-kh" : "font-body-en"}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <section className="w-full py-8 md:py-10 lg:py-14">
+        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-1 h-8 bg-primary rounded-full" />
 
-        {/* Flash Sale header */}
-        <div className="flex items-center justify-between mb-5 sm:mb-6">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="w-1 h-6 sm:h-8 bg-primary rounded-full" />
-            <h2
-              className={`text-lg sm:text-xl font-semibold text-[#1C1917] ${
-                kh ? "font-header-kh" : "font-header-en"
-              }`}
-            >
-              {kh ? "បញ្ចុះតម្លៃពិសេស" : "Flash Sale"}
-            </h2>
-            <span className="flex items-center gap-1 px-2 py-0.5 bg-[#9B1C1C]/10 rounded-full">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#fc2c2c] animate-pulse" />
-              <span
-                className={`text-[11px] font-semibold text-[#ff0000] ${
-                  kh ? "font-body-kh" : "font-body-en"
+              <h2
+                className={`text-xl lg:text-2xl font-bold text-[#1C1917] ${
+                  kh ? "font-header-kh" : "font-header-en"
                 }`}
               >
-                {kh ? "កំពុងដំណើរការ" : "Live"}
+                {kh ? "បញ្ចុះតម្លៃពិសេស" : "Flash Sale"}
+              </h2>
+
+              <span className="hidden sm:flex items-center gap-1 px-3 py-1 bg-red-50 rounded-full">
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+
+                <span
+                  className={`text-xs font-semibold text-red-600 ${
+                    kh ? "font-body-kh" : "font-body-en"
+                  }`}
+                >
+                  {kh ? "កំពុងដំណើរការ" : "Live"}
+                </span>
               </span>
-            </span>
+            </div>
+
+            <Link
+              to="/products"
+              className={`flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors ${
+                kh ? "font-body-kh" : "font-body-en"
+              }`}
+            >
+              {kh ? "មើលទាំងអស់" : "View All"}
+
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
 
-          <Link
-            to="/products"
-            className={`flex items-center gap-1 text-xs sm:text-sm text-[#9B1C1C] hover:text-[#C9A84C] font-medium transition-colors ${
-              kh ? "font-body-kh" : "font-body-en"
-            }`}
-          >
-            {kh ? "មើលទាំងអស់" : "View All"}
-            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </Link>
-        </div>
+          {/* Divider */}
+          <div className="h-px bg-gradient-to-r from-primary via-primary/40 to-transparent mb-8" />
 
-        {/* Gold divider */}
-        <div className="h-px bg-gradient-to-r from-[#C9A84C] via-[#C9A84C]/40 to-transparent mb-5 sm:mb-6" />
+          {/* Slider */}
+          <div className="relative">
+            {/* Left Arrow */}
+            <button
+              onClick={() => handleScroll("left")}
+              className={`
+                absolute
+                left-0
+                md:left-2
+                top-1/2
+                -translate-y-1/2
+                z-20
+                w-10
+                h-10
+                md:w-12
+                md:h-12
+                rounded-full
+                bg-white/95
+                backdrop-blur-sm
+                shadow-lg
+                border
+                border-gray-200
+                flex
+                items-center
+                justify-center
+                transition-all
+                duration-300
+                ${
+                  showLeft
+                    ? "opacity-100"
+                    : "opacity-0 pointer-events-none"
+                }
+              `}
+            >
+              <ChevronLeft className="w-5 h-5 text-gray-700" />
+            </button>
 
-        {/* Carousel with flanking arrows */}
-        <div className="relative">
+            {/* Products */}
+            <div
+              ref={scrollRef}
+              onScroll={handleScrollUpdate}
+              className="
+                flex
+                gap-6
+                overflow-x-auto
+                scroll-smooth
+                px-2
+                md:px-4
+                pb-6
+                scrollbar-hide
+              "
+            >
+              {promotionProducts.map((product) => (
+                <PromotionCard
+                  key={product.id}
+                  product={product}
+                />
+              ))}
+            </div>
 
-          {/* Left arrow */}
-          <button
-            onClick={() => handleScroll("left")}
-            className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 w-8 h-8 sm:w-9 sm:h-9 bg-white border border-gray-200 rounded-full shadow-md flex items-center justify-center hover:bg-gray-50 transition-all duration-300 ${
-              showLeft ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-            }`}
-          >
-            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
-          </button>
-
-          {/* Scrollable row */}
-          <div
-            ref={scrollRef}
-            onScroll={handleScrollUpdate}
-            className="flex gap-3 sm:gap-4 overflow-x-auto scroll-smooth pb-3 px-2 sm:px-4"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            {promotionProducts.map((product) => (
-              <PromotionCard key={product.id} product={product} />
-            ))}
+            {/* Right Arrow */}
+            <button
+              onClick={() => handleScroll("right")}
+              className={`
+                absolute
+                right-0
+                md:right-2
+                top-1/2
+                -translate-y-1/2
+                z-20
+                w-10
+                h-10
+                md:w-12
+                md:h-12
+                rounded-full
+                bg-white/95
+                backdrop-blur-sm
+                shadow-lg
+                border
+                border-gray-200
+                flex
+                items-center
+                justify-center
+                transition-all
+                duration-300
+                ${
+                  showRight
+                    ? "opacity-100"
+                    : "opacity-0 pointer-events-none"
+                }
+              `}
+            >
+              <ChevronRight className="w-5 h-5 text-gray-700" />
+            </button>
           </div>
-
-          {/* Right arrow */}
-          <button
-            onClick={() => handleScroll("right")}
-            className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-8 h-8 sm:w-9 sm:h-9 bg-white border border-gray-200 rounded-full shadow-md flex items-center justify-center hover:bg-gray-50 transition-all duration-300 ${
-              showRight ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-            }`}
-          >
-            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
-          </button>
         </div>
-
-      </div>
+      </section>
     </div>
   );
 }

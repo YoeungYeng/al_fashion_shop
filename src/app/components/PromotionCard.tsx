@@ -1,7 +1,8 @@
-import { Send } from "lucide-react";
+import { Send, MessageCircleMore } from "lucide-react";
 import { useLang, Lang } from "../context/LanguageContext";
 import { Product } from "../data/products";
 import { Link } from "react-router";
+import { SocialBar } from "./SocialBar";
 
 interface PromotionCardProps {
   product: Product;
@@ -15,32 +16,109 @@ export function PromotionCard({ product }: PromotionCardProps) {
     product.discount > 0
       ? product.price * (1 - product.discount / 100)
       : product.price;
+  const images = product.images;
+  const detailLink = `${window.location.origin}/products/${product.id}`;
 
-  const handleOrder = () => {
-    const detailLink = `${window.location.origin}/products/${product.id}`;
+  const message = `
+NEW SHOE ORDER
+-------------------
+Name: ${product.name[lang]}
+Price: $${discountedPrice.toFixed(2)}
+Category: ${product.category}
+Discount: ${product.discount}%
+Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
+Product page: ${detailLink}
+`;
+
+  const handleTelegramOrder = () => {
+    const url = `https://t.me/small_team_bot?text=${encodeURIComponent(
+      message,
+    )}`;
+
+    window.open(url, "_blank");
+  };
+
+  const handleFacebookOrder = () => {
+    // Replace with your Facebook Page username
+    window.open("https://m.me/YOUR_PAGE_USERNAME", "_blank");
+  };
+
+  const handleTelegram = () => {
+    const allImages = images
+      .map((img) => {
+        const fileName = img.split("/").pop()?.split("?")[0] || "image";
+        return `${fileName}\n${img}`;
+      })
+      .join("\n\n");
+
     const message = `
       NEW SHOE ORDER
       -------------------
       Name: ${product.name[lang]}
-      Price: $${discountedPrice.toFixed(2)}
+      Price: $${product.price}
       Category: ${product.category}
       Discount: ${product.discount}%
       Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
-      Product page: ${detailLink}
+
+      -------------------
+      Images:
+      ${allImages}
     `;
-    const url = `https://t.me/small_team_bot?text=${encodeURIComponent(message)}`;
+    const url = `https://t.me/yoeungyeng?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  };
+
+  const handleMessenger = () => {
+    const allImages = images
+      .map((img) => {
+        const fileName = img.split("/").pop()?.split("?")[0] || "image";
+        return `${fileName}\n${img}`;
+      })
+      .join("\n\n");
+
+    const message = `
+      NEW SHOE ORDER
+      -------------------
+      Name: ${product.name[lang]}
+      Price: $${product.price}
+      Category: ${product.category}
+      Discount: ${product.discount}%
+      Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
+
+      -------------------
+      Images:
+      ${allImages}
+    `;
+
+    const url = `https://m.me/smallTeam760?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };
 
   return (
     <div
-      className={`group bg-white rounded-xl overflow-hidden border border-gray-100 flex flex-col shrink-0 w-44 sm:w-52 cursor-pointer hover:shadow-md transition-all duration-300 ${
-        kh ? "font-khmer" : "font-body-en"
-      }`}
+      className={`
+        group
+        bg-transparent
+        
+        overflow-hidden
+        border
+        border-gray-100
+        flex
+        flex-col
+        shrink-0
+        w-[260px]
+        sm:w-[280px]
+        lg:w-[320px]
+        cursor-pointer
+        transition-all
+        duration-300
+        hover:shadow-xl
+        hover:-translate-y-1
+        ${kh ? "font-khmer" : "font-body-en"}
+      `}
     >
-      {/* Image */}
-      <div className="relative overflow-hidden bg-gray-50 aspect-square">
-        {/*  */}
+      {/* Product Image */}
+      <div className="relative overflow-hidden bg-[#F8F8F8] aspect-[4/5]">
         <Link to={`/products/${product.id}`}>
           <img
             src={product.images?.[0]}
@@ -49,37 +127,45 @@ export function PromotionCard({ product }: PromotionCardProps) {
           />
         </Link>
 
-        {/* Badge — top left circle like screenshot */}
+        {/* Discount / New Badge */}
         {(product.discount > 0 || product.isNew) && (
-          <div className="absolute top-2 left-2">
+          <div className="absolute top-3 left-3">
             {product.discount > 0 ? (
-              <div className="flex flex-col items-center justify-center w-12 h-12 rounded-full bg-black/70 text-white text-center leading-tight">
-                <span className="text-[11px] uppercase font-bold">OFF</span>
-                <span className="text-[12px]  font-extrabold leading-none">
+              <div className="flex flex-col items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg">
+                <span className="text-[10px] font-bold uppercase leading-none">
+                  OFF
+                </span>
+                <span className="text-sm font-extrabold leading-none">
                   {product.discount}%
                 </span>
               </div>
-            ) : product.isNew ? (
-              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-500 text-white">
+            ) : (
+              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-red-500 text-white shadow-lg">
                 <span
-                  className={`text-[14px] font-bold uppercase ${
+                  className={`text-xs font-bold uppercase ${
                     kh ? "font-khmer" : "font-header-en"
                   }`}
                 >
                   {t("home.new")}
                 </span>
               </div>
-            ) : null}
+            )}
           </div>
         )}
 
-        {/* Out of stock overlay */}
+        {/* Out Of Stock */}
         {!product.inStock && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
             <span
-              className={`px-2 py-1 bg-gray-800 text-gray-200 text-[11px] font-semibold rounded ${
-                kh ? "font-khmer" : "font-header-en"
-              }`}
+              className={`
+                px-4 py-2
+                rounded-lg
+                bg-gray-900
+                text-white
+                text-sm
+                font-semibold
+                ${kh ? "font-khmer" : "font-header-en"}
+              `}
             >
               {t("product.outOfStock")}
             </span>
@@ -87,45 +173,43 @@ export function PromotionCard({ product }: PromotionCardProps) {
         )}
       </div>
 
-      {/* Info */}
-      <div className="p-3 flex flex-col gap-1.5">
-        {/* Price row — original struck through + discounted red, like screenshot */}
-        <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-[#9B1C1C] font-bold text-base">
+      {/* Content */}
+      <div className="p-4 flex flex-col gap-2">
+        {/* Price */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-primary font-light text-lg lg:text-xl">
             ${discountedPrice.toFixed(2)}
           </span>
+
           {product.discount > 0 && (
-            <span className="text-gray-400 text-xs line-through">
+            <span className="text-gray-400 text-sm line-through">
               ${product.price.toFixed(2)}
             </span>
           )}
         </div>
 
-        {/* Name */}
+        {/* Product Name */}
         <h3
-          className={`text-[#1C1917] font-semibold text-xs leading-snug line-clamp-2 ${
-            kh ? "font-khmer" : "font-header-en"
-          }`}
+          className={`
+      text-[#1C1917]
+      font-light
+      text-sm
+      lg:text-base
+      leading-snug
+      line-clamp-2
+      ${kh ? "font-khmer" : "font-header-en"}
+    `}
         >
           {product.name[lang as Lang]}
         </h3>
 
-        {/* Order button */}
-        <button
-          onClick={handleOrder}
-          disabled={!product.inStock}
-          className={`mt-1 w-full flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-semibold transition-all active:scale-95
-            ${
-              product.inStock
-                ? "bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
-                : "bg-muted text-muted-foreground cursor-not-allowed opacity-60 pointer-events-none"
-            }
-            ${kh ? "font-khmer" : "font-header-en"}
-          `}
-        >
-          <Send className="w-3 h-3 shrink-0" />
-          {t("product.orderTelegram")}
-        </button>
+        {/* Contact Buttons */}
+        <div className="flex items-center justify-center">
+          <SocialBar
+            onTelegram={handleTelegram}
+            onMessenger={handleMessenger}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,197 +1,287 @@
-import { useState, useMemo } from 'react';
-import { SlidersHorizontal, X, ChevronDown } from 'lucide-react';
-import { ProductCard } from '../components/ProductCard';
-import { useLang } from '../context/LanguageContext';
-import { products, categories, Product } from '../data/products';
-import { useSearch } from '../context/SearchContext';
+import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router";
+import { ProductCard } from "../components/ProductCard";
+import { useLang } from "../context/LanguageContext";
+import { products, categories } from "../data/products";
+import { useSearch } from "../context/SearchContext";
 
-type SortKey = 'name' | 'price_asc' | 'price_desc' | 'date';
+type SortKey = "date" | "name" | "price_asc" | "price_desc";
 
 export function ProductsPage() {
   const { lang, t } = useLang();
-  const kh = lang === 'km';
   const { query } = useSearch();
+  const [searchParams] = useSearchParams();
 
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [sortKey, setSortKey] = useState<SortKey>('date');
+  const kh = lang === "km";
+
+  // URL CATEGORY
+  const categoryFromUrl = searchParams.get("category") || "";
+
+  // STATES
+  const [sortKey, setSortKey] = useState<SortKey>("date");
   const [maxPrice, setMaxPrice] = useState(200);
+  const [selectedSize, setSelectedSize] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
-  const maxPriceInData = Math.max(...products.map(p => p.price));
+  const maxPriceInData = Math.max(...products.map((p) => p.price));
 
+  // FILTER + SORT LOGIC
   const filtered = useMemo(() => {
-    let list: Product[] = [...products];
+    let list = [...products];
 
-    if (selectedCategory) list = list.filter(p => p.category === selectedCategory);
+    // CATEGORY
+    if (categoryFromUrl) {
+      list = list.filter((p) => p.category === categoryFromUrl);
+    }
 
+    // SEARCH
     const q = query.toLowerCase().trim();
     if (q) {
-      list = list.filter(p =>
-        p.name.en.toLowerCase().includes(q) ||
-        p.name.km.includes(q) ||
-        p.description.en.toLowerCase().includes(q) ||
-        String(p.price).includes(q) ||
-        categories.find(c => c.slug === p.category)?.name.en.toLowerCase().includes(q)
+      list = list.filter(
+        (p) =>
+          p.name.en.toLowerCase().includes(q) ||
+          p.name.km.includes(q) ||
+          p.description.en?.toLowerCase().includes(q),
       );
     }
 
-    list = list.filter(p => p.price <= maxPrice);
+    // PRICE
+    list = list.filter((p) => p.price <= maxPrice);
 
-    list.sort((a, b) => {
-      if (sortKey === 'name') return a.name.en.localeCompare(b.name.en);
-      if (sortKey === 'price_asc') return a.price - b.price;
-      if (sortKey === 'price_desc') return b.price - a.price;
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    // SIZE (IMPORTANT: product must have size[])
+    if (selectedSize) {
+      list = list.filter((p) => p.sizes?.includes(selectedSize));
+    }
+
+    // SORT
+    return list.sort((a, b) => {
+      switch (sortKey) {
+        case "name":
+          return a.name.en.localeCompare(b.name.en);
+
+        case "price_asc":
+          return a.price - b.price;
+
+        case "price_desc":
+          return b.price - a.price;
+
+        default:
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+      }
     });
+  }, [categoryFromUrl, query, sortKey, maxPrice, selectedSize]);
 
-    return list;
-  }, [query, selectedCategory, sortKey, maxPrice]);
+  const currentCategory = categories.find((c) => c.slug === categoryFromUrl);
 
   const clearAll = () => {
-    setSelectedCategory('');
-    setSortKey('date');
+    setSortKey("date");
     setMaxPrice(maxPriceInData);
+    setSelectedSize("");
   };
 
-  const hasFilters = !!selectedCategory || maxPrice < maxPriceInData;
-
   return (
-    <div className="bg-[#FAF6EF] min-h-screen">
-      {/* Page hero */}
-      <div className="bg-[#9B1C1C] py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="w-8 h-[3px] bg-[#C9A84C] mb-3 rounded-full" />
-          <h1 className={`text-white ${kh ? 'font-khmer text-3xl' : 'font-display text-4xl font-semibold'}`}>
-            {t('product.allProducts')}
-          </h1>
-          <p className={`text-red-200 mt-1 text-sm ${kh ? 'font-khmer' : ''}`}>
-            {filtered.length} {kh ? 'ផលិតផល' : 'products found'}
-          </p>
-        </div>
-      </div>
+  <div className="min-h-screen bg-gradient-to-b from-[#FAF6EF] to-white">
+    {/* HERO BANNER */}
+    <div className="relative h-[300px] md:h-[420px] overflow-hidden">
+      <img
+        src={currentCategory?.banner || "/banners/default.jpg"}
+        alt={currentCategory?.name[lang as "en" | "km"] || "Products"}
+        className="w-full h-full object-cover scale-105"
+      />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Controls bar */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          {/* Sort */}
-          {/* <div className="relative min-w-[160px]">
-            <select
-              value={sortKey}
-              onChange={e => setSortKey(e.target.value as SortKey)}
-              className={`w-full appearance-none pl-3 pr-8 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-[#1C1917] outline-none focus:ring-2 focus:ring-[#C9A84C]/40 focus:border-[#C9A84C] cursor-pointer ${kh ? 'font-khmer' : ''}`}
-            >
-              <option value="date">{t('product.sortDate')}</option>
-              <option value="name">{t('product.sortName')}</option>
-              <option value="price_asc">{t('product.sortPrice')}</option>
-              <option value="price_desc">{t('product.sortPriceDesc')}</option>
-            </select>
-            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-          </div> */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/30" />
 
-          {/* Filter toggle */}
-          {/* <button
-            onClick={() => setShowFilters(!showFilters)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border text-sm font-medium transition-colors ${
-              showFilters || hasFilters
-                ? 'bg-[#9B1C1C] border-[#9B1C1C] text-white'
-                : 'bg-white border-gray-200 text-[#1C1917] hover:border-[#9B1C1C]'
-            } ${kh ? 'font-khmer' : ''}`}
-          >
-            <SlidersHorizontal className="w-4 h-4" />
-            {t('product.filter')}
-            {hasFilters && <span className="w-2 h-2 bg-[#C9A84C] rounded-full" />}
-          </button> */}
-        </div>
+      <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-16">
+        <h1 className="text-white text-xl md:text-3xl font-bold tracking-wide">
+          {currentCategory
+            ? currentCategory.name[lang as "en" | "km"]
+            : t("product.allProducts")}
+        </h1>
 
-        {/* Expandable filter panel */}
-        {showFilters && (
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 mb-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            {/* Category */}
-            <div>
-              <p className={`text-xs text-gray-500 uppercase tracking-wider mb-3 ${kh ? 'font-khmer' : ''}`}>
-                {t('nav.category')}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => setSelectedCategory('')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
-                    !selectedCategory
-                      ? 'bg-[#9B1C1C] border-[#9B1C1C] text-white'
-                      : 'bg-white border-gray-200 text-gray-600 hover:border-[#9B1C1C]'
-                  } ${kh ? 'font-khmer' : ''}`}
-                >
-                  {t('product.allCategories')}
-                </button>
-                {categories.map(cat => (
-                  <button
-                    key={cat.slug}
-                    onClick={() => setSelectedCategory(cat.slug)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
-                      selectedCategory === cat.slug
-                        ? 'bg-[#9B1C1C] border-[#9B1C1C] text-white'
-                        : 'bg-white border-gray-200 text-gray-600 hover:border-[#9B1C1C]'
-                    } ${kh ? 'font-khmer' : ''}`}
-                  >
-                    {cat.icon} {cat.name[lang as 'en' | 'km']}
-                  </button>
-                ))}
-              </div>
-            </div>
+        <p className="text-white/80 text-base md:text-lg mt-3 max-w-xl">
+          {currentCategory
+            ? "Discover premium shoes crafted for comfort and style."
+            : "Explore our newest collections and best-selling footwear."}
+        </p>
 
-            {/* Price range */}
-            <div>
-              <p className={`text-xs text-gray-500 uppercase tracking-wider mb-3 ${kh ? 'font-khmer' : ''}`}>
-                {t('product.priceRange')} — <span className="text-[#9B1C1C] font-semibold">${maxPrice}</span>
-              </p>
-              <input
-                type="range"
-                min={0}
-                max={maxPriceInData}
-                value={maxPrice}
-                onChange={e => setMaxPrice(Number(e.target.value))}
-                className="w-full accent-[#9B1C1C]"
-              />
-              <div className="flex justify-between text-xs text-gray-400 mt-1">
-                <span>$0</span>
-                <span>${maxPriceInData}</span>
-              </div>
-            </div>
-
-            {/* Clear */}
-            <div className="flex items-end">
-              {hasFilters && (
-                <button
-                  onClick={clearAll}
-                  className={`flex items-center gap-1.5 text-sm text-[#9B1C1C] hover:underline ${kh ? 'font-khmer' : ''}`}
-                >
-                  <X className="w-4 h-4" />
-                  {t('product.clearFilters')}
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Results */}
-        {filtered.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5">
-            {filtered.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-20">
-            <p className="text-5xl mb-4">🔍</p>
-            <p className={`text-gray-500 mb-4 ${kh ? 'font-khmer' : ''}`}>{t('product.noResults')}</p>
-            <button
-              onClick={clearAll}
-              className={`px-5 py-2 bg-[#9B1C1C] text-white rounded-lg text-sm ${kh ? 'font-khmer' : ''}`}
-            >
-              {t('product.clearFilters')}
-            </button>
-          </div>
-        )}
+        <div className="w-20 h-1 bg-[#9B1C1C] rounded-full mt-5" />
       </div>
     </div>
-  );
+
+    {/* MAIN CONTENT */}
+    <div className="max-w-[1600px] mx-auto px-4 md:px-8 py-10">
+      {/* BREADCRUMB */}
+      <div className="mb-8">
+        <p className="text-sm text-gray-500">
+          Home / Products
+          {currentCategory &&
+            ` / ${currentCategory.name[lang as "en" | "km"]}`}
+        </p>
+      </div>
+
+      {/* HEADER */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 mb-8">
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold text-[#1C1917]">
+            Collection
+          </h2>
+
+          <p className="text-gray-500 mt-1">
+            {filtered.length} Products Available
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className={`
+              px-5 py-2.5 rounded-xl border transition-all
+              ${
+                showFilters
+                  ? "bg-[#9B1C1C] text-white border-[#9B1C1C]"
+                  : "bg-white text-gray-700 hover:border-[#9B1C1C]"
+              }
+            `}
+          >
+            Filters
+          </button>
+
+          <select
+            value={sortKey}
+            onChange={(e) => setSortKey(e.target.value as SortKey)}
+            className="
+              px-4 py-2.5
+              rounded-xl
+              border
+              bg-white
+              text-sm
+              focus:outline-none
+              focus:ring-2
+              focus:ring-[#9B1C1C]/20
+            "
+          >
+            <option value="date">Newest</option>
+            <option value="name">Name A-Z</option>
+            <option value="price_asc">Price Low → High</option>
+            <option value="price_desc">Price High → Low</option>
+          </select>
+
+          {(selectedSize || maxPrice !== maxPriceInData) && (
+            <button
+              onClick={clearAll}
+              className="text-red-600 hover:text-red-700 text-sm font-medium"
+            >
+              Clear Filters
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* FILTER PANEL */}
+      {showFilters && (
+        <div
+          className="
+            bg-white
+            border
+            border-gray-100
+            shadow-sm
+            rounded-2xl
+            p-6 md:p-8
+            mb-10
+            grid
+            md:grid-cols-2
+            gap-8
+          "
+        >
+          {/* PRICE */}
+          <div>
+            <h3 className="font-semibold text-gray-800 mb-3">
+              Max Price: ${maxPrice}
+            </h3>
+
+            <input
+              type="range"
+              min={0}
+              max={maxPriceInData}
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(Number(e.target.value))}
+              className="w-full accent-[#9B1C1C]"
+            />
+          </div>
+
+          {/* SIZE */}
+          <div>
+            <h3 className="font-semibold text-gray-800 mb-3">
+              Shoe Size
+            </h3>
+
+            <div className="flex flex-wrap gap-2">
+              {["38", "39", "40", "41", "42"].map((size) => (
+                <button
+                  key={size}
+                  onClick={() => setSelectedSize(size)}
+                  className={`
+                    px-4 py-2 rounded-lg border text-sm transition-all
+                    ${
+                      selectedSize === size
+                        ? "bg-[#9B1C1C] text-white border-[#9B1C1C]"
+                        : "bg-white hover:border-[#9B1C1C]"
+                    }
+                  `}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* PRODUCT GRID */}
+      <div
+        className="
+          grid
+          grid-cols-2
+          md:grid-cols-3
+          xl:grid-cols-4
+          gap-5
+          md:gap-8
+        "
+      >
+        {filtered.map((p) => (
+          <ProductCard key={p.id} product={p} />
+        ))}
+      </div>
+
+      {/* EMPTY STATE */}
+      {filtered.length === 0 && (
+        <div className="text-center py-24">
+          <h3 className="text-2xl font-semibold text-gray-700 mb-2">
+            No products found
+          </h3>
+
+          <p className="text-gray-500">
+            Try changing your filters or search keywords.
+          </p>
+
+          <button
+            onClick={clearAll}
+            className="
+              mt-6
+              px-6 py-3
+              bg-[#9B1C1C]
+              text-white
+              rounded-xl
+              hover:opacity-90
+            "
+          >
+            Reset Filters
+          </button>
+        </div>
+      )}
+    </div>
+  </div>
+);
 }

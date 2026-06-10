@@ -21,7 +21,7 @@ export const translations: Record<string, Record<Lang, string>> = {
   'home.hero.cta':        { en: 'Shop Now',                km: 'ទិញឥឡូវ' },
   'home.featured':        { en: 'Featured Products',       km: 'ផលិតផលពិសេស' },
   'home.categories':      { en: 'New Arrivals',       km: 'ការមកដល់ថ្មី' },
-  'home.viewAll':         { en: 'View All',                km: 'មើលទាំងអស់' },
+  'home.viewAll':         { en: 'Shop More',                km: 'មើលទាំងអស់' },
   'home.follow':          { en: 'Follow Us',               km: 'តាមដានយើង' },
   'home.popular':         { en: 'Popular',                 km: 'ពេញនិយម' },
   'home.new':             { en: 'New',                     km: 'ថ្មី' },

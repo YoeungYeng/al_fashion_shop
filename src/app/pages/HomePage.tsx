@@ -30,8 +30,8 @@ function SectionHeader({
         to={linkTo}
         className="
           flex items-center gap-2
-          text-sm font-medium text-primary
-          hover:text-primary/80
+          text-xl font-bold text-black
+          hover:text-black/60
           transition-colors
         "
       >

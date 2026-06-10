@@ -73,13 +73,12 @@ export function PromotionPage() {
 
             <Link
               to="/products"
-              className={`flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors ${
+              className={`flex items-center gap-2 text-xl font-bold text-black hover:text-black/60 transition-colors ${
                 kh ? "font-body-kh" : "font-body-en"
               }`}
             >
-              {kh ? "មើលទាំងអស់" : "View All"}
+              {kh ? "មើលទាំងអស់" : "Shop More"}
 
-              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 

@@ -158,12 +158,7 @@ export function ProductsPage() {
           <div className="text-center py-24">
             <h3 className="text-2xl font-semibold text-gray-700 mb-2">No products found</h3>
             <p className="text-gray-500">Try changing your filters or search keywords.</p>
-            <button
-              onClick={clearAll}
-              className="mt-6 px-6 py-3 bg-[#9B1C1C] text-white rounded-xl hover:opacity-90"
-            >
-              Reset Filters
-            </button>
+            
           </div>
         )}
       </div>

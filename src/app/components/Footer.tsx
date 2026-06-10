@@ -77,7 +77,7 @@ export function Footer() {
 
             {/* SOCIAL */}
             <div className="mt-5">
-              <p className="text-xs text-primary uppercase tracking-widest mb-3">
+              <p className="text-sm text-primary uppercase tracking-widest mb-3">
                 {t('home.follow')}
               </p>
 

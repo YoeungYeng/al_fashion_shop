@@ -3,23 +3,22 @@ import { createContext, useContext, useState } from "react";
 interface SearchContextType {
   query: string;
   setQuery: (q: string) => void;
-  selectedCategory: string;
-  setSelectedCategory: (category: string) => void;
+  committedQuery: string;
+  commitQuery: () => void;
+  clearQuery: () => void;
 }
 
-const SearchContext = createContext<SearchContextType>({
-  query: "",
-  setQuery: () => {},
-  selectedCategory: "",
-  setSelectedCategory: () => {},
-});
+const SearchContext = createContext<SearchContextType>({} as SearchContextType);
 
 export function SearchProvider({ children }: { children: React.ReactNode }) {
   const [query, setQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [committedQuery, setCommittedQuery] = useState("");
+
+  const commitQuery = () => setCommittedQuery(query);
+  const clearQuery = () => { setQuery(""); setCommittedQuery(""); };
 
   return (
-    <SearchContext.Provider value={{ query, setQuery, selectedCategory, setSelectedCategory }}>
+    <SearchContext.Provider value={{ query, setQuery, committedQuery, commitQuery, clearQuery }}>
       {children}
     </SearchContext.Provider>
   );

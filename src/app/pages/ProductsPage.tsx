@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "react-router";
 import { ProductCard } from "../components/ProductCard";
 import { useLang } from "../context/LanguageContext";
@@ -10,28 +10,33 @@ type SortKey = "date" | "name" | "price_asc" | "price_desc";
 
 export function ProductsPage() {
   const { lang, t } = useLang();
-  const { query } = useSearch();
+  const { committedQuery, clearQuery } = useSearch();
   const [searchParams] = useSearchParams();
 
   const kh = lang === "km";
-
   const categoryFromUrl = searchParams.get("category") || "";
 
   const [sortKey, setSortKey] = useState<SortKey>("date");
   const [maxPrice, setMaxPrice] = useState(200);
   const [selectedSize, setSelectedSize] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
   const [showFilters, setShowFilters] = useState(false);
 
   const maxPriceInData = Math.max(...products.map((p) => p.price));
 
+  // Sync category when URL changes (navbar clicks)
+  useEffect(() => {
+    setSelectedCategory(categoryFromUrl);
+  }, [categoryFromUrl]);
+
   const filtered = useMemo(() => {
     let list = [...products];
 
-    if (categoryFromUrl) {
-      list = list.filter((p) => p.category === categoryFromUrl);
+    if (selectedCategory) {
+      list = list.filter((p) => p.category === selectedCategory);
     }
 
-    const q = query.toLowerCase().trim();
+    const q = committedQuery.toLowerCase().trim();
     if (q) {
       list = list.filter(
         (p) =>
@@ -49,23 +54,28 @@ export function ProductsPage() {
 
     return list.sort((a, b) => {
       switch (sortKey) {
-        case "name":      return a.name.en.localeCompare(b.name.en);
-        case "price_asc": return a.price - b.price;
-        case "price_desc":return b.price - a.price;
-        default:          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        case "name":       return a.name.en.localeCompare(b.name.en);
+        case "price_asc":  return a.price - b.price;
+        case "price_desc": return b.price - a.price;
+        default:           return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       }
     });
-  }, [categoryFromUrl, query, sortKey, maxPrice, selectedSize]);
+  }, [selectedCategory, committedQuery, sortKey, maxPrice, selectedSize]);
 
-  const currentCategory = categories.find((c) => c.slug === categoryFromUrl);
+  const currentCategory = categories.find((c) => c.slug === selectedCategory);
 
   const clearAll = () => {
     setSortKey("date");
     setMaxPrice(maxPriceInData);
     setSelectedSize("");
+    setSelectedCategory(categoryFromUrl);
+    clearQuery();
   };
 
-  const hasActiveFilters = selectedSize || maxPrice !== maxPriceInData;
+  const hasActiveFilters =
+    !!selectedSize ||
+    maxPrice !== maxPriceInData ||
+    !!(selectedCategory && selectedCategory !== categoryFromUrl);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FAF6EF] to-white">
@@ -107,7 +117,9 @@ export function ProductsPage() {
         {/* HEADER */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 mb-8">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-[#1C1917]">Collection</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-[#1C1917]">
+              {currentCategory ? currentCategory.name[lang as "en" | "km"] : "All Products"}
+            </h2>
             <p className="text-gray-500 mt-1">{filtered.length} Products Available</p>
           </div>
 
@@ -116,7 +128,7 @@ export function ProductsPage() {
               onClick={() => setShowFilters(true)}
               className="relative px-5 py-2.5 rounded-xl border bg-white text-gray-700 hover:border-[#9B1C1C] transition-all"
             >
-              Filters
+              {kh ? "តម្រង" : "Filters"}
               {hasActiveFilters && (
                 <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#9B1C1C] text-white text-[10px] rounded-full flex items-center justify-center">
                   !
@@ -129,22 +141,79 @@ export function ProductsPage() {
               onChange={(e) => setSortKey(e.target.value as SortKey)}
               className="px-4 py-2.5 rounded-xl border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#9B1C1C]/20"
             >
-              <option value="date">Newest</option>
-              <option value="name">Name A-Z</option>
-              <option value="price_asc">Price Low → High</option>
-              <option value="price_desc">Price High → Low</option>
+              <option value="date">{kh ? "ថ្មីបំផុត" : "Newest"}</option>
+              <option value="name">{kh ? "ឈ្មោះ A-Z" : "Name A-Z"}</option>
+              <option value="price_asc">{kh ? "តម្លៃទាប → ខ្ពស់" : "Price Low → High"}</option>
+              <option value="price_desc">{kh ? "តម្លៃខ្ពស់ → ទាប" : "Price High → Low"}</option>
             </select>
 
             {hasActiveFilters && (
-              <button
-                onClick={clearAll}
-                className="text-red-600 hover:text-red-700 text-sm font-medium"
-              >
-                Clear Filters
+              <button onClick={clearAll} className="text-red-600 hover:text-red-700 text-sm font-medium">
+                {kh ? "លុបតម្រង" : "Clear Filters"}
               </button>
             )}
           </div>
         </div>
+
+        {/* ACTIVE FILTER CHIPS */}
+        {hasActiveFilters && (
+          <div className="flex flex-wrap gap-2 mb-6">
+            {selectedCategory && selectedCategory !== categoryFromUrl && (
+              <span className="flex items-center gap-1.5 px-3 py-1 bg-[#9B1C1C]/10 text-[#9B1C1C] rounded-full text-sm">
+                {categories.find((c) => c.slug === selectedCategory)?.name[lang as "en" | "km"]}
+                <button onClick={() => setSelectedCategory(categoryFromUrl)}>
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+            {selectedSize && (
+              <span className="flex items-center gap-1.5 px-3 py-1 bg-[#9B1C1C]/10 text-[#9B1C1C] rounded-full text-sm">
+                {kh ? "ទំហំ" : "Size"} {selectedSize}
+                <button onClick={() => setSelectedSize("")}>
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+            {/* {maxPrice !== maxPriceInData && (
+              <span className="flex items-center gap-1.5 px-3 py-1 bg-[#9B1C1C]/10 text-[#9B1C1C] rounded-full text-sm">
+                Max ${maxPrice}
+                <button onClick={() => setMaxPrice(maxPriceInData)}>
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )} */}
+          </div>
+        )}
+
+        {/* SEARCH RESULTS INDICATOR */}
+        {committedQuery.trim() && (
+          <div className="mb-6 p-4 rounded-xl bg-black/5 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-sm text-gray-500">
+                {kh ? "ស្វែងរក:" : "Search:"}
+              </span>
+              <span className="text-sm font-semibold text-[#1C1917]">
+                "{committedQuery}"
+              </span>
+              <span className={`text-sm font-medium px-2 py-0.5 rounded-full ${
+                filtered.length > 0
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-600"
+              }`}>
+                {filtered.length > 0
+                  ? `${filtered.length} ${kh ? "ផលិតផល" : "found"}`
+                  : kh ? "រកមិនឃើញ" : "No results"}
+              </span>
+            </div>
+            <button
+              onClick={clearQuery}
+              className="flex items-center gap-1 text-sm text-gray-500 hover:text-[#9B1C1C] transition shrink-0"
+            >
+              <X className="w-3.5 h-3.5" />
+              {kh ? "លុប" : "Clear"}
+            </button>
+          </div>
+        )}
 
         {/* PRODUCT GRID */}
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-8">
@@ -156,9 +225,18 @@ export function ProductsPage() {
         {/* EMPTY STATE */}
         {filtered.length === 0 && (
           <div className="text-center py-24">
-            <h3 className="text-2xl font-semibold text-gray-700 mb-2">No products found</h3>
-            <p className="text-gray-500">Try changing your filters or search keywords.</p>
-            
+            <h3 className="text-2xl font-semibold text-gray-700 mb-2">
+              {kh ? "រកមិនឃើញផលិតផល" : "No products found"}
+            </h3>
+            <p className="text-gray-500">
+              {kh ? "សូមប្តូរតម្រង ឬពាក្យស្វែងរក" : "Try changing your filters or search keywords."}
+            </p>
+            {/* <button
+              onClick={clearAll}
+              className="mt-6 px-6 py-3 bg-[#9B1C1C] text-white rounded-xl hover:opacity-90"
+            >
+              {kh ? "កំណត់ឡើងវិញ" : "Reset Filters"}
+            </button> */}
           </div>
         )}
       </div>
@@ -170,12 +248,14 @@ export function ProductsPage() {
           onClick={() => setShowFilters(false)}
         >
           <div
-            className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-6 md:p-8 shadow-xl"
+            className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-6 md:p-8 shadow-xl max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* MODAL HEADER */}
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-bold text-[#1C1917]">Filters</h3>
+              <h3 className="text-lg font-bold text-[#1C1917]">
+                {kh ? "តម្រង" : "Filters"}
+              </h3>
               <button
                 onClick={() => setShowFilters(false)}
                 className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
@@ -184,10 +264,44 @@ export function ProductsPage() {
               </button>
             </div>
 
+            {/* CATEGORY */}
+            <div className="mb-6">
+              <h4 className="font-semibold text-gray-800 mb-3">
+                {kh ? "ប្រភេទ" : "Category"}
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setSelectedCategory("")}
+                  className={`px-4 py-2 rounded-lg border text-sm transition-all
+                    ${selectedCategory === ""
+                      ? "bg-[#9B1C1C] text-white border-[#9B1C1C]"
+                      : "bg-white hover:border-[#9B1C1C]"
+                    }`}
+                >
+                  {kh ? "ទាំងអស់" : "All"}
+                </button>
+                {categories.map((cat) => (
+                  <button
+                    key={cat.slug}
+                    onClick={() => setSelectedCategory(cat.slug)}
+                    className={`px-4 py-2 rounded-lg border text-sm transition-all
+                      ${selectedCategory === cat.slug
+                        ? "bg-[#9B1C1C] text-white border-[#9B1C1C]"
+                        : "bg-white hover:border-[#9B1C1C]"
+                      }`}
+                  >
+                    {cat.name[lang as "en" | "km"]}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* PRICE */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-3">
-                <h4 className="font-semibold text-gray-800">Max Price</h4>
+                <h4 className="font-semibold text-gray-800">
+                  {kh ? "តម្លៃអតិបរមា" : "Max Price"}
+                </h4>
                 <span className="text-sm font-medium text-[#9B1C1C]">${maxPrice}</span>
               </div>
               <input
@@ -206,7 +320,9 @@ export function ProductsPage() {
 
             {/* SIZE */}
             <div className="mb-8">
-              <h4 className="font-semibold text-gray-800 mb-3">Shoe Size</h4>
+              <h4 className="font-semibold text-gray-800 mb-3">
+                {kh ? "ទំហំស្បែកជើង" : "Shoe Size"}
+              </h4>
               <div className="flex flex-wrap gap-2">
                 {["38", "39", "40", "41", "42", "43", "44"].map((size) => (
                   <button
@@ -230,13 +346,13 @@ export function ProductsPage() {
                 onClick={() => { clearAll(); setShowFilters(false); }}
                 className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:border-gray-300 text-sm font-medium transition"
               >
-                Clear All
+                {kh ? "លុបទាំងអស់" : "Clear All"}
               </button>
               <button
                 onClick={() => setShowFilters(false)}
                 className="flex-1 py-2.5 rounded-xl bg-[#9B1C1C] text-white text-sm font-medium hover:opacity-90 transition"
               >
-                Apply Filters
+                {kh ? "អនុវត្ត" : "Apply Filters"}
               </button>
             </div>
           </div>

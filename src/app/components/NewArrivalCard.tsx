@@ -56,7 +56,10 @@ Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
 Images:
 ${allImages}`;
 
-    window.open(`https://t.me/yoeungyeng?text=${encodeURIComponent(message)}`, "_blank");
+    window.open(
+      `https://t.me/yoeungyeng?text=${encodeURIComponent(message)}`,
+      "_blank",
+    );
   };
 
   const handleMessenger = () => {
@@ -76,12 +79,16 @@ Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
 Images:
 ${allImages}`;
 
-    window.open(`https://m.me/smallTeam760?text=${encodeURIComponent(message)}`, "_blank");
+    window.open(
+      `https://m.me/smallTeam760?text=${encodeURIComponent(message)}`,
+      "_blank",
+    );
   };
 
   return (
-    <div className={`group bg-white overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col border border-gray-100 hover:-translate-y-1 rounded-xl ${kh ? "font-body-kh" : "font-body-en"}`}>
-      
+    <div
+      className={`group bg-transparent overflow-hidden  transition-all duration-300 flex flex-col  hover:-translate-y-1  ${kh ? "font-body-kh" : "font-body-en"}`}
+    >
       {/* Image Area */}
       <div className="relative overflow-hidden bg-[#FAF6EF] aspect-square">
         <Link to={`/products/${product.id}`} className="block w-full h-full">
@@ -97,15 +104,16 @@ ${allImages}`;
           <>
             <button
               onClick={prevImage}
-              className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-1.5 transition-all z-10"
+              className="absolute left-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-12 h-12 text-gray-400 drop-shadow-md" />
             </button>
+
             <button
               onClick={nextImage}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-1.5 transition-all z-10"
+              className="absolute right-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-12 h-12 text-gray-400 drop-shadow-md" />
             </button>
 
             {/* Dots */}
@@ -125,26 +133,28 @@ ${allImages}`;
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1 z-10">
-          {product.isNew && (
+          {/* {product.isNew && (
             <span className="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">
               {t("home.new")}
             </span>
-          )}
+          )} */}
           {product.discount > 0 && (
-            <span className="px-3 py-1 bg-green-600 text-white text-xs font-bold rounded-full">
-              -{product.discount}%
-            </span>
+            <div className="flex flex-col items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg">
+              <span className="text-sm font-extrabold leading-none">
+                -{product.discount}%
+              </span>
+            </div>
           )}
         </div>
 
         {/* Out of Stock Overlay */}
-        {!product.inStock && (
+        {/* {!product.inStock && (
           <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-20">
             <span className="px-6 py-2 bg-white text-red-600 font-semibold rounded-lg">
               {t("product.outOfStock")}
             </span>
           </div>
-        )}
+        )} */}
       </div>
 
       {/* Product Info - Also Clickable */}
@@ -160,17 +170,16 @@ ${allImages}`;
           )}
         </div>
 
-        <h3 className={`text-[#1C1917] font-medium leading-tight line-clamp-2 ${kh ? "text-base" : "text-base"}`}>
+        <h3
+          className={`text-[#1C1917] font-medium leading-tight line-clamp-2 ${kh ? "text-base" : "text-base"}`}
+        >
           {product.name[lang as Lang]}
         </h3>
       </Link>
 
       {/* Social Buttons (Stop navigation) */}
       <div className="px-4 pb-4 pt-1" onClick={(e) => e.stopPropagation()}>
-        <SocialBar 
-          onTelegram={handleTelegram} 
-          onMessenger={handleMessenger} 
-        />
+        <SocialBar onTelegram={handleTelegram} onMessenger={handleMessenger} />
       </div>
     </div>
   );

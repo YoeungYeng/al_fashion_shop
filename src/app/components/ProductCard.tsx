@@ -110,8 +110,8 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <div
       className={`
-        group   overflow-hidden border border-gray-100
-        hover:shadow-md hover:-translate-y-1 transition-all duration-300
+        group   overflow-hidden
+        hover:-translate-y-1 transition-all duration-300
         flex flex-col
         ${kh ? "font-khmer" : "font-body-en"}
       `}
@@ -131,16 +131,16 @@ export function ProductCard({ product }: ProductCardProps) {
           <>
             <button
               onClick={prevImage}
-              className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white p-1 rounded-full"
+              className="absolute left-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-12 h-12 text-gray-400 drop-shadow-md" />
             </button>
 
             <button
               onClick={nextImage}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white p-1 rounded-full"
+              className="absolute right-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-12 h-12 text-gray-400 drop-shadow-md" />
             </button>
 
             {/* DOTS */}

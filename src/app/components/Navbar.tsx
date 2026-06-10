@@ -9,7 +9,7 @@ import "flag-icons/css/flag-icons.min.css";
 // ─────────────────────────────────────────────
 // Types
 // ─────────────────────────────────────────────
-type MenuKey = "new" | "sneakers" | "heels" | "sandals" | "flats" | "boots" | "loafers" | "sale" | null;
+type MenuKey = "sneakers" | "heels" | "sandals" | "flats" | "boots" | "loafers" | "sale" | null;
 
 interface CategoryItem {
   slug: string;
@@ -28,7 +28,7 @@ interface NavItem {
 // Nav data
 // ─────────────────────────────────────────────
 const NAV_ITEMS: NavItem[] = [
-  { key: "new",      en: "New",        km: "ថ្មី",           href: "/products?category=new" },
+  
   { key: "sneakers", en: "Sneakers",   km: "ស្បែកជើងកីឡា", href: "/products?category=sneakers" },
   { key: "heels",    en: "Heels",      km: "ស្បែកជើងកែង",  href: "/products?category=heels" },
   { key: "boots",    en: "Boots",      km: "ស្បែកជើងវែង",  href: "/products?category=boots" },

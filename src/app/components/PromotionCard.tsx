@@ -99,10 +99,7 @@ Product page: ${detailLink}
       className={`
         group
         bg-transparent
-        
         overflow-hidden
-        border
-        border-gray-100
         flex
         flex-col
         shrink-0
@@ -112,13 +109,12 @@ Product page: ${detailLink}
         cursor-pointer
         transition-all
         duration-300
-        hover:shadow-xl
         hover:-translate-y-1
         ${kh ? "font-khmer" : "font-body-en"}
       `}
     >
       {/* Product Image */}
-      <div className="relative overflow-hidden bg-[#F8F8F8] aspect-[4/5]">
+      <div className="relative overflow-hidden bg-transparent aspect-[4/5]">
         <Link to={`/products/${product.id}`}>
           <img
             src={product.images?.[0]}
@@ -128,19 +124,16 @@ Product page: ${detailLink}
         </Link>
 
         {/* Discount / New Badge */}
-        {(product.discount > 0 || product.isNew) && (
+        {(product.discount > 0) && (
           <div className="absolute top-3 left-3">
             {product.discount > 0 ? (
               <div className="flex flex-col items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg">
-                <span className="text-[10px] font-bold uppercase leading-none">
-                  OFF
-                </span>
                 <span className="text-sm font-extrabold leading-none">
-                  {product.discount}%
+                  -{product.discount}%
                 </span>
               </div>
             ) : (
-              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-red-500 text-white shadow-lg">
+              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg">
                 <span
                   className={`text-xs font-bold uppercase ${
                     kh ? "font-khmer" : "font-header-en"

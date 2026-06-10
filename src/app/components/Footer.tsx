@@ -19,6 +19,27 @@ const socials = [
   { icon: Youtube, href: 'https://youtube.com', label: 'YouTube' },
 ];
 
+
+type MenuKey = "new" | "sneakers" | "heels" | "sandals" | "flats" | "boots" | "loafers" | "sale" | null;
+
+interface NavItem {
+  key: MenuKey;
+  en: string;
+  km: string;
+  href: string;
+}
+
+// ─────────────────────────────────────────────
+// Nav data
+// ─────────────────────────────────────────────
+const NAV_ITEMS: NavItem[] = [
+  { key: "new",      en: "New",        km: "ថ្មី",           href: "/products?category=new" },
+  { key: "sneakers", en: "Sneakers",   km: "ស្បែកជើងកីឡា", href: "/products?category=sneakers" },
+  { key: "heels",    en: "Heels",      km: "ស្បែកជើងកែង",  href: "/products?category=heels" },
+  { key: "boots",    en: "Boots",      km: "ស្បែកជើងវែង",  href: "/products?category=boots" },
+  { key: "loafers",  en: "Loafers",    km: "ឡូហ្វ័រ",       href: "/products?category=loafers" },
+];
+
 export function Footer() {
   const { lang, t } = useLang();
   const kh = lang === 'km';
@@ -75,30 +96,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* LINKS */}
-          <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase">
-              {kh ? 'តំណភ្ជាប់' : 'Quick Links'}
-            </h4>
-
-            <ul className="space-y-2">
-              {[
-                { to: '/', label: t('nav.home') },
-                { to: '/products', label: t('nav.products') },
-                { to: '/category', label: t('nav.category') },
-                { to: '/contact', label: t('nav.contact') },
-              ].map((item) => (
-                <li key={item.to}>
-                  <NavLink
-                    to={item.to}
-                    className="text-sm text-black/60 hover:text-primary transition"
-                  >
-                    {item.label}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </div>
+          
 
           {/* CONTACT */}
           <div>

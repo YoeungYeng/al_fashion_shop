@@ -84,8 +84,8 @@ export function Navbar() {
                   <button
                     key={category.slug}
                     onClick={() => handleCategoryClick(category.slug)}
-                    className={`relative px-5 h-14 transition font-[14px] ${
-                      active ? "text-black" : "text-black/70 hover:text-black"
+                    className={`relative px-5 h-14 transition font-medium ${
+                      active ? "text-black text-[14px]" : "text-black/80 text-[14px] hover:text-black"
                     }`}
                   >
                     <span className={navLinkClass}>

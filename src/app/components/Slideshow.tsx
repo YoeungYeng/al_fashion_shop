@@ -66,7 +66,7 @@ export function Slideshow() {
   const slide = slides[current];
 
   return (
-    <div className="relative w-full h-[480px] sm:h-[480px] lg:h-[600px] overflow-hidden bg-black">
+    <div className="relative w-full h-[480px] sm:h-[480px] lg:h-[900px] overflow-hidden bg-black">
 
       {/* IMAGE */}
       <img

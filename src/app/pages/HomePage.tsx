@@ -59,7 +59,7 @@ export function HomePage() {
 
       {/* NEW ARRIVALS */}
       <section className="w-full">
-        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-8 ">
+        <div className="mx-auto px-4 md:px-8 lg:px-8 ">
           <SectionHeader
             title={t("home.categories")}
             linkTo="/products"

@@ -53,7 +53,7 @@ export const TELEGRAM_BASE = "https://t.me/yoeungyeng";
 export const categories: Category[] = [
   {
     slug: "classic-boots",
-    name: { en: "Classic Boots", km: "ប៊ូតបុរាណ" },
+    name: { en: "Shoes", km: "ស្បែកជើង" },
     description: { en: "Premium leather boots", km: "ប៊ូតស្បែកគុណភាពខ្ពស់" },
     cover:
       "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
@@ -63,19 +63,8 @@ export const categories: Category[] = [
       "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
   {
-    slug: "oxford",
-    name: { en: "Oxford Shoes", km: "Oxford" },
-    description: { en: "Formal office shoes", km: "ស្បែកជើងការិយាល័យ" },
-    cover:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-    icon: "👞",
-    gender: "men",
-    banner:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-  },
-  {
     slug: "loafers",
-    name: { en: "Loafers", km: "Loafers" },
+    name: { en: "Loafers", km: "ស្បែកជើងកវែង" },
     description: {
       en: "Comfortable everyday loafers",
       km: "ស្បែកជើងស្រួលពាក់",

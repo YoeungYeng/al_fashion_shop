@@ -82,7 +82,7 @@ export function PromotionPage() {
   return (
     <div className={kh ? "font-body-kh" : "font-body-en"}>
       <section className="w-full py-8 md:py-10 lg:py-14">
-        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12">
+        <div className=" mx-auto px-4 md:px-8 lg:px-12">
 
           {/* Header */}
           <div className="flex items-center justify-between mb-6">

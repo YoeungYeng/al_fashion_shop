@@ -53,7 +53,7 @@ export const TELEGRAM_BASE = "https://t.me/yoeungyeng";
 export const categories: Category[] = [
   {
     slug: "classic-boots",
-    name: { en: "Boots", km: "ប៊ូតបុរាណ" },
+    name: { en: "Classic Boots", km: "ប៊ូតបុរាណ" },
     description: { en: "Premium leather boots", km: "ប៊ូតស្បែកគុណភាពខ្ពស់" },
     cover:
       "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
@@ -87,75 +87,18 @@ export const categories: Category[] = [
     banner:
       "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
+  // ==================== NEW SALE CATEGORY ====================
   {
-    slug: "sneakers",
-    name: { en: "Sneakers", km: "Sneakers" },
-    description: { en: "Modern casual sneakers", km: "ស្បែកជើងកីឡា" },
-    cover:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-    icon: "👟",
-    gender: "both",
-    banner:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-  },
-  {
-    slug: "sandals",
-    name: { en: "Sandals", km: "ស្បែកជើង Sandals" },
-    description: { en: "Casual open sandals", km: "ស្បែកជើង Sandals ស្រួល" },
-    cover:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-    icon: "🩴",
-    gender: "women",
-    banner:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-  },
-  {
-    slug: "chelsea",
-    name: { en: "Chelsea", km: "Chelsea" },
-    description: { en: "Elegant slip-on boots", km: "Boots ស្អាតពាក់ងាយ" },
-    cover:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-    icon: "🥾",
-    gender: "both",
-    banner:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-  },
-  {
-    slug: "",
-    name: { en: "Work Boots", km: "Boots ការងារ" },
-    description: { en: "Heavy duty durable boots", km: "Boots ធន់ការងារ" },
-    cover:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-    icon: "🦺",
-    gender: "men",
-    banner:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-  },
-  {
-    slug: "brogue",
-    name: { en: "Brogue Shoes", km: "Brogue" },
+    slug: "sale",
+    name: { en: "Sale", km: "លក់" },
     description: {
-      en: "Handcrafted wingtip brogues",
-      km: "ស្បែកជើង Brogue ស្បែកពិត",
+      en: "All products on discount",
+      km: "ផលិតផលទាំងអស់មានបញ្ចុះតម្លៃ",
     },
     cover:
       "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-    icon: "👞",
-    gender: "men",
-    banner:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-  },
-  {
-    slug: "monk-strap",
-    name: { en: "Monk Strap", km: "Monk Strap" },
-    description: {
-      en: "Elegant monk strap shoes",
-      km: "ស្បែកជើង Monk Strap ប្រណិត",
-    },
-    cover:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-    icon: "👞",
-    gender: "men",
+    icon: "🔥",
+    gender: "both", // Show in both menus
     banner:
       "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
@@ -559,7 +502,6 @@ export const products: Product[] = [
       "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-3_64facb22-4f68-4290-80f2-169810fa9713_1800x1800.jpg?v=1755094575",
       "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-5_ac359f11-b8da-4a10-9e37-69c460f427df_1800x1800.jpg?v=1755094576",
       "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-1_949ee568-1356-406d-b329-871822233214_1800x1800.jpg?v=1755094575",
-    
     ],
     inStock: true,
     isNew: false,
@@ -586,7 +528,6 @@ export const products: Product[] = [
       "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-3_64facb22-4f68-4290-80f2-169810fa9713_1800x1800.jpg?v=1755094575",
       "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-5_ac359f11-b8da-4a10-9e37-69c460f427df_1800x1800.jpg?v=1755094576",
       "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-1_949ee568-1356-406d-b329-871822233214_1800x1800.jpg?v=1755094575",
-    
     ],
     inStock: true,
     isNew: true,
@@ -674,6 +615,11 @@ export const products: Product[] = [
   },
 ];
 
+/* ============================================================
+   MENU BUILDER
+   Derives Men / Women menus from categories + products.
+   No data duplication — gender lives on Category only.
+============================================================ */
 
 function buildMenu(gender: "men" | "women"): Menu {
   const menuCategories = categories.filter(
@@ -698,23 +644,16 @@ export const menus: Menu[] = [buildMenu("men"), buildMenu("women")];
    HELPERS
    Convenience functions for components.
 ============================================================ */
-
-/** Get products for a specific category slug */
-export function getProductsByCategory(categorySlug: string): Product[] {
-  return products.filter((p) => p.category === categorySlug);
+export function getSaleProducts(): Product[] {
+  return products.filter((p) => p.discount > 0);
 }
 
-/** Get a single category by slug */
+
+
+
+// Update getCategoryBySlug to support sale
 export function getCategoryBySlug(slug: string): Category | undefined {
   return categories.find((c) => c.slug === slug);
 }
 
-/** Get a single product by slug */
-export function getProductBySlug(slug: string): Product | undefined {
-  return products.find((p) => p.slug === slug);
-}
 
-/** Get the menu a category belongs to (returns both if gender: "both") */
-export function getMenusForCategory(categorySlug: string): Menu[] {
-  return menus.filter((m) => m.categories.some((c) => c.slug === categorySlug));
-}

@@ -17,9 +17,9 @@ function SectionHeader({
   linkLabel: string;
 }) {
   return (
-    <div className="flex items-center justify-between mb-10">
+    <div className="flex items-center justify-between mb-10 gap-4">
       <div>
-        <div className="w-10 h-1 bg-primary mb-3 rounded-full" />
+        {/* <div className="w-10 h-1 bg-primary mb-3 rounded-full" /> */}
 
         <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-[#1C1917]">
           {title}
@@ -36,7 +36,7 @@ function SectionHeader({
         "
       >
         {linkLabel}
-        <ArrowRight className="w-4 h-4" />
+        {/* <ArrowRight className="w-4 h-4" /> */}
       </Link>
     </div>
   );
@@ -47,7 +47,7 @@ export function HomePage() {
   const kh = lang === "km";
 
   return (
-    <div className={`${kh ? "font-khmer" : ""} bg-[#FAF6EF] min-h-screen`}>
+    <div className={`${kh ? "font-khmer" : ""} bg-transparent min-h-screen`}>
 
       {/* HERO */}
       <section className="w-full">
@@ -59,14 +59,10 @@ export function HomePage() {
         <PromotionPage />
       </section>
 
-      {/* DIVIDER */}
-      <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12">
-        <div className="h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
-      </div>
 
       {/* NEW ARRIVALS */}
-      <section className="w-full py-16 lg:py-20">
-        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12">
+      <section className="w-full py-8 lg:py-4">
+        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-8">
 
           <SectionHeader
             title={t("home.categories")}
@@ -82,8 +78,8 @@ export function HomePage() {
               md:grid-cols-3
               xl:grid-cols-4
               2xl:grid-cols-4
-              gap-6
-              lg:gap-8
+              gap-4
+              lg:gap-4
             "
           >
             {products
@@ -100,13 +96,8 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* DIVIDER */}
-      <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12">
-        <div className="h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
-      </div>
-
       {/* FEATURED PRODUCTS */}
-      <section className="w-full py-16 lg:py-20">
+      <section className="w-full py-8 lg:py-20">
         <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12">
 
           <SectionHeader
@@ -123,8 +114,8 @@ export function HomePage() {
               md:grid-cols-3
               xl:grid-cols-4
               2xl:grid-cols-4
-              gap-6
-              lg:gap-8
+              gap-4
+              lg:gap-4
             "
           >
             {products

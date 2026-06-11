@@ -48,7 +48,7 @@ export function PromotionPage() {
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-1 h-8 bg-primary rounded-full" />
+              {/* <div className="w-1 h-8 bg-primary rounded-full" /> */}
 
               <h2
                 className={`text-xl lg:text-2xl font-bold text-[#1C1917] ${
@@ -58,7 +58,7 @@ export function PromotionPage() {
                 {kh ? "បញ្ចុះតម្លៃពិសេស" : "Flash Sale"}
               </h2>
 
-              <span className="hidden sm:flex items-center gap-1 px-3 py-1 bg-red-50 rounded-full">
+              {/* <span className="hidden sm:flex items-center gap-1 px-3 py-1 bg-red-50 rounded-full">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
 
                 <span
@@ -68,7 +68,7 @@ export function PromotionPage() {
                 >
                   {kh ? "កំពុងដំណើរការ" : "Live"}
                 </span>
-              </span>
+              </span> */}
             </div>
 
             <Link
@@ -82,8 +82,6 @@ export function PromotionPage() {
             </Link>
           </div>
 
-          {/* Divider */}
-          <div className="h-px bg-gradient-to-r from-primary via-primary/40 to-transparent mb-8" />
 
           {/* Slider */}
           <div className="relative">
@@ -101,7 +99,7 @@ export function PromotionPage() {
                 h-10
                 md:w-12
                 md:h-12
-                rounded-full
+                
                 bg-white/95
                 backdrop-blur-sm
                 shadow-lg

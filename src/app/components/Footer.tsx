@@ -45,10 +45,7 @@ export function Footer() {
   const kh = lang === 'km';
 
   return (
-    <footer className={`bg-white border-t border-black/10 text-black ${kh ? 'font-body-kh' : 'font-body-en'}`}>
-
-      {/* TOP RED LINE (brand identity like navbar) */}
-      <div className="h-[3px] bg-primary" />
+    <footer className={`bg-transparent border-t border-black/10 text-black ${kh ? 'font-body-kh' : 'font-body-en'}`}>
 
       <div className="max-w-[1700px] mx-auto px-6 py-14">
 
@@ -58,7 +55,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-4">
 
-              <div className="w-10 h-10 rounded-full bg-primary flex items-center shadow justify-center">
+              <div className="w-10 h-10 rounded-full  flex items-center shadow justify-center">
                 <img src={logo} alt='' />
               </div>
 
@@ -77,7 +74,7 @@ export function Footer() {
 
             {/* SOCIAL */}
             <div className="mt-5">
-              <p className="text-sm text-primary uppercase tracking-widest mb-3">
+              <p className="text-sm uppercase tracking-widest mb-3">
                 {t('home.follow')}
               </p>
 
@@ -87,9 +84,9 @@ export function Footer() {
                     key={label}
                     href={href}
                     target="_blank"
-                    className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center hover:bg-primary/10 transition group"
+                    className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center  transition group"
                   >
-                    <Icon className="w-4 h-4 text-black group-hover:text-primary transition" />
+                    <Icon className="w-4 h-4 text-black group-hover:text-black/60 transition" />
                   </a>
                 ))}
               </div>
@@ -106,18 +103,18 @@ export function Footer() {
 
             <ul className="space-y-3 text-sm text-black/60">
               <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-primary" />
+                <Phone className="w-4 h-4" />
                 +855 12 345 678
               </li>
 
               <li className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-primary" />
+                <Mail className="w-4 h-4" />
                 info@shoestore.com
               </li>
 
 
               <li className="flex items-center gap-2" >
-                <MapPin className="w-4 h-4 text-primary" />
+                <MapPin className="w-4 h-4" />
                 {kh ? 'ភ្នំពេញ, កម្ពុជា' : 'Phnom Penh, Cambodia'}
               </li>
             </ul>
@@ -138,7 +135,7 @@ export function Footer() {
             <a
               href="https://t.me/yoeungyeng"
               target="_blank"
-              className="inline-flex items-center bg-[#229ED9] gap-2 px-4 py-2  text-white rounded-lg font-semibold hover:opacity-90 transition"
+              className="inline-flex items-center bg-[#229ED9] gap-2 px-4 py-2  text-white font-semibold hover:opacity-90 transition"
             >
               <Send className="w-4 h-4" />
               {kh ? 'តេលេក្រាម' : 'Telegram'}

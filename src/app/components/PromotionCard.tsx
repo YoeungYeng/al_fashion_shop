@@ -6,9 +6,10 @@ import { CompactProductCard } from "./CompactProductCard";
 
 interface PromotionCardProps {
   product: Product;
+  onLinkClick?: (e: React.MouseEvent) => void;
 }
 
-export function PromotionCard({ product }: PromotionCardProps) {
+export function PromotionCard({ product, onLinkClick }: PromotionCardProps) {
   const { lang, t } = useLang();
   const kh = lang === "km";
 
@@ -23,6 +24,7 @@ export function PromotionCard({ product }: PromotionCardProps) {
         product={product}
         // className="w-full"
         imageAspect="aspect-square"
+         onLinkClick={onLinkClick}
       />
     </>
   );

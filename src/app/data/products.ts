@@ -30,7 +30,7 @@ export interface Category {
   cover: string;
   icon: string;
   gender: Gender; // which menu(s) this category appears under
-  banner: string
+  banner: string;
 }
 
 export interface Menu {
@@ -38,7 +38,6 @@ export interface Menu {
   name: { en: string; km: string };
   categories: Category[];
   products: Product[];
-  
 }
 
 /* ============================================================
@@ -54,84 +53,111 @@ export const TELEGRAM_BASE = "https://t.me/yoeungyeng";
 export const categories: Category[] = [
   {
     slug: "classic-boots",
-    name: { en: "Classic Boots", km: "ប៊ូតបុរាណ" },
+    name: { en: "Boots", km: "ប៊ូតបុរាណ" },
     description: { en: "Premium leather boots", km: "ប៊ូតស្បែកគុណភាពខ្ពស់" },
-    cover: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+    cover:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
     icon: "🥾",
     gender: "men",
-    banner: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972"
+    banner:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
   {
     slug: "oxford",
     name: { en: "Oxford Shoes", km: "Oxford" },
     description: { en: "Formal office shoes", km: "ស្បែកជើងការិយាល័យ" },
-    cover: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+    cover:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
     icon: "👞",
     gender: "men",
-    banner: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972"
+    banner:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
   {
     slug: "loafers",
     name: { en: "Loafers", km: "Loafers" },
-    description: { en: "Comfortable everyday loafers", km: "ស្បែកជើងស្រួលពាក់" },
-    cover: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+    description: {
+      en: "Comfortable everyday loafers",
+      km: "ស្បែកជើងស្រួលពាក់",
+    },
+    cover:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
     icon: "🥿",
     gender: "both",
-    banner: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972"
+    banner:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
   {
     slug: "sneakers",
     name: { en: "Sneakers", km: "Sneakers" },
     description: { en: "Modern casual sneakers", km: "ស្បែកជើងកីឡា" },
-    cover: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+    cover:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
     icon: "👟",
     gender: "both",
-    banner: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972"
+    banner:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
   {
     slug: "sandals",
     name: { en: "Sandals", km: "ស្បែកជើង Sandals" },
     description: { en: "Casual open sandals", km: "ស្បែកជើង Sandals ស្រួល" },
-    cover: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+    cover:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
     icon: "🩴",
     gender: "women",
-    banner: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972"
+    banner:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
   {
-    slug: "chelsea-boots",
-    name: { en: "Chelsea Boots", km: "Chelsea Boots" },
+    slug: "chelsea",
+    name: { en: "Chelsea", km: "Chelsea" },
     description: { en: "Elegant slip-on boots", km: "Boots ស្អាតពាក់ងាយ" },
-    cover: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+    cover:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
     icon: "🥾",
     gender: "both",
-    banner: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972"
+    banner:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
   {
-    slug: "work-boots",
+    slug: "",
     name: { en: "Work Boots", km: "Boots ការងារ" },
     description: { en: "Heavy duty durable boots", km: "Boots ធន់ការងារ" },
-    cover: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+    cover:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
     icon: "🦺",
     gender: "men",
-    banner: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972"
+    banner:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
   {
     slug: "brogue",
     name: { en: "Brogue Shoes", km: "Brogue" },
-    description: { en: "Handcrafted wingtip brogues", km: "ស្បែកជើង Brogue ស្បែកពិត" },
-    cover: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+    description: {
+      en: "Handcrafted wingtip brogues",
+      km: "ស្បែកជើង Brogue ស្បែកពិត",
+    },
+    cover:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
     icon: "👞",
     gender: "men",
-    banner: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972"
+    banner:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
   {
     slug: "monk-strap",
     name: { en: "Monk Strap", km: "Monk Strap" },
-    description: { en: "Elegant monk strap shoes", km: "ស្បែកជើង Monk Strap ប្រណិត" },
-    cover: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+    description: {
+      en: "Elegant monk strap shoes",
+      km: "ស្បែកជើង Monk Strap ប្រណិត",
+    },
+    cover:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
     icon: "👞",
     gender: "men",
-    banner: "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972"
+    banner:
+      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
 ];
 
@@ -143,8 +169,14 @@ export const products: Product[] = [
   {
     id: 1,
     slug: "timberland-6inch-premium",
-    name: { en: "Timberland 6-Inch Premium Boots", km: "Timberland Boots Premium" },
-    description: { en: "Classic waterproof leather boots.", km: "Boots ស្បែកពិត ការពារទឹក" },
+    name: {
+      en: "Timberland 6-Inch Premium Boots",
+      km: "Timberland Boots Premium",
+    },
+    description: {
+      en: "Classic waterproof leather boots.",
+      km: "Boots ស្បែកពិត ការពារទឹក",
+    },
     price: 180,
     discount: 10,
     category: "classic-boots",
@@ -212,7 +244,10 @@ export const products: Product[] = [
     id: 4,
     slug: "oxford-brown",
     name: { en: "Leather Oxford Shoes", km: "Oxford ស្បែកត្នោត" },
-    description: { en: "Formal classic oxford shoes.", km: "ស្បែកជើង formal classic" },
+    description: {
+      en: "Formal classic oxford shoes.",
+      km: "ស្បែកជើង formal classic",
+    },
     price: 95,
     discount: 0,
     category: "oxford",
@@ -255,7 +290,10 @@ export const products: Product[] = [
     id: 6,
     slug: "kendall-leather-loafers",
     name: { en: "Kendall Leather Loafers", km: "Loafers ស្បែកត្នោត" },
-    description: { en: "Comfortable slip-on loafers.", km: "ពាក់ងាយ និងផាសុកភាព" },
+    description: {
+      en: "Comfortable slip-on loafers.",
+      km: "ពាក់ងាយ និងផាសុកភាព",
+    },
     price: 85,
     discount: 0,
     category: "loafers",
@@ -278,7 +316,10 @@ export const products: Product[] = [
     id: 7,
     slug: "cross-strap-sandals",
     name: { en: "Cross Strap Sandals", km: "ស្បែកជើងខ្សែ Cross" },
-    description: { en: "Casual cross strap sandals.", km: "ស្បែកជើង Sandals ស្រួល" },
+    description: {
+      en: "Casual cross strap sandals.",
+      km: "ស្បែកជើង Sandals ស្រួល",
+    },
     price: 110,
     discount: 10,
     category: "sandals",
@@ -300,7 +341,10 @@ export const products: Product[] = [
     id: 8,
     slug: "wyatt-leather-loafers",
     name: { en: "Wyatt Leather Loafers", km: "Loafers Wyatt ស្បែក" },
-    description: { en: "Classic loafer shoes.", km: "ស្បែកជើង Loafers classic" },
+    description: {
+      en: "Classic loafer shoes.",
+      km: "ស្បែកជើង Loafers classic",
+    },
     price: 90,
     discount: 0,
     category: "loafers",
@@ -321,7 +365,10 @@ export const products: Product[] = [
     id: 9,
     slug: "roam-leather-loafers",
     name: { en: "Roam Leather Loafers", km: "Loafers Roam ស្បែក" },
-    description: { en: "Comfortable roam leather loafers.", km: "Loafers ស្បែក ផាសុក" },
+    description: {
+      en: "Comfortable roam leather loafers.",
+      km: "Loafers ស្បែក ផាសុក",
+    },
     price: 92,
     discount: 5,
     category: "loafers",
@@ -344,15 +391,18 @@ export const products: Product[] = [
     id: 10,
     slug: "geto-classic-leather-boots",
     name: { en: "Geto Classic Leather Boots", km: "Geto Boots ស្បែក Classic" },
-    description: { en: "Premium Geto classic boots with durable leather.", km: "Geto Boots ស្បែកពិត រចនាបែប classic" },
+    description: {
+      en: "Premium Geto classic boots with durable leather.",
+      km: "Geto Boots ស្បែកពិត រចនាបែប classic",
+    },
     price: 165,
     discount: 12,
     category: "classic-boots",
     images: [
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
-      "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=800",
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800",
-      "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-2_81497677-ebd4-47c0-9731-09f54154f361_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-1_b9ee1a17-6a99-4e95-964b-119d95475cf0_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-3_9e0f03e2-77e5-4894-874a-187d48c7390f_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-4_4fe02bc9-4392-4f02-ae95-ce00b5bf7b5e_1800x1800.jpg?v=1763776338",
     ],
     inStock: true,
     isNew: true,
@@ -367,15 +417,18 @@ export const products: Product[] = [
     id: 11,
     slug: "geto-ankle-chukka-boots",
     name: { en: "Geto Chukka Ankle Boots", km: "Geto Chukka Boots" },
-    description: { en: "Stylish suede chukka boots.", km: "Boots Chukka រចនាបែបស្អាត" },
+    description: {
+      en: "Stylish suede chukka boots.",
+      km: "Boots Chukka រចនាបែបស្អាត",
+    },
     price: 135,
     discount: 8,
     category: "classic-boots",
     images: [
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800",
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
-      "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800",
-      "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=800",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-2_81497677-ebd4-47c0-9731-09f54154f361_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-1_b9ee1a17-6a99-4e95-964b-119d95475cf0_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-3_9e0f03e2-77e5-4894-874a-187d48c7390f_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-4_4fe02bc9-4392-4f02-ae95-ce00b5bf7b5e_1800x1800.jpg?v=1763776338",
     ],
     inStock: true,
     isNew: false,
@@ -390,15 +443,18 @@ export const products: Product[] = [
     id: 12,
     slug: "geto-desert-boots",
     name: { en: "Geto Desert Boots", km: "Geto Desert Boots" },
-    description: { en: "Iconic lightweight desert boots.", km: "Desert Boots ស្រាល និងប្រើប្រាស់បានយូរ" },
+    description: {
+      en: "Iconic lightweight desert boots.",
+      km: "Desert Boots ស្រាល និងប្រើប្រាស់បានយូរ",
+    },
     price: 125,
     discount: 5,
     category: "classic-boots",
     images: [
-      "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800",
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800",
-      "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=800",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-2_81497677-ebd4-47c0-9731-09f54154f361_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-1_b9ee1a17-6a99-4e95-964b-119d95475cf0_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-3_9e0f03e2-77e5-4894-874a-187d48c7390f_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-4_4fe02bc9-4392-4f02-ae95-ce00b5bf7b5e_1800x1800.jpg?v=1763776338",
     ],
     inStock: true,
     isNew: true,
@@ -413,15 +469,18 @@ export const products: Product[] = [
     id: 13,
     slug: "classic-brogue-brown",
     name: { en: "Classic Brown Brogue Shoes", km: "Brogue ត្នោត Classic" },
-    description: { en: "Handcrafted wingtip brogues.", km: "ស្បែកជើង Brogue ស្បែកពិត" },
+    description: {
+      en: "Handcrafted wingtip brogues.",
+      km: "ស្បែកជើង Brogue ស្បែកពិត",
+    },
     price: 115,
     discount: 0,
     category: "brogue",
     images: [
-      "https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=800",
-      "https://images.unsplash.com/photo-1528701800489-20be3c1ea6c5?w=800",
-      "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a26?w=800",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-2_81497677-ebd4-47c0-9731-09f54154f361_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-1_b9ee1a17-6a99-4e95-964b-119d95475cf0_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-3_9e0f03e2-77e5-4894-874a-187d48c7390f_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-4_4fe02bc9-4392-4f02-ae95-ce00b5bf7b5e_1800x1800.jpg?v=1763776338",
     ],
     inStock: true,
     isNew: false,
@@ -436,7 +495,10 @@ export const products: Product[] = [
     id: 14,
     slug: "geto-double-monk-strap",
     name: { en: "Geto Double Monk Strap", km: "Geto Monk Strap ខ្មៅ" },
-    description: { en: "Elegant double monk strap shoes.", km: "ស្បែកជើង Monk Strap ប្រណិត" },
+    description: {
+      en: "Elegant double monk strap shoes.",
+      km: "ស្បែកជើង Monk Strap ប្រណិត",
+    },
     price: 130,
     discount: 10,
     category: "monk-strap",
@@ -459,7 +521,10 @@ export const products: Product[] = [
     id: 15,
     slug: "geto-jodhpur-boots",
     name: { en: "Geto Jodhpur Boots", km: "Geto Jodhpur Boots" },
-    description: { en: "Premium leather Jodhpur boots.", km: "Jodhpur Boots ស្បែកពិត" },
+    description: {
+      en: "Premium leather Jodhpur boots.",
+      km: "Jodhpur Boots ស្បែកពិត",
+    },
     price: 155,
     discount: 15,
     category: "classic-boots",
@@ -482,15 +547,19 @@ export const products: Product[] = [
     id: 16,
     slug: "suede-penny-loafers",
     name: { en: "Suede Penny Loafers", km: "Penny Loafers Suede" },
-    description: { en: "Soft suede penny loafers.", km: "Loafers Suede ផាសុកភាព" },
+    description: {
+      en: "Soft suede penny loafers.",
+      km: "Loafers Suede ផាសុកភាព",
+    },
     price: 98,
     discount: 0,
     category: "loafers",
     images: [
-      "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=800",
-      "https://images.unsplash.com/photo-1575037614876-c1c4b4f0c5e0?w=800",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a26?w=800",
-      "https://images.unsplash.com/photo-1528701800489-20be3c1ea6c5?w=800",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-2_fc87e24e-3e80-447e-acb5-e741b9130962_1800x1800.jpg?v=1755094575",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-3_64facb22-4f68-4290-80f2-169810fa9713_1800x1800.jpg?v=1755094575",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-5_ac359f11-b8da-4a10-9e37-69c460f427df_1800x1800.jpg?v=1755094576",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-1_949ee568-1356-406d-b329-871822233214_1800x1800.jpg?v=1755094575",
+    
     ],
     inStock: true,
     isNew: false,
@@ -505,15 +574,19 @@ export const products: Product[] = [
     id: 17,
     slug: "geto-cap-toe-boots",
     name: { en: "Geto Cap Toe Derby Boots", km: "Geto Cap Toe Boots" },
-    description: { en: "Rugged cap toe derby boots.", km: "Boots Cap Toe ធន់ខ្លាំង" },
+    description: {
+      en: "Rugged cap toe derby boots.",
+      km: "Boots Cap Toe ធន់ខ្លាំង",
+    },
     price: 145,
     discount: 7,
     category: "classic-boots",
     images: [
-      "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800",
-      "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=800",
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-2_fc87e24e-3e80-447e-acb5-e741b9130962_1800x1800.jpg?v=1755094575",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-3_64facb22-4f68-4290-80f2-169810fa9713_1800x1800.jpg?v=1755094575",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-5_ac359f11-b8da-4a10-9e37-69c460f427df_1800x1800.jpg?v=1755094576",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-1_949ee568-1356-406d-b329-871822233214_1800x1800.jpg?v=1755094575",
+    
     ],
     inStock: true,
     isNew: true,
@@ -528,7 +601,10 @@ export const products: Product[] = [
     id: 18,
     slug: "novo-cyclone-sneakers",
     name: { en: "Novo Cyclone Sneakers", km: "Novo Cyclone Sneakers" },
-    description: { en: "Lightweight cyclone sneakers.", km: "Sneakers ស្រាល Cyclone" },
+    description: {
+      en: "Lightweight cyclone sneakers.",
+      km: "Sneakers ស្រាល Cyclone",
+    },
     price: 160,
     discount: 20,
     category: "sneakers",
@@ -574,7 +650,10 @@ export const products: Product[] = [
     id: 20,
     slug: "stream-suede-sneakers",
     name: { en: "Men's Stream Suede Sneakers", km: "Stream Suede Sneakers" },
-    description: { en: "Sophisticated stream suede sneakers.", km: "Sneakers Suede Stream ប្រណិត" },
+    description: {
+      en: "Sophisticated stream suede sneakers.",
+      km: "Sneakers Suede Stream ប្រណិត",
+    },
     price: 108,
     discount: 8,
     category: "sneakers",
@@ -595,15 +674,10 @@ export const products: Product[] = [
   },
 ];
 
-/* ============================================================
-   MENU BUILDER
-   Derives Men / Women menus from categories + products.
-   No data duplication — gender lives on Category only.
-============================================================ */
 
 function buildMenu(gender: "men" | "women"): Menu {
   const menuCategories = categories.filter(
-    (c) => c.gender === gender || c.gender === "both"
+    (c) => c.gender === gender || c.gender === "both",
   );
   const categorySlugs = new Set(menuCategories.map((c) => c.slug));
 
@@ -642,7 +716,5 @@ export function getProductBySlug(slug: string): Product | undefined {
 
 /** Get the menu a category belongs to (returns both if gender: "both") */
 export function getMenusForCategory(categorySlug: string): Menu[] {
-  return menus.filter((m) =>
-    m.categories.some((c) => c.slug === categorySlug)
-  );
+  return menus.filter((m) => m.categories.some((c) => c.slug === categorySlug));
 }

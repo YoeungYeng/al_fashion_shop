@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { useLang } from "../context/LanguageContext";
 import { products } from "../data/products";
 import { PromotionCard } from "./PromotionCard";
@@ -9,175 +8,138 @@ export function PromotionPage() {
   const { lang } = useLang();
   const kh = lang === "km";
 
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollRef      = useRef<HTMLDivElement>(null);
+  const isDragging     = useRef(false);
+  const didDrag        = useRef(false);
+  const dragStartX     = useRef(0);
+  const dragScrollLeft = useRef(0);
+  const lastX          = useRef(0);
+  const velocity       = useRef(0);
+  const animFrame      = useRef<number>(0);
 
-  const [showLeft, setShowLeft] = useState(false);
-  const [showRight, setShowRight] = useState(true);
+  const [activeDot, setActiveDot] = useState(0);
+
+  const DOT_COUNT = 3;
 
   const promotionProducts = products.filter(
-    (p) => p.discount > 0 || p.isNew || p.isPopular
+    (p) => p.discount > 0 || p.isNew || p.isPopular,
   );
-
-  const handleScroll = (dir: "left" | "right") => {
-    if (!scrollRef.current) return;
-
-    const width = scrollRef.current.clientWidth;
-
-    scrollRef.current.scrollBy({
-      left: dir === "left" ? -width * 0.8 : width * 0.8,
-      behavior: "smooth",
-    });
-  };
 
   const handleScrollUpdate = () => {
     const el = scrollRef.current;
-
     if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    if (max <= 0) return;
+    const scrollProgress = el.scrollLeft / max;
+    setActiveDot(Math.round(scrollProgress * (DOT_COUNT - 1)));
+  };
 
-    setShowLeft(el.scrollLeft > 10);
+  const onMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    cancelAnimationFrame(animFrame.current);
+    isDragging.current = true;
+    didDrag.current = false;                   
+    dragStartX.current = e.pageX - scrollRef.current.offsetLeft;
+    dragScrollLeft.current = scrollRef.current.scrollLeft;
+    lastX.current = e.pageX;
+    velocity.current = 0;
+    scrollRef.current.style.cursor = "grabbing";
+  };
 
-    setShowRight(
-      el.scrollLeft + el.clientWidth < el.scrollWidth - 10
-    );
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = x - dragStartX.current;
+    if (Math.abs(walk) > 5) didDrag.current = true; 
+    velocity.current = e.pageX - lastX.current;
+    lastX.current = e.pageX;
+    scrollRef.current.scrollLeft = dragScrollLeft.current - walk;
+    handleScrollUpdate();
+  };
+
+  const onMouseUp = () => {
+    if (!scrollRef.current) return;
+    isDragging.current = false;
+    scrollRef.current.style.cursor = "grab";
+    const glide = () => {
+      if (!scrollRef.current) return;
+      if (Math.abs(velocity.current) < 0.5) return;
+      scrollRef.current.scrollLeft -= velocity.current;
+      velocity.current *= 0.92;
+      handleScrollUpdate();
+      animFrame.current = requestAnimationFrame(glide);
+    };
+    animFrame.current = requestAnimationFrame(glide);
+  };
+
+  const onMouseLeave = () => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    if (scrollRef.current) scrollRef.current.style.cursor = "grab";
   };
 
   return (
     <div className={kh ? "font-body-kh" : "font-body-en"}>
       <section className="w-full py-8 md:py-10 lg:py-14">
         <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12">
+
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              {/* <div className="w-1 h-8 bg-primary rounded-full" /> */}
-
-              <h2
-                className={`text-xl lg:text-2xl font-bold text-[#1C1917] ${
-                  kh ? "font-header-kh" : "font-header-en"
-                }`}
-              >
-                {kh ? "បញ្ចុះតម្លៃពិសេស" : "Flash Sale"}
-              </h2>
-
-              {/* <span className="hidden sm:flex items-center gap-1 px-3 py-1 bg-red-50 rounded-full">
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-
-                <span
-                  className={`text-xs font-semibold text-red-600 ${
-                    kh ? "font-body-kh" : "font-body-en"
-                  }`}
-                >
-                  {kh ? "កំពុងដំណើរការ" : "Live"}
-                </span>
-              </span> */}
-            </div>
+            <h2
+              className={`text-xl lg:text-2xl font-bold text-[#1C1917] ${
+                kh ? "font-header-kh" : "font-header-en"
+              }`}
+            >
+              {kh ? "បញ្ចុះតម្លៃពិសេស" : "Flash Sale"}
+            </h2>
 
             <Link
               to="/products"
+              
               className={`flex items-center gap-2 text-xl font-bold text-black hover:text-black/60 transition-colors ${
                 kh ? "font-body-kh" : "font-body-en"
               }`}
             >
               {kh ? "មើលទាំងអស់" : "Shop More"}
-
             </Link>
           </div>
 
-
           {/* Slider */}
-          <div className="relative">
-            {/* Left Arrow */}
-            <button
-              onClick={() => handleScroll("left")}
-              className={`
-                absolute
-                left-0
-                md:left-2
-                top-1/2
-                -translate-y-1/2
-                z-20
-                w-10
-                h-10
-                md:w-12
-                md:h-12
-                
-                bg-white/95
-                backdrop-blur-sm
-                shadow-lg
-                border
-                border-gray-200
-                flex
-                items-center
-                justify-center
-                transition-all
-                duration-300
-                ${
-                  showLeft
-                    ? "opacity-100"
-                    : "opacity-0 pointer-events-none"
-                }
-              `}
-            >
-              <ChevronLeft className="w-5 h-5 text-gray-700" />
-            </button>
-
-            {/* Products */}
-            <div
-              ref={scrollRef}
-              onScroll={handleScrollUpdate}
-              className="
-                flex
-                gap-6
-                overflow-x-auto
-                scroll-smooth
-                px-2
-                md:px-4
-                pb-6
-                scrollbar-hide
-              "
-            >
-              {promotionProducts.map((product) => (
-                <PromotionCard
-                  key={product.id}
-                  product={product}
-                />
-              ))}
-            </div>
-
-            {/* Right Arrow */}
-            <button
-              onClick={() => handleScroll("right")}
-              className={`
-                absolute
-                right-0
-                md:right-2
-                top-1/2
-                -translate-y-1/2
-                z-20
-                w-10
-                h-10
-                md:w-12
-                md:h-12
-                rounded-full
-                bg-white/95
-                backdrop-blur-sm
-                shadow-lg
-                border
-                border-gray-200
-                flex
-                items-center
-                justify-center
-                transition-all
-                duration-300
-                ${
-                  showRight
-                    ? "opacity-100"
-                    : "opacity-0 pointer-events-none"
-                }
-              `}
-            >
-              <ChevronRight className="w-5 h-5 text-gray-700" />
-            </button>
+          <div
+            ref={scrollRef}
+            onScroll={handleScrollUpdate}
+            onMouseDown={onMouseDown}
+            onMouseMove={onMouseMove}
+            onMouseUp={onMouseUp}
+            onMouseLeave={onMouseLeave}
+            className="flex gap-6 overflow-x-auto px-2 md:px-4 pb-4 scrollbar-hide cursor-grab select-none"
+          >
+            {promotionProducts.map((product) => (
+              <PromotionCard
+                key={product.id}
+                product={product}
+                onLinkClick={(e) => {
+                  if (didDrag.current) e.preventDefault();
+                }}
+              />
+            ))}
           </div>
+
+          {/* Dots */}
+          <div className="flex items-center justify-center gap-2 mt-5">
+            {Array.from({ length: DOT_COUNT }).map((_, i) => (
+              <span
+                key={i}
+                className={`rounded-full transition-all duration-300 ${
+                  i === activeDot
+                    ? "w-4 h-2 bg-gray-700"
+                    : "w-2 h-2 bg-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+
         </div>
       </section>
     </div>

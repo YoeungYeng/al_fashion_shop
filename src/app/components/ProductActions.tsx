@@ -18,37 +18,38 @@ export function ProductActions({
 
   const discountRate = Math.max(
     0,
-    Math.min(100, Number(product.discount) || 0)
+    Math.min(100, Number(product.discount) || 0),
   );
 
   const discountedPrice =
-    discountRate > 0
-      ? product.price * (1 - discountRate / 100)
-      : product.price;
+    discountRate > 0 ? product.price * (1 - discountRate / 100) : product.price;
 
   const handleTelegramOrder = () => {
-    const allImages = images
-      .map((img, idx) => `Image ${idx + 1}:\n${img}`)
-      .join("\n\n");
+    // const lang = /* your current language */;
+
+    // Format images nicely
+    const imageLines = images
+      .map((img, idx) => `📸 Image ${idx + 1}: ${img}`)
+      .join("\n");
 
     const message = `
-🛒 NEW SHOE ORDER
+🛒 **NEW ORDER REQUEST**
 
-Name: ${product.name[lang as Lang]}
-Price: $${discountedPrice.toFixed(2)}
-${discountRate > 0 ? `Original Price: $${product.price.toFixed(2)}` : ""}
-Category: ${product.category}
-Discount: ${discountRate}%
-Stock: ${product.inStock ? "✅ In Stock" : "❌ Out of Stock"}
+**Product:** ${product.name[lang as Lang]}
+**Price:** $${discountedPrice.toFixed(2)}${
+      discountRate > 0
+        ? `\n**Original:** $${product.price.toFixed(2)} (-${discountRate}%)`
+        : ""
+    }
+**Category:** ${product.category}
+**Stock:** ${product.inStock ? "✅ In Stock" : "❌ Out of Stock"}
 
-📸 Images:
-${allImages}
+${imageLines}
 `.trim();
 
-    window.open(
-      `https://t.me/yoeungyeng?text=${encodeURIComponent(message)}`,
-      "_blank"
-    );
+    const telegramUrl = `https://t.me/yoeungyeng?text=${encodeURIComponent(message)}`;
+
+    window.open(telegramUrl, "_blank");
   };
 
   const handleMessenger = () => {
@@ -71,29 +72,28 @@ ${allImages}
 
     window.open(
       `https://m.me/smallTeam760?text=${encodeURIComponent(message)}`,
-      "_blank"
+      "_blank",
     );
   };
 
   const handleShareViaUrl = () => {
     const productUrl = `${window.location.origin}/products/${product.id}`;
 
-    const shareText = `
-${product.name[lang as Lang]}
-💰 $${discountedPrice.toFixed(2)}
-${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
-`.trim();
+    const shareText =
+      `🔥 Check out this awesome product!\n\n` +
+      `📌 ${product.name[lang as Lang]}\n` +
+      `💰 $${discountedPrice.toFixed(2)}` +
+      (discountRate > 0 ? `  (-${discountRate}%)` : "") +
+      `\n\n🔗 ${productUrl}`;
 
     window.open(
-      `https://t.me/share/url?url=${encodeURIComponent(
-        productUrl
-      )}&text=${encodeURIComponent(shareText)}`,
-      "_blank"
+      `https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(shareText)}`,
+      "_blank",
     );
   };
 
   const buttonClass =
-    "w-full h-10 text-xs sm:text-sm md:text-base flex items-center hover:cursor-pointer justify-center gap-2 text-sm font-semibold text-white transition-all duration-200 active:scale-95";
+    "w-full h-10 text-xs sm:text-sm md:text-sm flex items-center hover:cursor-pointer justify-center gap-2 text-sm font-normal text-white transition-all duration-200 active:scale-95";
 
   return (
     <div
@@ -117,10 +117,16 @@ ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
         onClick={handleMessenger}
         className={`${buttonClass} bg-[#0084FF] hover:bg-[#0077E6]`}
       >
-        <MessageCircleMore className="w-4 h-4 md:w-4 md:-h-4 sm:w-3 sm:-3 shrink-0" />
+        <MessageCircleMore className="w-4 h-4 md:w-4 md:-h-4 sm:w-3 sm:-3 shrink-0 " />
         <span>{kh ? "Messenger" : "Messenger"}</span>
       </button>
-
+      <button
+        onClick={handleShareViaUrl}
+        className={`${buttonClass} bg-gray-700 hover:bg-gray-800`}
+      >
+        <Share2 className="w-5 h-5 shrink-0" />
+        <span>{kh ? "ចែករំលែក" : "Share"}</span>
+      </button>
       {/* Share */}
       {showShareUrl && (
         <button

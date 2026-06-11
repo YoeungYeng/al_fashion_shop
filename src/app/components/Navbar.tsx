@@ -3,7 +3,7 @@ import { NavLink, useNavigate, useLocation } from "react-router";
 import { Search, X as CloseIcon, Menu } from "lucide-react";
 import { useLang } from "../context/LanguageContext";
 import { useSearch } from "../context/SearchContext";
-import { menus } from "../data/products";
+import { menus, categories } from "../data/products";
 import logo from "../../assets/al_fashion_logo-LF9KwT_A.jpg";
 import "flag-icons/css/flag-icons.min.css";
 
@@ -22,13 +22,13 @@ export function Navbar() {
   const kh = lang === "km";
 
   // Read ?gender=men|women from URL
-  const activeGender = useMemo(() => {
+  const activeCategory = useMemo(() => {
     const params = new URLSearchParams(location.search);
-    return params.get("gender") as GenderKey;
+    return params.get("category") || "";
   }, [location.search]);
 
-  const handleGenderClick = (gender: string) => {
-    navigate(`/products?gender=${gender}`);
+  const handleCategoryClick = (category: string) => {
+    navigate(`/products?category=${category}`);
     setMobileOpen(false);
   };
 
@@ -63,7 +63,6 @@ export function Navbar() {
       <header className="fixed top-0 w-full z-[999] bg-white border-b border-black/10 shadow-sm">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <div className="flex items-center h-14">
-
             {/* LOGO */}
             <NavLink to="/" className="flex items-center gap-2 shrink-0">
               <img
@@ -78,19 +77,21 @@ export function Navbar() {
 
             {/* DESKTOP NAV — derived from menus data */}
             <nav className="hidden lg:flex items-center ml-10">
-              {menus.map((menu) => {
-                const active = activeGender === menu.slug;
+              {categories.map((category) => {
+                const active = activeCategory === category.slug;
+
                 return (
                   <button
-                    key={menu.slug}
-                    onClick={() => handleGenderClick(menu.slug)}
-                    className={`relative px-5 h-14 transition ${
-                      active ? "text-black" : "text-black/60 hover:text-black"
+                    key={category.slug}
+                    onClick={() => handleCategoryClick(category.slug)}
+                    className={`relative px-5 h-14 transition font-[14px] ${
+                      active ? "text-black" : "text-black/70 hover:text-black"
                     }`}
                   >
                     <span className={navLinkClass}>
-                      {kh ? menu.name.km : menu.name.en}
+                      {kh ? category.name.km : category.name.en}
                     </span>
+
                     {active && (
                       <span className="absolute bottom-0 left-4 right-4 h-[2px] bg-black rounded-full" />
                     )}
@@ -101,7 +102,6 @@ export function Navbar() {
 
             {/* RIGHT SIDE */}
             <div className="flex items-center gap-2 ml-auto">
-
               {/* SEARCH BUTTON */}
               <button
                 onClick={() => setSearchOpen(true)}
@@ -140,7 +140,6 @@ export function Navbar() {
         {/* MOBILE MENU */}
         {mobileOpen && (
           <div className="lg:hidden border-t border-black/10 bg-white px-4 py-4">
-
             {/* MOBILE SEARCH */}
             <div className="flex items-center gap-2 border px-3 py-2 mb-4">
               <Search
@@ -164,12 +163,13 @@ export function Navbar() {
 
             {/* MOBILE MENU ITEMS */}
             <div className="space-y-2">
-              {menus.map((menu) => {
-                const active = activeGender === menu.slug;
+              {categories.map((category) => {
+                const active = activeCategory === category.slug;
+
                 return (
                   <button
-                    key={menu.slug}
-                    onClick={() => handleGenderClick(menu.slug)}
+                    key={category.slug}
+                    onClick={() => handleCategoryClick(category.slug)}
                     className={`w-full text-left px-4 py-3 rounded-xl transition ${
                       active
                         ? "bg-black/5 text-black"
@@ -177,7 +177,7 @@ export function Navbar() {
                     }`}
                   >
                     <span className={mobileNavClass}>
-                      {kh ? menu.name.km : menu.name.en}
+                      {kh ? category.name.km : category.name.en}
                     </span>
                   </button>
                 );

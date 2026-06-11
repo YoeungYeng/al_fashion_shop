@@ -138,10 +138,7 @@ export function ProductDetailPage() {
 
             <span>/</span>
 
-            <Link
-              to="/products"
-              className="hover:text-black transition-colors"
-            >
+            <Link to="/products" className="hover:text-black transition-colors">
               {kh ? "ផលិតផល" : "Products"}
             </Link>
 
@@ -262,7 +259,7 @@ export function ProductDetailPage() {
             {/* === PRODUCT INFO === */}
             <div className="flex-1 flex flex-col gap-4">
               <h1
-                className={`${headerFont} text-2xl sm:text-3xl font-semibold`}
+                className={`${headerFont} text-xl sm:text-xl font-semibold`}
               >
                 {product.name[lang as Lang]}
               </h1>
@@ -271,12 +268,16 @@ export function ProductDetailPage() {
                 {product.description[lang as Lang]}
               </p>
 
-              <div className={`${bodyFont} flex items-baseline gap-3`}>
-                <span className="text-3xl font-bold text-primary">
+              <div className="flex items-center gap-2 flex-wrap justify-start">
+                <span
+                  className={`font-semibold text-base sm:text-lg ${
+                    product.discount > 0 ? "text-primary" : "text-black"
+                  }`}
+                >
                   ${discountedPrice.toFixed(2)}
                 </span>
                 {product.discount > 0 && (
-                  <span className="text-gray-400 line-through text-xl">
+                  <span className="text-gray-400 text-xs sm:text-sm line-through">
                     ${product.price.toFixed(2)}
                   </span>
                 )}

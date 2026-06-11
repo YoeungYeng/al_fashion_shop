@@ -1,5 +1,4 @@
 import { Link } from "react-router";
-import { ArrowRight } from "lucide-react";
 import { Slideshow } from "../components/Slideshow";
 import { ProductCard } from "../components/ProductCard";
 import { useLang } from "../context/LanguageContext";
@@ -48,7 +47,6 @@ export function HomePage() {
 
   return (
     <div className={`${kh ? "font-khmer" : ""} bg-transparent min-h-screen`}>
-
       {/* HERO */}
       <section className="w-full">
         <Slideshow />
@@ -59,11 +57,9 @@ export function HomePage() {
         <PromotionPage />
       </section>
 
-
       {/* NEW ARRIVALS */}
-      <section className="w-full py-8 lg:py-4">
-        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-8">
-
+      <section className="w-full">
+        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-8 ">
           <SectionHeader
             title={t("home.categories")}
             linkTo="/products"
@@ -77,29 +73,27 @@ export function HomePage() {
               sm:grid-cols-2
               md:grid-cols-3
               xl:grid-cols-4
-              2xl:grid-cols-4
-              gap-4
-              lg:gap-4
+              2xl:grid-cols-5
+              gap-8
+              md:gap-5
+              lg:gap-6
+              lg:gap-y-10
+              md:gap-y-10
             "
           >
             {products
               .filter((p) => p.isPopular)
               .slice(0, 6)
               .map((product) => (
-                <NewArrivalCard
-                  key={product.id}
-                  product={product}
-                />
+                <NewArrivalCard key={product.id} product={product} />
               ))}
           </div>
-
         </div>
       </section>
 
       {/* FEATURED PRODUCTS */}
       <section className="w-full py-8 lg:py-20">
-        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12">
-
+        <div className="max-w-screen mx-auto px-4 md:px-6 lg:px-10">
           <SectionHeader
             title={t("home.featured")}
             linkTo="/products"
@@ -108,30 +102,28 @@ export function HomePage() {
 
           <div
             className="
-              grid
-              grid-cols-2
-              sm:grid-cols-2
-              md:grid-cols-3
-              xl:grid-cols-4
-              2xl:grid-cols-4
-              gap-4
-              lg:gap-4
-            "
+        grid
+        grid-cols-2
+        sm:grid-cols-2
+        md:grid-cols-3
+        lg:grid-cols-4
+        xl:grid-cols-5
+        gap-8
+        md:gap-5
+        lg:gap-6
+        lg:gap-y-10
+        md:gap-y-10
+      "
           >
             {products
               .filter((p) => p.isPopular)
               .slice(0, 10)
               .map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                />
+                <ProductCard key={product.id} product={product} />
               ))}
           </div>
-
         </div>
       </section>
-
     </div>
   );
 }

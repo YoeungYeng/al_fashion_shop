@@ -201,9 +201,9 @@ export function ProductsPage() {
                   <span
                     className={`${bodyFont} mt-2 text-[14px] transition-colors ${
                       isSaleCategory && isActive
-                        ? "text-red-600 font-bold"
+                        ? "text-red-600 font-medium"
                         : isActive
-                          ? "text-black font-bold"
+                          ? "text-black font-medium"
                           : "text-black/60"
                     }`}
                   >

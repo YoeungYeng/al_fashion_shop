@@ -103,7 +103,7 @@ export function Slideshow() {
       />
 
       {/* DARK OVERLAY */}
-      <div className="absolute inset-0 bg-black/40" />
+  
 
       {/* CONTENT */}
       <div

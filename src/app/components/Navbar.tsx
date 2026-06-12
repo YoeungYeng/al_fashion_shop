@@ -47,8 +47,8 @@ export function Navbar() {
     setMobileOpen(false);
   };
 
-  const logoClass = kh ? "font-header-kh text-base lg:text-lg font-medium" : "font-header-en text-sm lg:text-base font-medium tracking-[0.08em]";
-  const navLinkClass = kh ? "font-body-kh text-[14px] lg:text-[14px] " : "font-body-en text-[14px] lg:text-[14px] font-medium tracking-[0.1em]";
+  const logoClass = kh ? "font-body-kh text-base lg:text-lg font-medium" : "font-header-en text-sm lg:text-base font-medium tracking-[0.08em]";
+  const navLinkClass = kh ? "font-body-kh text-[14px] lg:text-[14px] font-medium " : "font-body-en text-[14px] lg:text-[14px] font-medium  font-medium tracking-[0.1em]";
   const mobileNavClass = kh ? "font-header-kh text-base font-semibold" : "font-header-en text-sm font-bold tracking-[0.08em] uppercase";
   const searchClass = kh ? "font-body-kh text-sm" : "font-body-en text-sm";
   const langClass = kh ? "font-body-kh text-sm" : "font-header-en text-[11px] font-bold tracking-[0.1em]";
@@ -76,7 +76,7 @@ export function Navbar() {
                     className={`relative px-5 h-14 transition font-medium cursor-pointer ${
                       isSaleItem 
                         ? (active ? "text-red-600" : "text-red-500/80 hover:text-red-600")
-                        : (active ? "text-black" : "text-black/70 hover:text-black")
+                        : (active ? "text-black font-extrabold" : "text-black/70 hover:text-black")
                     }`}
                   >
                     <span className={navLinkClass}>

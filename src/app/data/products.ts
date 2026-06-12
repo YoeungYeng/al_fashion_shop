@@ -83,7 +83,7 @@ export const categories: Category[] = [
       en: "All products on discount",
       km: "ផលិតផលទាំងអស់មានបញ្ចុះតម្លៃ",
     },
-    cover: "https://assets-v2.lottiefiles.com/a/a15003f8-183b-11ef-8cd5-27e24c4c46a2/Hv2qDN1G0m.gif", // Use a sale-themed image
+    cover: "https://png.pngtree.com/png-clipart/20250421/original/pngtree-3d-render-of-red-sale-tags-with-percentage-sign-png-image_20757962.png", // Use a sale-themed image
     icon: "🔥",
     gender: "both", // Show in both Men and Women menus
     banner: "/assets/sale-white-banner.jpg", // Use your clean white banner here

@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useLang } from "../context/LanguageContext";
-
+import slide1 from "../../assets/vetrivel-viswanathar.jpg";
+import slide2 from "../../assets/vitor-monthay.jpg";
 const slides = [
   // {
   //   id: 1,
@@ -25,7 +26,7 @@ const slides = [
   {
     id: 2,
     image:
-      "https://static.vecteezy.com/system/resources/thumbnails/072/118/414/small/black-leather-men-s-loafers-for-professional-business-style-photo.jpg",
+      slide1,
     title: {
       en: "Elegant Oxford Collection",
       km: "បណ្តុំស្បែកជើង Oxford",
@@ -43,7 +44,7 @@ const slides = [
   {
     id: 3,
     image:
-      "https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      slide2,
     title: {
       en: "Premium Leather Loafers",
       km: "ស្បែកជើង Loafers ប្រណិត",

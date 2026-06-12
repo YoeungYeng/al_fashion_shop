@@ -32,7 +32,7 @@ export function SocialBar({
             bg-[#229ED9]
             text-white
             font-medium
-            text-xs sm:text-sm md:text-base
+            text-[12px] sm:text-[12px] md:text-[12px]
             hover:opacity-90
             active:scale-95
             transition-all
@@ -56,7 +56,7 @@ export function SocialBar({
             bg-[#1877F2]
             text-white
             font-medium
-            text-xs sm:text-sm md:text-base
+            text-[12px] sm:text-[12px] md:text-[12px]
             hover:opacity-90
             active:scale-95
             transition-all

@@ -28,7 +28,10 @@ export function CompactProductCard({
   const images = product.images?.length ? product.images : [];
   const hasMultiple = images.length > 1 && showCarousel;
 
-  const discountRate = Math.max(0, Math.min(100, Number(product.discount) || 0));
+  const discountRate = Math.max(
+    0,
+    Math.min(100, Number(product.discount) || 0),
+  );
   const discountedPrice =
     discountRate > 0 ? product.price * (1 - discountRate / 100) : product.price;
 
@@ -45,15 +48,17 @@ export function CompactProductCard({
   return (
     <div
       className={`
-        group bg-transparent overflow-hidden flex items-center justify-between flex-col shrink-0
-        w-full sm:w-[280px] lg:w-[320px]
+        group bg-transparent overflow-hidden flex flex-col
+        w-full
         cursor-pointer transition-all duration-300 hover:-translate-y-1
         ${kh ? "font-body-kh" : "font-body-en"}
         ${className}
       `}
     >
       {/* Product Image with Optional Carousel */}
-      <div className={`relative w-full overflow-hidden bg-transparent ${imageAspect}`}>
+      <div
+        className={`relative w-full overflow-hidden bg-transparent ${imageAspect}`}
+      >
         {/* ← onLinkClick passed here so drag blocks navigation */}
         <Link to={`/products/${product.id}`} onClick={onLinkClick}>
           <img
@@ -108,7 +113,7 @@ export function CompactProductCard({
           <div className="absolute top-3 left-3">
             <div className="flex items-center justify-center w-12 h-7 sm:w-14 sm:h-6 bg-primary text-white shadow-lg">
               <span className="text-xs sm:text-sm leading-none">
-                -{product.discount}%
+                {product.discount}%
               </span>
             </div>
           </div>
@@ -117,7 +122,9 @@ export function CompactProductCard({
         {/* Out of Stock */}
         {!product.inStock && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <span className={`${kh ? "font-body-kh" : "font-body-en"} px-4 py-2 rounded-lg bg-gray-900 text-white text-xs sm:text-sm font-semibold`}>
+            <span
+              className={`${kh ? "font-body-kh" : "font-body-en"} px-4 py-2 rounded-lg bg-gray-900 text-white text-xs sm:text-sm font-semibold`}
+            >
               {t("product.outOfStock")}
             </span>
           </div>
@@ -125,14 +132,14 @@ export function CompactProductCard({
       </div>
 
       {/* Content */}
-      <div className="p-3 sm:p-4 flex items-center justify-between flex-col gap-1.5 sm:gap-2 flex-1 w-full">
-        <h3 className="text-[#1C1917] font-normal text-sm sm:text-base lg:text-lg leading-snug line-clamp-2 text-center">
+      <div className="p-3 sm:p-4 flex items-center justify-center flex-col gap-1.5 sm:gap-2 w-full">
+        <h3 className="text-[#1C1917] font-normal text-[14px] sm:text-[14px] lg:text-[14px] leading-snug line-clamp-2 text-center">
           {product.name[lang as Lang]}
         </h3>
 
         <div className="flex items-center gap-2  flex-wrap justify-center">
           <span
-            className={`font-normal text-base sm:text-lg ${
+            className={`font-normal text-[14px] sm:text-[14px] ${
               discountRate > 0 ? "text-primary" : "text-black"
             }`}
           >
@@ -146,7 +153,7 @@ export function CompactProductCard({
         </div>
       </div>
 
-      <div className="p-2 w-full">
+      <div className="p-2 w-full -mt-4">
         <ProductActions product={product} />
       </div>
     </div>

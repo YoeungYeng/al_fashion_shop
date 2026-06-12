@@ -53,7 +53,7 @@ export const TELEGRAM_BASE = "https://t.me/yoeungyeng";
 export const categories: Category[] = [
   {
     slug: "classic-boots",
-    name: { en: "Shoes", km: "ស្បែកជើង" },
+    name: { en: "Sneakers", km: "ស្បែកជើងកីឡា" },
     description: { en: "Premium leather boots", km: "ប៊ូតស្បែកគុណភាពខ្ពស់" },
     cover:
       "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
@@ -64,7 +64,7 @@ export const categories: Category[] = [
   },
   {
     slug: "loafers",
-    name: { en: "Loafers", km: "ស្បែកជើងកវែង" },
+    name: { en: "Loafers", km: "ស្បែកជើងឃ្លប់" },
     description: {
       en: "Comfortable everyday loafers",
       km: "ស្បែកជើងស្រួលពាក់",
@@ -77,20 +77,20 @@ export const categories: Category[] = [
       "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
   // ==================== NEW SALE CATEGORY ====================
-  {
-    slug: "sale",
-    name: { en: "Sale", km: "លក់" },
-    description: {
-      en: "All products on discount",
-      km: "ផលិតផលទាំងអស់មានបញ្ចុះតម្លៃ",
-    },
-    cover:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-    icon: "🔥",
-    gender: "both", // Show in both menus
-    banner:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-  },
+  // {
+  //   slug: "sale",
+  //   name: { en: "Sale", km: "លក់" },
+  //   description: {
+  //     en: "All products on discount",
+  //     km: "ផលិតផលទាំងអស់មានបញ្ចុះតម្លៃ",
+  //   },
+  //   cover:
+  //     "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+  //   icon: "🔥",
+  //   gender: "both", // Show in both menus
+  //   banner:
+  //     "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+  // },
 ];
 
 /* ============================================================
@@ -102,8 +102,8 @@ export const products: Product[] = [
     id: 1,
     slug: "timberland-6inch-premium",
     name: {
-      en: "Timberland 6-Inch Premium Boots",
-      km: "Timberland Boots Premium",
+      en: "Strata Sneakers",
+      km: "Strata Sneakers",
     },
     description: {
       en: "Classic waterproof leather boots.",
@@ -113,11 +113,11 @@ export const products: Product[] = [
     discount: 10,
     category: "classic-boots",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-96380016-01-1_1800x1800.webp?v=1734662031",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-96380016-01-2_1800x1800.webp?v=1734661809",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-96380016-01-3_1800x1800.jpg?v=1734661809",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-96380016-01-4_1800x1800.jpg?v=1734661809",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-96380016-01-6_1800x1800.webp?v=1734661809",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-2_74e0f362-dc0d-44cf-9fe0-b0ee009c6755_1800x1800.jpg?v=1727185944",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-1_173b78b4-de15-48fb-920e-5b2fbae4bc1e_1800x1800.jpg?v=1727185944",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-3_9e248ca6-9c14-4fee-b8df-67460f96f0e9_1800x1800.jpg?v=1727185944",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-4_859346bf-5e5b-4d9c-8ab1-58725be88b92_1800x1800.jpg?v=1727185944",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-5_9cc6825a-565d-479c-91bb-65a79abe7141_1800x1800.jpg?v=1727185944",
     ],
     inStock: true,
     isNew: false,
@@ -295,8 +295,8 @@ export const products: Product[] = [
   },
   {
     id: 9,
-    slug: "roam-leather-loafers",
-    name: { en: "Roam Leather Loafers", km: "Loafers Roam ស្បែក" },
+    slug: "Kieran-leather-penny-loafers",
+    name: { en: "Kieran Leather Penny Loafers", km: "Kieran Leather Penny Loafers" },
     description: {
       en: "Comfortable roam leather loafers.",
       km: "Loafers ស្បែក ផាសុក",
@@ -305,10 +305,10 @@ export const products: Product[] = [
     discount: 5,
     category: "loafers",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-2_81497677-ebd4-47c0-9731-09f54154f361_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-1_b9ee1a17-6a99-4e95-964b-119d95475cf0_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-3_9e0f03e2-77e5-4894-874a-187d48c7390f_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-4_4fe02bc9-4392-4f02-ae95-ce00b5bf7b5e_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-46600192-1-52-2_86ace6c0-9127-4ce3-9be1-3faf29ef61a0_1800x1800.jpg?v=1767191058",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-46600192-1-52-1_6df272f4-ae26-4d6a-bfed-a480a7a2269e_1800x1800.jpg?v=1767191058",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-46600192-1-52-4_440279b1-9c5f-4c20-9859-a6e649131811_1800x1800.jpg?v=1767191059",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-46600192-1-52-5_41c55c67-75ba-40fd-902a-02c7cb113a2c_1800x1800.jpg?v=1767191059",
     ],
     inStock: true,
     isNew: false,
@@ -321,8 +321,8 @@ export const products: Product[] = [
   },
   {
     id: 10,
-    slug: "geto-classic-leather-boots",
-    name: { en: "Geto Classic Leather Boots", km: "Geto Boots ស្បែក Classic" },
+    slug: "fleet-suede-sneakers",
+    name: { en: "Fleet Suede Sneakers", km: "Fleet Suede Sneakers" },
     description: {
       en: "Premium Geto classic boots with durable leather.",
       km: "Geto Boots ស្បែកពិត រចនាបែប classic",
@@ -347,8 +347,8 @@ export const products: Product[] = [
   },
   {
     id: 11,
-    slug: "geto-ankle-chukka-boots",
-    name: { en: "Geto Chukka Ankle Boots", km: "Geto Chukka Boots" },
+    slug: "Men's-Stream-Suede-Sneakers",
+    name: { en: "Men's Stream Suede Sneakers", km: "Men's Stream Suede Sneakers" },
     description: {
       en: "Stylish suede chukka boots.",
       km: "Boots Chukka រចនាបែបស្អាត",
@@ -357,10 +357,10 @@ export const products: Product[] = [
     discount: 8,
     category: "classic-boots",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-2_81497677-ebd4-47c0-9731-09f54154f361_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-1_b9ee1a17-6a99-4e95-964b-119d95475cf0_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-3_9e0f03e2-77e5-4894-874a-187d48c7390f_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-4_4fe02bc9-4392-4f02-ae95-ce00b5bf7b5e_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-76210237-1-05-2_3030536d-e128-4bc0-82e6-ccf18cbf68c3_1800x1800.jpg?v=1733324510",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-76210237-1-05-1_60dd0a5d-c723-4f1e-897b-3b5b5c98934e_1800x1800.jpg?v=1733324510",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-76210237-1-05-4_7d3a82dc-03ac-4370-861c-b4d0d7b1af01_1800x1800.jpg?v=1733324510",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-76210237-1-05-5_cecf14c4-6194-4400-aa9b-fd0c3aa1f58e_1800x1800.jpg?v=1733324510",
     ],
     inStock: true,
     isNew: false,
@@ -373,8 +373,8 @@ export const products: Product[] = [
   },
   {
     id: 12,
-    slug: "geto-desert-boots",
-    name: { en: "Geto Desert Boots", km: "Geto Desert Boots" },
+    slug: "Novo-cyclone-sneakers",
+    name: { en: "Novo Cyclone Sneakers", km: "Novo Cyclone Sneakers" },
     description: {
       en: "Iconic lightweight desert boots.",
       km: "Desert Boots ស្រាល និងប្រើប្រាស់បានយូរ",
@@ -383,10 +383,10 @@ export const products: Product[] = [
     discount: 5,
     category: "classic-boots",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-2_81497677-ebd4-47c0-9731-09f54154f361_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-1_b9ee1a17-6a99-4e95-964b-119d95475cf0_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-3_9e0f03e2-77e5-4894-874a-187d48c7390f_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-4_4fe02bc9-4392-4f02-ae95-ce00b5bf7b5e_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210263-07-2_43f8c4f0-885c-411e-b560-63b674e63b20_1800x1800.jpg?v=1738804651",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210263-07-2_43f8c4f0-885c-411e-b560-63b674e63b20_1800x1800.jpg?v=1738804651",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210263-07-3_3f78f4a8-1f5b-495d-a8fc-e2d6899c7664_1800x1800.jpg?v=1738804651",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210263-07-4_1b41385f-c451-4789-a51a-29ebbdb1e021_1800x1800.jpg?v=1738804651",
     ],
     inStock: true,
     isNew: true,
@@ -452,7 +452,7 @@ export const products: Product[] = [
   {
     id: 15,
     slug: "geto-jodhpur-boots",
-    name: { en: "Geto Jodhpur Boots", km: "Geto Jodhpur Boots" },
+    name: { en: "Novo Cyclone Sneakers", km: "Novo Cyclone Sneakers" },
     description: {
       en: "Premium leather Jodhpur boots.",
       km: "Jodhpur Boots ស្បែកពិត",
@@ -461,10 +461,11 @@ export const products: Product[] = [
     discount: 15,
     category: "classic-boots",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-2_fc87e24e-3e80-447e-acb5-e741b9130962_1800x1800.jpg?v=1755094575",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-3_64facb22-4f68-4290-80f2-169810fa9713_1800x1800.jpg?v=1755094575",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-5_ac359f11-b8da-4a10-9e37-69c460f427df_1800x1800.jpg?v=1755094576",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-1_949ee568-1356-406d-b329-871822233214_1800x1800.jpg?v=1755094575",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-2_55fba4ef-127b-42ca-91cf-2ea9f3f148b6_1800x1800.jpg?v=1745503545",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-1_dfc04245-64ed-4df9-8b02-051c2116558d_1800x1800.jpg?v=1745503545",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-3_b4b72028-5330-492d-88c8-a27a58f5a699_1800x1800.jpg?v=1745503545",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-5_3153f2ce-1441-4cfb-981a-44c99d4346ec_1800x1800.jpg?v=1745503546",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-6_b9c7aaca-18d2-41a2-a2cc-387af9260e14_1800x1800.jpg?v=1745503546"
     ],
     inStock: true,
     isNew: false,
@@ -477,8 +478,8 @@ export const products: Product[] = [
   },
   {
     id: 16,
-    slug: "suede-penny-loafers",
-    name: { en: "Suede Penny Loafers", km: "Penny Loafers Suede" },
+    slug: "leather-loafers",
+    name: { en: "Leather Loafers", km: "Leather Loafers" },
     description: {
       en: "Soft suede penny loafers.",
       km: "Loafers Suede ផាសុកភាព",
@@ -487,10 +488,11 @@ export const products: Product[] = [
     discount: 0,
     category: "loafers",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-2_fc87e24e-3e80-447e-acb5-e741b9130962_1800x1800.jpg?v=1755094575",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-3_64facb22-4f68-4290-80f2-169810fa9713_1800x1800.jpg?v=1755094575",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-5_ac359f11-b8da-4a10-9e37-69c460f427df_1800x1800.jpg?v=1755094576",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-1_949ee568-1356-406d-b329-871822233214_1800x1800.jpg?v=1755094575",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-2_1800x1800.jpg?v=1772629275",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-1_1800x1800.jpg?v=1772629274",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-3_1800x1800.jpg?v=1772629275",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-4_1800x1800.jpg?v=1772629274",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-5_1800x1800.jpg?v=1772629275"
     ],
     inStock: true,
     isNew: false,
@@ -503,8 +505,8 @@ export const products: Product[] = [
   },
   {
     id: 17,
-    slug: "geto-cap-toe-boots",
-    name: { en: "Geto Cap Toe Derby Boots", km: "Geto Cap Toe Boots" },
+    slug: "Cyclone-Sneakers",
+    name: { en: "Cyclone Sneakers", km: "ស្បែកជើងប៉ាតា" },
     description: {
       en: "Rugged cap toe derby boots.",
       km: "Boots Cap Toe ធន់ខ្លាំង",

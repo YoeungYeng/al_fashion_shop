@@ -18,15 +18,18 @@ export function ProductsPage() {
   const kh = lang === "km";
   const l = lang as "en" | "km";
 
-  // Reusable font helpers
   const headerFont = kh ? "font-header-kh" : "font-header-en";
   const bodyFont = kh ? "font-body-kh" : "font-body-en";
 
-  // Read both ?gender= and ?category= from URL
+  // Read URL params
   const genderFromUrl = searchParams.get("gender") as "men" | "women" | null;
   const categoryFromUrl = searchParams.get("category") || "";
+  const saleFromUrl = searchParams.get("sale") === "true";
 
+  // Sort — independent, never reset by Clear Filters
   const [sortKey, setSortKey] = useState<SortKey>("date");
+
+  // Filters — reset by Clear Filters
   const [maxPrice, setMaxPrice] = useState(maxPriceInData);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
@@ -37,8 +40,6 @@ export function ProductsPage() {
     setSelectedCategory(categoryFromUrl);
   }, [categoryFromUrl]);
 
-  // Which categories to show in the filter panel:
-  // If a gender is active from URL, only show that gender's categories
   const visibleCategories = useMemo(() => {
     if (!genderFromUrl) return categories;
     const menu = menus.find((m) => m.slug === genderFromUrl);
@@ -48,7 +49,12 @@ export function ProductsPage() {
   const filtered = useMemo(() => {
     let list = [...products];
 
-    // 1. Filter by gender
+    // 1. Sale — only products with a discount value > 0
+    if (saleFromUrl) {
+      list = list.filter((p) => p.discount && p.discount > 0);
+    }
+
+    // 2. Gender
     if (genderFromUrl) {
       const menu = menus.find((m) => m.slug === genderFromUrl);
       if (menu) {
@@ -57,12 +63,12 @@ export function ProductsPage() {
       }
     }
 
-    // 2. Filter by specific category slug
+    // 3. Category
     if (selectedCategory) {
       list = list.filter((p) => p.category === selectedCategory);
     }
 
-    // 3. Search query
+    // 4. Search query
     const q = committedQuery.toLowerCase().trim();
     if (q) {
       list = list.filter(
@@ -73,15 +79,15 @@ export function ProductsPage() {
       );
     }
 
-    // 4. Max price
+    // 5. Max price
     list = list.filter((p) => p.price <= maxPrice);
 
-    // 5. Size
+    // 6. Size
     if (selectedSize) {
       list = list.filter((p) => p.sizes?.includes(selectedSize));
     }
 
-    // 6. Sort
+    // 7. Sort
     return list.sort((a, b) => {
       switch (sortKey) {
         case "name":
@@ -97,6 +103,7 @@ export function ProductsPage() {
       }
     });
   }, [
+    saleFromUrl,
     genderFromUrl,
     selectedCategory,
     committedQuery,
@@ -108,8 +115,8 @@ export function ProductsPage() {
   const currentCategory = categories.find((c) => c.slug === selectedCategory);
   const currentMenu = menus.find((m) => m.slug === genderFromUrl);
 
+  // Resets filters only — sort preserved
   const clearAll = () => {
-    setSortKey("date");
     setMaxPrice(maxPriceInData);
     setSelectedSize("");
     setSelectedCategory(categoryFromUrl);
@@ -122,14 +129,18 @@ export function ProductsPage() {
     !!(selectedCategory && selectedCategory !== categoryFromUrl) ||
     !!committedQuery.trim();
 
-  // Page title: category > gender > all
-  const pageTitle = currentCategory
-    ? currentCategory.name[l]
-    : currentMenu
-      ? currentMenu.name[l]
-      : kh
-        ? "ផលិតផលទាំងអស់"
-        : "All Products";
+  // Page title: sale > category > gender > all
+  const pageTitle = saleFromUrl
+    ? kh
+      ? "បញ្ចុះតម្លៃ"
+      : "Sale"
+    : currentCategory
+      ? currentCategory.name[l]
+      : currentMenu
+        ? currentMenu.name[l]
+        : kh
+          ? "ផលិតផលទាំងអស់"
+          : "All Products";
 
   const bannerSrc =
     "https://pedroshoes.com.kh/cdn/shop/collections/plp-slotbanner-desktop_d01b3633-5724-4fa4-a8c6-f22141def307_2400x.jpg";
@@ -149,15 +160,24 @@ export function ProductsPage() {
           >
             {pageTitle}
           </h1>
+          
         </div>
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="max-w-[1600px] mx-auto px-4 md:px-8 py-10 bg-transparent">
-        {/* CATEGORY FILTER STRIP */}
+      <div className="max-w-[1600px] mx-auto px-4 md:px-8 py-10">
+        {/* CATEGORY STRIP — on sale page, only show categories with discounted items */}
         <div className="mb-8">
-          <div className="flex flex-wrap justify-center gap-8 md:gap-12 ">
-            {visibleCategories.map((cat) => (
+          <div className="flex flex-wrap justify-center gap-8 md:gap-12">
+            {(saleFromUrl
+              ? visibleCategories.filter((cat) =>
+                  products.some(
+                    (p) =>
+                      p.category === cat.slug && p.discount && p.discount > 0,
+                  ),
+                )
+              : visibleCategories
+            ).map((cat) => (
               <button
                 key={cat.slug}
                 onClick={() =>
@@ -165,19 +185,15 @@ export function ProductsPage() {
                     selectedCategory === cat.slug ? "" : cat.slug,
                   )
                 }
-                className="group flex flex-col items-center hover:cursor-pointer"
+                className="group flex flex-col items-center cursor-pointer"
               >
                 <div
                   className={`
-                    w-24 h-24 md:w-32 md:h-32
-                    flex items-center justify-center
-                    transition-all duration-300
-                    ${
-                      selectedCategory === cat.slug
-                        ? "scale-110"
-                        : "group-hover:scale-105"
-                    }
-                  `}
+            w-24 h-24 md:w-32 md:h-32
+            flex items-center justify-center
+            transition-all duration-300
+            ${selectedCategory === cat.slug ? "scale-110" : "group-hover:scale-105"}
+          `}
                 >
                   <img
                     src={cat.cover}
@@ -185,49 +201,44 @@ export function ProductsPage() {
                     className="max-w-full max-h-full object-contain"
                   />
                 </div>
-
                 <span
-                  className={`
-                    ${bodyFont} mt-3 text-sm md:text-lg font-medium
-                    ${selectedCategory === cat.slug ? "text-[#000000]" : "text-black"}
-                  `}
+                  className={`${bodyFont} mt-3 text-[14px] font-medium text-black`}
                 >
                   {cat.name[l]}
                 </span>
-
                 <div
-                  className={`
-                    mt-1 h-[2px] transition-all duration-300 
-                    ${selectedCategory === cat.slug ? "w-14 bg-[#000000]" : "w-0"}
-                  `}
+                  className={`mt-1 h-[2px] transition-all duration-300 ${
+                    selectedCategory === cat.slug ? "w-14 bg-black" : "w-0"
+                  }`}
                 />
               </button>
             ))}
           </div>
         </div>
 
-        {/* HEADER */}
+        {/* TOOLBAR */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 mb-8">
           <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={() => setShowFilters(true)}
-              className={`${bodyFont} relative px-5 py-2.5  border text-gray-700 transition-all`}
+              className={`${bodyFont} relative px-5 py-2.5 border font-normal text-gray-700 transition-all`}
             >
               {kh ? "តម្រង" : "Filters"}
               {hasActiveFilters && (
-                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 text-white text-[10px]  bg-[#f70505] flex items-center justify-center">
+                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 text-white text-[10px] bg-red-600 flex items-center justify-center rounded-full">
                   !
                 </span>
               )}
             </button>
 
+            {/* Sort — never reset by Clear Filters */}
             <select
               value={sortKey}
               onChange={(e) => setSortKey(e.target.value as SortKey)}
-              className={`${bodyFont} px-4 py-2.5 border text-sm focus:outline-none focus:ring-2 focus:ring-[#000000]/20`}
+              className={`${bodyFont} px-4 py-2.5 border text-sm focus:outline-none focus:ring-2 focus:ring-black/20`}
             >
               <option value="date">{kh ? "ថ្មីបំផុត" : "Newest"}</option>
-              <option value="name">{kh ? "ឈ្មោះ A-Z" : "Name A-Z"}</option>
+              <option value="name">{kh ? "ឈ្មោះ A-Z" : "Name A–Z"}</option>
               <option value="price_asc">
                 {kh ? "តម្លៃទាប → ខ្ពស់" : "Price Low → High"}
               </option>
@@ -235,21 +246,11 @@ export function ProductsPage() {
                 {kh ? "តម្លៃខ្ពស់ → ទាប" : "Price High → Low"}
               </option>
             </select>
+          </div>
 
-            {/* {hasActiveFilters && (
-              <button
-                onClick={clearAll}
-                className={`${bodyFont} text-black hover:text-black/60 text-sm font-medium`}
-              >
-                {kh ? "លុបតម្រង" : "Clear Filters"}
-              </button>
-            )} */}
-          </div>
-          <div>
-            <p className={`${bodyFont} font-bold mt-1 font-xl `}>
-              {filtered.length} {kh ? "ផលិតផល" : "All Products"}
-            </p>
-          </div>
+          <p className={`${bodyFont} text-[14px] text-gray-500`}>
+            {filtered.length} {kh ? "ផលិតផល" : "products"}
+          </p>
         </div>
 
         {/* ACTIVE FILTER CHIPS */}
@@ -257,7 +258,7 @@ export function ProductsPage() {
           <div className="flex flex-wrap gap-2 mb-6">
             {selectedCategory && selectedCategory !== categoryFromUrl && (
               <span
-                className={`${bodyFont} flex items-center gap-1.5 px-3 py-1 bg-[#9B1C1C]/10 text-black text-sm`}
+                className={`${bodyFont} flex items-center gap-1.5 px-3 py-1 bg-black/5 text-black text-sm`}
               >
                 {categories.find((c) => c.slug === selectedCategory)?.name[l]}
                 <button onClick={() => setSelectedCategory(categoryFromUrl)}>
@@ -265,27 +266,44 @@ export function ProductsPage() {
                 </button>
               </span>
             )}
-            
+            {selectedSize && (
+              <span
+                className={`${bodyFont} flex items-center gap-1.5 px-3 py-1 bg-black/5 text-black text-sm`}
+              >
+                {kh ? "ទំហំ" : "Size"} {selectedSize}
+                <button onClick={() => setSelectedSize("")}>
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+            {maxPrice !== maxPriceInData && (
+              <span
+                className={`${bodyFont} flex items-center gap-1.5 px-3 py-1 bg-black/5 text-black text-sm`}
+              >
+                {kh ? "តម្លៃ ≤" : "Price ≤"} ${maxPrice}
+                <button onClick={() => setMaxPrice(maxPriceInData)}>
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
           </div>
         )}
 
-        {/* SEARCH RESULTS INDICATOR */}
+        {/* SEARCH INDICATOR */}
         {committedQuery.trim() && (
-          <div className="mb-6 p-4  bg-black/5 flex items-center justify-between gap-4">
+          <div className="mb-6 p-4 bg-black/5 flex items-center justify-between gap-4">
             <div className="flex items-center gap-2 flex-wrap">
               <span className={`${bodyFont} text-sm text-gray-500`}>
                 {kh ? "ស្វែងរក:" : "Search:"}
               </span>
-              <span
-                className={`${bodyFont} text-sm font-semibold text-[#1C1917]`}
-              >
+              <span className={`${bodyFont} text-sm text-[#1C1917]`}>
                 "{committedQuery}"
               </span>
               <span
-                className={`${bodyFont} text-sm font-medium px-2 py-0.5  ${
+                className={`${bodyFont} text-sm px-2 py-0.5 ${
                   filtered.length > 0
                     ? "bg-green-100 text-green-700"
-                    : " text-black"
+                    : "text-black"
                 }`}
               >
                 {filtered.length > 0
@@ -297,7 +315,7 @@ export function ProductsPage() {
             </div>
             <button
               onClick={clearQuery}
-              className={`${bodyFont} flex items-center gap-1 text-sm text-gray-500 hover:black transition shrink-0`}
+              className={`${bodyFont} flex items-center gap-1 text-sm text-gray-500 hover:text-black transition shrink-0`}
             >
               <X className="w-3.5 h-3.5" />
               {kh ? "លុប" : "Clear"}
@@ -320,6 +338,13 @@ export function ProductsPage() {
             >
               {kh ? "រកមិនឃើញផលិតផល" : "No products found"}
             </h3>
+            {saleFromUrl && (
+              <p className={`${bodyFont} text-sm text-gray-400 mt-2`}>
+                {kh
+                  ? "មិនមានផលិតផលបញ្ចុះតម្លៃនៅពេលនេះទេ"
+                  : "No discounted products at the moment"}
+              </p>
+            )}
           </div>
         )}
       </div>
@@ -331,55 +356,57 @@ export function ProductsPage() {
           onClick={() => setShowFilters(false)}
         >
           <div
-            className="bg-white w-full sm:max-w-md  p-6 md:p-8 shadow-xl max-h-[90vh] overflow-y-auto"
+            className="bg-white w-full sm:max-w-md p-6 md:p-8 shadow-xl max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* MODAL HEADER */}
+            {/* HEADER */}
             <div className="flex items-center justify-between mb-6">
               <h3 className={`${headerFont} text-lg font-bold text-[#1C1917]`}>
                 {kh ? "តម្រង" : "Filters"}
               </h3>
               <button
                 onClick={() => setShowFilters(false)}
-                className="w-8 h-8 flex items-center justify-center  hover:bg-gray-100 transition"
+                className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition"
               >
                 <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
 
-            {/* CATEGORY */}
-            <div className="mb-6">
-              <h4 className={`${headerFont} font-semibold text-gray-800 mb-3`}>
-                {kh ? "ប្រភេទ" : "Category"}
-              </h4>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => setSelectedCategory("")}
-                  className={`${bodyFont} px-4 py-2  border text-sm transition-all
-                    ${
-                      selectedCategory === ""
-                        ? "bg-[#000000] text-white border-[#000000]"
-                        : "bg-white hover:border-[#000000]"
-                    }`}
+            {/* CATEGORY — hidden on sale page */}
+            {!saleFromUrl && (
+              <div className="mb-6">
+                <h4
+                  className={`${headerFont} font-semibold text-gray-800 mb-3`}
                 >
-                  {kh ? "ទាំងអស់" : "All"}
-                </button>
-                {visibleCategories.map((cat) => (
+                  {kh ? "ប្រភេទ" : "Category"}
+                </h4>
+                <div className="flex flex-wrap gap-2">
                   <button
-                    key={cat.slug}
-                    onClick={() => setSelectedCategory(cat.slug)}
-                    className={`${bodyFont} px-4 py-2  border text-sm transition-all
-                      ${
-                        selectedCategory === cat.slug
-                          ? "bg-[#000000] text-white border-[#000000]"
-                          : "bg-white hover:border-[#000000]"
-                      }`}
+                    onClick={() => setSelectedCategory("")}
+                    className={`${bodyFont} px-4 py-2 border text-sm transition-all ${
+                      selectedCategory === ""
+                        ? "bg-black text-white border-black"
+                        : "bg-white hover:border-black"
+                    }`}
                   >
-                    {cat.name[l]}
+                    {kh ? "ទាំងអស់" : "All"}
                   </button>
-                ))}
+                  {visibleCategories.map((cat) => (
+                    <button
+                      key={cat.slug}
+                      onClick={() => setSelectedCategory(cat.slug)}
+                      className={`${bodyFont} px-4 py-2 border text-sm transition-all ${
+                        selectedCategory === cat.slug
+                          ? "bg-black text-white border-black"
+                          : "bg-white hover:border-black"
+                      }`}
+                    >
+                      {cat.name[l]}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* PRICE */}
             <div className="mb-6">
@@ -387,9 +414,7 @@ export function ProductsPage() {
                 <h4 className={`${headerFont} font-semibold text-gray-800`}>
                   {kh ? "តម្លៃអតិបរមា" : "Max Price"}
                 </h4>
-                <span
-                  className={`${bodyFont} text-sm font-medium text-[#000000]`}
-                >
+                <span className={`${bodyFont} text-sm font-medium text-black`}>
                   ${maxPrice}
                 </span>
               </div>
@@ -399,7 +424,7 @@ export function ProductsPage() {
                 max={maxPriceInData}
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(Number(e.target.value))}
-                className="w-full accent-[#000000]"
+                className="w-full accent-black"
               />
               <div
                 className={`${bodyFont} flex justify-between text-xs text-gray-400 mt-1`}
@@ -421,12 +446,11 @@ export function ProductsPage() {
                     onClick={() =>
                       setSelectedSize(selectedSize === size ? "" : size)
                     }
-                    className={`${bodyFont} px-4 py-2 border text-sm transition-all
-                      ${
-                        selectedSize === size
-                          ? "bg-black text-white border-[#4e4e4e]"
-                          : "bg-white hover:border-[#4e4e4e]"
-                      }`}
+                    className={`${bodyFont} px-4 py-2 border text-sm transition-all ${
+                      selectedSize === size
+                        ? "bg-black text-white border-black"
+                        : "bg-white hover:border-black"
+                    }`}
                   >
                     {size}
                   </button>
@@ -441,15 +465,15 @@ export function ProductsPage() {
                   clearAll();
                   setShowFilters(false);
                 }}
-                className={`${bodyFont} flex-1 py-2.5  border border-gray-200 text-gray-600 hover:border-gray-300 text-sm font-medium transition`}
+                className={`${bodyFont} flex-1 py-2.5 border border-gray-200 text-gray-600 hover:border-gray-300 text-sm font-medium transition`}
               >
-                {kh ? "លុបទាំងអស់" : "Clear All"}
+                {kh ? "លុបតម្រង" : "Clear Filters"}
               </button>
               <button
                 onClick={() => setShowFilters(false)}
-                className={`${bodyFont} flex-1 py-2.5  bg-black text-white text-sm font-medium hover:opacity-90 transition`}
+                className={`${bodyFont} flex-1 py-2.5 bg-black text-white text-sm font-medium hover:opacity-90 transition`}
               >
-                {kh ? "អនុវត្ត" : "Apply Filters"}
+                {kh ? "អនុវត្ត" : "Apply"}
               </button>
             </div>
           </div>

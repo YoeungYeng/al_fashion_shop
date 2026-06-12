@@ -1,8 +1,5 @@
-import { useLang, Lang } from "../context/LanguageContext";
-import { Product } from "../data/products";
-import { Link } from "react-router";
-import { ProductActions } from "./ProductActions";
 import { CompactProductCard } from "./CompactProductCard";
+import { Product } from "../data/products";
 
 interface PromotionCardProps {
   product: Product;
@@ -10,22 +7,13 @@ interface PromotionCardProps {
 }
 
 export function PromotionCard({ product, onLinkClick }: PromotionCardProps) {
-  const { lang, t } = useLang();
-  const kh = lang === "km";
-
-  const discountedPrice =
-    product.discount > 0
-      ? product.price * (1 - product.discount / 100)
-      : product.price;
-
   return (
-    <>
-      <CompactProductCard
-        product={product}
-        // className="w-full"
-        imageAspect="aspect-square"
-         onLinkClick={onLinkClick}
-      />
-    </>
+    <CompactProductCard
+      product={product}
+      showCarousel={false}
+      className="w-[160px] sm:w-[200px] md:w-[220px] shrink-0 border-0 shadow-none"
+      imageAspect="aspect-square"
+      onLinkClick={onLinkClick}
+    />
   );
 }

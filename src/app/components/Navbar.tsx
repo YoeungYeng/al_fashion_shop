@@ -48,7 +48,7 @@ export function Navbar() {
   };
 
   const logoClass = kh ? "font-header-kh text-base lg:text-lg font-medium" : "font-header-en text-sm lg:text-base font-medium tracking-[0.08em]";
-  const navLinkClass = kh ? "font-body-kh text-[14px] lg:text-[14px] font-bold" : "font-body-en text-[14px] lg:text-[14px] font-medium tracking-[0.1em]";
+  const navLinkClass = kh ? "font-body-kh text-[14px] lg:text-[14px] " : "font-body-en text-[14px] lg:text-[14px] font-medium tracking-[0.1em]";
   const mobileNavClass = kh ? "font-header-kh text-base font-semibold" : "font-header-en text-sm font-bold tracking-[0.08em] uppercase";
   const searchClass = kh ? "font-body-kh text-sm" : "font-body-en text-sm";
   const langClass = kh ? "font-body-kh text-sm" : "font-header-en text-[11px] font-bold tracking-[0.1em]";

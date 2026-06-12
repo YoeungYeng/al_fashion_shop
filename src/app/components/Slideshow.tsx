@@ -4,57 +4,57 @@ import { useNavigate } from "react-router";
 import { useLang } from "../context/LanguageContext";
 
 const slides = [
-  {
-    id: 1,
-    image:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2000&auto=format&fit=crop",
-    title: {
-      en: "Sneaker Collection",
-      km: "បណ្តុំស្បែកជើងកីឡា",
-    },
-    subtitle: {
-      en: "Modern style and everyday comfort",
-      km: "ម៉ូដទាន់សម័យ និងផាសុកភាពប្រចាំថ្ងៃ",
-    },
-    cta: {
-      en: "Shop Sneakers",
-      km: "ទិញស្បែកជើងកីឡា",
-    },
-    link: "/products",
-  },
+  // {
+  //   id: 1,
+  //   image:
+  //     "https://images.pexels.com/photos/267301/pexels-photo-267301.jpeg?auto=compress&cs=tinysrgb&w=2000",
+  //   title: {
+  //     en: "Classic Derby Shoes",
+  //     km: "ស្បែកជើង Derby បុរាណ",
+  //   },
+  //   subtitle: {
+  //     en: "Premium leather craftsmanship for modern gentlemen",
+  //     km: "ស្បែកជើងស្បែកគុណភាពខ្ពស់សម្រាប់បុរសទំនើប",
+  //   },
+  //   cta: {
+  //     en: "Shop Derby",
+  //     km: "ទិញ Derby",
+  //   },
+  //   link: "/products",
+  // },
   {
     id: 2,
     image:
-      "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?q=80&w=2000&auto=format&fit=crop",
+      "https://static.vecteezy.com/system/resources/thumbnails/072/118/414/small/black-leather-men-s-loafers-for-professional-business-style-photo.jpg",
     title: {
-      en: "Premium Loafers",
-      km: "ស្បែកជើង Loafers ប្រណិត",
+      en: "Elegant Oxford Collection",
+      km: "បណ្តុំស្បែកជើង Oxford",
     },
     subtitle: {
-      en: "Elegant leather loafers for every occasion",
-      km: "ស្បែកជើង Loafers ស្បែកសម្រាប់គ្រប់ឱកាស",
+      en: "Timeless style for business and formal occasions",
+      km: "សម្រាប់ការងារ និងពិធីការផ្លូវការ",
     },
     cta: {
-      en: "Explore Loafers",
-      km: "មើល Loafers",
+      en: "Explore Oxford",
+      km: "មើល Oxford",
     },
     link: "/products",
   },
   {
     id: 3,
     image:
-      "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=2000&auto=format&fit=crop",
+      "https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=2000",
     title: {
-      en: "Leather Boots",
-      km: "ស្បែកជើងកវែងស្បែក",
+      en: "Premium Leather Loafers",
+      km: "ស្បែកជើង Loafers ប្រណិត",
     },
     subtitle: {
-      en: "Built for durability, comfort and style",
-      km: "រឹងមាំ ផាសុកភាព និងទាន់សម័យ",
+      en: "Comfort, elegance and style in every step",
+      km: "ផាសុកភាព ភាពប្រណិត និងម៉ូដគ្រប់ជំហាន",
     },
     cta: {
-      en: "Shop Boots",
-      km: "ទិញស្បែកជើងកវែង",
+      en: "Shop Loafers",
+      km: "ទិញ Loafers",
     },
     link: "/products",
   },

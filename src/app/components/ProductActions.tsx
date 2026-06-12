@@ -57,17 +57,17 @@ ${allImages}
       .join("\n\n");
 
     const message = `
-🛒 NEW SHOE ORDER
+    🛒 NEW SHOE ORDER
 
-Name: ${product.name[lang as Lang]}
-Price: $${discountedPrice.toFixed(2)}
-Category: ${product.category}
-Discount: ${discountRate}%
-Stock: ${product.inStock ? "✅ In Stock" : "❌ Out of Stock"}
+    Name: ${product.name[lang as Lang]}
+    Price: $${discountedPrice.toFixed(2)}
+    Category: ${product.category}
+    Discount: ${discountRate}%
+    Stock: ${product.inStock ? "✅ In Stock" : "❌ Out of Stock"}
 
-📸 Images:
-${allImages}
-`.trim();
+    📸 Images:
+    ${allImages}
+    `.trim();
 
     window.open(
       `https://m.me/smallTeam760?text=${encodeURIComponent(message)}`,
@@ -75,25 +75,25 @@ ${allImages}
     );
   };
 
-  const handleShareViaUrl = () => {
-    const productUrl = `${window.location.origin}/products/${product.id}`;
+const handleShareViaUrl = () => {
+  const productUrl = `${window.location.origin}/products/${product.id}?preview=false`;
 
-    const shareText = `
+  const shareText = `
 ${product.name[lang as Lang]}
 💰 $${discountedPrice.toFixed(2)}
 ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
+
+🛍 View product
 `.trim();
 
-    window.open(
-      `https://t.me/share/url?url=${encodeURIComponent(
-        productUrl
-      )}&text=${encodeURIComponent(shareText)}`,
-      "_blank"
-    );
-  };
+  window.open(
+    `https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(shareText)}`,
+    "_blank"
+  );
+};
 
   const buttonClass =
-    "w-full h-10 text-[12px] sm:text-[12px] md:text-[12px] rounded flex items-center hover:cursor-pointer justify-center gap-2 text-[12px] text-white transition-all duration-200 active:scale-95";
+    "w-full h-8 text-[12px] sm:text-[12px] md:text-[12px] rounded flex items-center hover:cursor-pointer justify-center gap-2 text-[12px] text-white transition-all duration-200 active:scale-95";
 
   return (
     <div
@@ -105,7 +105,7 @@ ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
     >
       {/* Telegram */}
       <button
-        onClick={handleTelegramOrder}
+        onClick={handleShareViaUrl}
         className={`${buttonClass} bg-[#229ED9] hover:bg-[#1A8AC4] rounded`}
       >
         <Send className="w-4 h-4 md:w-4 md:-h-4 sm:w-3 sm:-3 shrink-0" />
@@ -122,7 +122,7 @@ ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
       </button>
 
       {/* Share */}
-      {showShareUrl && (
+      {/* {showShareUrl && (
         <button
           onClick={handleShareViaUrl}
           className={`${buttonClass} bg-gray-700 hover:bg-gray-800`}
@@ -130,7 +130,7 @@ ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
           <Share2 className="w-5 h-5 shrink-0" />
           <span>{kh ? "ចែករំលែក" : "Share"}</span>
         </button>
-      )}
+      )} */}
     </div>
   );
 }

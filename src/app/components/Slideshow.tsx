@@ -32,7 +32,10 @@ const slides = [
     id: 3,
     image:
       "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-46380091-29-2_e0c8f614-60bc-49be-bac2-1dd4bc381d79_1800x1800.jpg?v=1749086562",
-    title: { en: "Casual & Lifestyle Collection", km: "ស្បែកជើងប្រចាំថ្ងៃ និងម៉ូដ" },
+    title: {
+      en: "Casual & Lifestyle Collection",
+      km: "ស្បែកជើងប្រចាំថ្ងៃ និងម៉ូដ",
+    },
     subtitle: {
       en: "Perfect shoes for work, travel, and everyday wear",
       km: "សាកសមសម្រាប់ការងារ ដំណើរកម្សាន្ត និងប្រើប្រាស់ប្រចាំថ្ងៃ",
@@ -67,7 +70,6 @@ export function Slideshow() {
 
   return (
     <div className="relative w-full h-[480px] sm:h-[480px] lg:h-[900px] overflow-hidden bg-black">
-
       {/* IMAGE */}
       <img
         key={slide.id}
@@ -78,73 +80,16 @@ export function Slideshow() {
         }`}
       />
 
-      {/* OVERLAY */}
-      {/* <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" /> */}
-
-      {/* CONTENT */}
+  
       <div
         className={`absolute inset-0 flex items-center transition-all duration-500 ${
           animating ? "opacity-0 translate-x-4" : "opacity-100 translate-x-0"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full">
-          <div className="max-w-xl">
-
-            {/* Accent line */}
-            {/* <div className="w-10 sm:w-14 h-[3px] bg-primary mb-4 sm:mb-5 rounded-full" /> */}
-
-            {/* TITLE */}
-            {/* <h1
-              className={`text-white mb-3 sm:mb-4 leading-tight font-semibold
-                ${kh
-                  ? "font-header-kh text-2xl sm:text-3xl lg:text-4xl"
-                  : "font-header-en text-3xl sm:text-4xl lg:text-5xl xl:text-6xl"
-                }`}
-            >
-              {slide.title[lang]}
-            </h1> */}
-
-            {/* SUBTITLE */}
-            {/* <p
-              className={`text-white/80 mb-6 sm:mb-8 font-normal
-                ${kh
-                  ? "font-body-kh text-sm sm:text-base"
-                  : "font-body-en text-sm sm:text-base lg:text-lg"
-                }`}
-            >
-              {slide.subtitle[lang]}
-            </p> */}
-
-            {/* CTA BUTTON */}
-            {/* <button
-              onClick={() => navigate(slide.link)}
-              className={`inline-flex items-center gap-2 px-5 sm:px-7 py-2.5 sm:py-3.5 rounded-lg font-semibold transition-all hover:scale-105 shadow-lg
-                bg-primary text-primary-foreground hover:bg-primary/90 text-sm sm:text-base
-                ${kh ? "font-header-kh" : "font-header-en"}`}
-            >
-              {slide.cta[lang]}
-            </button> */}
-
-          </div>
+          <div className="max-w-xl"></div>
         </div>
       </div>
-
-      {/* PREV */}
-      {/* <button
-        onClick={() => go(current - 1)}
-        className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-black/40 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition"
-      >
-        <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-      </button> */}
-
-      {/* NEXT */}
-      {/* <button
-        onClick={() => go(current + 1)}
-        className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-black/40 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition"
-      >
-        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
-      </button> */}
 
       {/* DOTS */}
       <div className="absolute bottom-4 sm:bottom-5 left-1/2 -translate-x-1/2 flex gap-2">
@@ -153,12 +98,13 @@ export function Slideshow() {
             key={i}
             onClick={() => go(i)}
             className={`h-2 rounded-full transition-all ${
-              i === current ? "w-6 sm:w-7 bg-primary" : "w-2 bg-white/50 hover:bg-white/80"
+              i === current
+                ? "w-6 sm:w-7 bg-primary"
+                : "w-2 bg-white/50 hover:bg-white/80"
             }`}
           />
         ))}
       </div>
-
     </div>
   );
 }

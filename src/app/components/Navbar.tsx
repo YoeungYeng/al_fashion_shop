@@ -55,8 +55,8 @@ export function Navbar() {
     : "font-header-en text-sm lg:text-base font-medium tracking-[0.08em]";
 
   const navLinkClass = kh
-    ? "font-body-kh text-[14px] lg:text-[14px] font-medium"
-    : "font-body-en text-[14px] lg:text-[14px] font-medium tracking-[0.1em]";
+    ? "font-body-kh text-[14px] lg:text-[14px] font-bold"
+    : "font-body-en text-[14px] lg:text-[14px] font-bold tracking-[0.1em]";
 
   const mobileNavClass = kh
     ? "font-header-kh text-base font-semibold"
@@ -70,7 +70,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 w-full z-[999] bg-white border-b border-black/10  p-2">
+      <header className="fixed top-0 w-full z-[999] bg-white border-b border-black/10  p-2 ">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <div className="flex items-center h-14">
 
@@ -87,14 +87,14 @@ export function Navbar() {
             </NavLink>
 
             {/* ── DESKTOP NAV ──────────────────────────────────────── */}
-            <nav className="hidden lg:flex items-center ml-10">
+            <nav className="hidden lg:flex items-center ml-10 hover:cursor-pointer">
               {categories.map((category) => {
                 const active = activeCategory === category.slug;
                 return (
                   <button
                     key={category.slug}
                     onClick={() => handleCategoryClick(category.slug)}
-                    className={`relative px-5 h-14 transition font-medium ${
+                    className={`relative px-5 h-14 transition font-medium hover:cursor-pointer ${
                       active
                         ? "text-black"
                         : "text-black/70 hover:text-black"
@@ -113,7 +113,7 @@ export function Navbar() {
               {/* SALE */}
               <button
                 onClick={handleSaleClick}
-                className={`relative px-5 h-14 transition font-medium ${
+                className={`relative px-5 h-14 transition font-medium hover:cursor-pointer ${
                   activeSale
                     ? "text-red-600"
                     : "text-red-500/80 hover:text-red-600"
@@ -162,7 +162,7 @@ export function Navbar() {
               {/* LANGUAGE TOGGLE */}
               <button
                 onClick={() => setLang(lang === "en" ? "km" : "en")}
-                className="inline-flex items-center gap-1.5 rounded-full bg-black/5 hover:bg-black/10 px-3 py-1.5 transition"
+                className="inline-flex items-center gap-1.5 rounded-full hover:cursor-pointer bg-black/5 hover:bg-black/10 px-3 py-1.5 transition"
               >
                 <span
                   className={lang === "en" ? "fi fi-us" : "fi fi-kh"}

@@ -56,7 +56,7 @@ export const categories: Category[] = [
     name: { en: "Sneakers", km: "ស្បែកជើងកីឡា" },
     description: { en: "Premium leather boots", km: "ប៊ូតស្បែកគុណភាពខ្ពស់" },
     cover:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+      "https://png.pngtree.com/png-vector/20250422/ourmid/pngtree-white-sneakers-for-school-kids-png-image_15978669.png",
     icon: "🥾",
     gender: "men",
     banner:
@@ -70,7 +70,7 @@ export const categories: Category[] = [
       km: "ស្បែកជើងស្រួលពាក់",
     },
     cover:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+      "https://png.pngtree.com/png-vector/20250416/ourmid/pngtree-classic-brown-leather-loafers-for-men-stylish-everyday-wear-png-image_16005977.png",
     icon: "🥿",
     gender: "both",
     banner:

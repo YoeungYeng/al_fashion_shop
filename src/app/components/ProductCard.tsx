@@ -10,7 +10,7 @@ export function ProductCard({ product }: ProductCardProps) {
       product={product}
       showCarousel={true}           // Enable carousel
       imageAspect="aspect-square"   // Square for main ProductCard
-      className="w-full border-0 shadow-none"
+      className=" w-full border-0 shadow-none"
     />
   );
 }

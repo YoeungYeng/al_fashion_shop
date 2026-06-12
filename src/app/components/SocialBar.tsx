@@ -36,6 +36,7 @@ export function SocialBar({
             hover:opacity-90
             active:scale-95
             transition-all
+            rounded
             hover:cursor-pointer
           "
         >
@@ -50,6 +51,7 @@ export function SocialBar({
             flex items-center justify-center gap-2
             flex-1
             w-full
+            rounded
             h-10
             px-3 md:px-4 lg:px-5
             py-2 md:py-3

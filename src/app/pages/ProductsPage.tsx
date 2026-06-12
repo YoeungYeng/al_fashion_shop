@@ -146,6 +146,9 @@ export function ProductsPage() {
     "https://pedroshoes.com.kh/cdn/shop/collections/plp-slotbanner-desktop_d01b3633-5724-4fa4-a8c6-f22141def307_2400x.jpg";
 
   return (
+    <>
+
+
     <div className="min-h-screen">
       {/* HERO BANNER */}
       <div className="relative h-[200px] md:h-[320px] overflow-hidden">
@@ -480,5 +483,6 @@ export function ProductsPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

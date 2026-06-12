@@ -6,7 +6,7 @@ export function NewArrivalCard({ product }: NewArrivalCardProps) {
       product={product}
       showCarousel={true}
       imageAspect="aspect-square" // Square for main ProductCard
-      className="w-full border-0 shadow-none"
+      className="w-full border-0 shadow-none "
     />
   );
 }

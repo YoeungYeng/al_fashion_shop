@@ -11,7 +11,7 @@ export function PromotionCard({ product, onLinkClick }: PromotionCardProps) {
     <CompactProductCard
       product={product}
       showCarousel={false}
-      className="w-[160px] sm:w-[200px] md:w-[220px] shrink-0 border-0 shadow-none"
+      className="w-full border-0 shadow-none"
       imageAspect="aspect-square"
       onLinkClick={onLinkClick}
     />

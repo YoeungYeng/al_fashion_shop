@@ -10,13 +10,13 @@ interface CompactProductCardProps {
   className?: string;
   imageAspect?: string;
   showCarousel?: boolean;
-  onLinkClick?: (e: React.MouseEvent) => void; // ← added
+  onLinkClick?: (e: React.MouseEvent) => void;
 }
 
 export function CompactProductCard({
   product,
   className = "",
-  imageAspect = "aspect-[4/5]",
+  imageAspect = "aspect",
   showCarousel = false,
   onLinkClick,
 }: CompactProductCardProps) {
@@ -28,12 +28,8 @@ export function CompactProductCard({
   const images = product.images?.length ? product.images : [];
   const hasMultiple = images.length > 1 && showCarousel;
 
-  const discountRate = Math.max(
-    0,
-    Math.min(100, Number(product.discount) || 0),
-  );
-  const discountedPrice =
-    discountRate > 0 ? product.price * (1 - discountRate / 100) : product.price;
+  const discountRate = Math.max(0, Math.min(100, Number(product.discount) || 0));
+  const discountedPrice = discountRate > 0 ? product.price * (1 - discountRate / 100) : product.price;
 
   const prevImage = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -49,100 +45,73 @@ export function CompactProductCard({
     <div
       className={`
         group bg-transparent overflow-hidden flex flex-col
-        w-full
+        w-full h-full
         cursor-pointer transition-all duration-300 hover:-translate-y-1
         ${kh ? "font-body-kh" : "font-body-en"}
         ${className}
       `}
     >
-      {/* Product Image with Optional Carousel */}
-      <div
-        className={`relative w-full overflow-hidden bg-transparent ${imageAspect}`}
-      >
-        {/* ← onLinkClick passed here so drag blocks navigation */}
+      {/* Product Image */}
+      <div className={`relative w-full overflow-hidden bg-transparent ${imageAspect}`}>
         <Link to={`/products/${product.id}`} onClick={onLinkClick}>
           <img
             src={images[currentIndex] || "/placeholder.jpg"}
             alt={product.name[lang as Lang]}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "/placeholder.jpg";
-            }}
+            onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.jpg"; }}
           />
         </Link>
 
-        {/* Carousel Controls */}
         {hasMultiple && (
           <>
-            <button
-              onClick={prevImage}
-              className="absolute left-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-              aria-label="Previous image"
-            >
+            <button onClick={prevImage} className="absolute left-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
               <ChevronLeft className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 drop-shadow-md" />
             </button>
-
-            <button
-              onClick={nextImage}
-              className="absolute right-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-              aria-label="Next image"
-            >
+            <button onClick={nextImage} className="absolute right-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
               <ChevronRight className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 drop-shadow-md" />
             </button>
-
-            {/* Dots */}
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1 z-10">
               {images.map((_, i) => (
                 <button
                   key={i}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setCurrentIndex(i);
-                  }}
-                  className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all ${
-                    i === currentIndex ? "bg-white scale-125" : "bg-white/60"
-                  }`}
+                  onClick={(e) => { e.stopPropagation(); setCurrentIndex(i); }}
+                  className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all ${i === currentIndex ? "bg-white scale-125" : "bg-white/60"}`}
                 />
               ))}
             </div>
           </>
         )}
 
-        {/* Discount Badge */}
         {product.discount > 0 && (
           <div className="absolute top-3 left-3">
-            <div className="flex items-center justify-center w-12 h-7 sm:w-14 sm:h-6 bg-primary text-white shadow-lg">
-              <span className="text-xs sm:text-sm leading-none">
-                {product.discount}%
-              </span>
+            <div className="flex items-center rounded justify-center w-12 h-7 sm:w-14 sm:h-6 bg-primary text-white shadow-lg">
+              <span className="text-xs sm:text-[12px] leading-none">{product.discount}%</span>
             </div>
           </div>
         )}
 
-        {/* Out of Stock */}
         {!product.inStock && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <span
-              className={`${kh ? "font-body-kh" : "font-body-en"} px-4 py-2 rounded-lg bg-gray-900 text-white text-xs sm:text-sm font-semibold`}
-            >
+            <span className={`${kh ? "font-body-kh" : "font-body-en"} px-4 py-2 rounded-lg bg-gray-900 text-white text-xs sm:text-sm font-semibold`}>
               {t("product.outOfStock")}
             </span>
           </div>
         )}
       </div>
 
-      {/* Content */}
-      <div className="p-3 sm:p-4 flex items-center justify-center flex-col gap-1.5 sm:gap-2 w-full">
-        <h3 className="text-[#1C1917] font-normal text-[14px] sm:text-[14px] lg:text-[14px] leading-snug line-clamp-2 text-center">
-          {product.name[lang as Lang]}
-        </h3>
+      {/* Content Section */}
+      <div className="p-3 sm:p-4 flex flex-col items-center justify-center gap-2 w-full">
+        
+        {/* FIX 1: Title Wrapper with min-height to prevent cards from jumping */}
+        <div className="w-full text-center min-h-[40px] sm:min-h-[44px] flex items-center justify-center">
+          <h3 className="text-[#1C1917] font-normal text-[14px] leading-tight line-clamp-2 text-center">
+            {product.name[lang as Lang]}
+          </h3>
+        </div>
 
-        <div className="flex items-center gap-2  flex-wrap justify-center">
-          <span
-            className={`font-normal text-[14px] sm:text-[14px] ${
-              discountRate > 0 ? "text-primary" : "text-black"
-            }`}
-          >
+        {/* Price Section */}
+        <div className="flex items-center gap-2 justify-center">
+          <span className={`font-normal text-[14px] ${discountRate > 0 ? "text-primary" : "text-black"}`}>
             ${discountedPrice.toFixed(2)}
           </span>
           {discountRate > 0 && (
@@ -153,7 +122,8 @@ export function CompactProductCard({
         </div>
       </div>
 
-      <div className="p-2 w-full -mt-4">
+      {/* FIX 2: Removed -mt-4 and added proper padding for buttons */}
+      <div className="px-3 pb-4 w-full flex flex-col">
         <ProductActions product={product} />
       </div>
     </div>

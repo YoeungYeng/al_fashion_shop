@@ -1,10 +1,10 @@
 import { Link } from "react-router";
 import { Slideshow } from "../components/Slideshow";
-import { ProductCard } from "../components/ProductCard";
 import { useLang } from "../context/LanguageContext";
 import { products } from "../data/products";
-import { NewArrivalCard } from "../components/NewArrivalCard";
 import { PromotionPage } from "../components/PromotionPage";
+// Import the CompactProductCard instead of NewArrivalCard and ProductCard
+import { CompactProductCard } from "../components/CompactProductCard"; 
 
 function SectionHeader({
   title,
@@ -40,7 +40,7 @@ export function HomePage() {
       <Slideshow />
 
       <div className="max-w-[1600px] mx-auto px-4 md:px-8 py-10">
-        {/* FLASH SALE */}
+        {/* FLASH SALE (The Slider) */}
         <section className="w-full py-4 md:py-4 lg:py-4">
           <div className="mx-auto px-4 md:px-8 lg:px-12 mb-8">
             <SectionHeader
@@ -49,16 +49,13 @@ export function HomePage() {
               linkLabel={kh ? "មើលទាំងអស់" : "Shop More"}
             />
           </div>
-          <div className="-mt-16">
+          <div className="-mt-10">
              <PromotionPage />
           </div>
         </section>
 
-        {/* NEW ARRIVALS */}
-        <section
-          className="w-
-       py-4 md:py-4 lg:py-4 -mt-20"
-        >
+        {/* NEW ARRIVALS (Now using CompactProductCard) */}
+        <section className="w-full py-4 md:py-4 lg:py-4 -mt-20">
           <div className="mx-auto px-4 md:px-8 lg:px-12">
             <SectionHeader
               title={t("home.categories")}
@@ -70,13 +67,17 @@ export function HomePage() {
                 .filter((p) => p.isPopular)
                 .slice(0, 6)
                 .map((product) => (
-                  <NewArrivalCard key={product.id} product={product} />
+                  <CompactProductCard 
+                    key={product.id} 
+                    product={product} 
+                    imageAspect="aspect-square" // Makes it square like the promotion cards
+                  />
                 ))}
             </div>
           </div>
         </section>
 
-        {/* FEATURED PRODUCTS */}
+        {/* FEATURED PRODUCTS (Now using CompactProductCard) */}
         <section className="w-full py-2 md:py-2 lg:py-4">
           <div className="mx-auto px-4 md:px-8 lg:px-12">
             <SectionHeader
@@ -89,7 +90,11 @@ export function HomePage() {
                 .filter((p) => p.isPopular)
                 .slice(0, 10)
                 .map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <CompactProductCard 
+                    key={product.id} 
+                    product={product} 
+                    imageAspect="aspect-square" // Consistency across all sections
+                  />
                 ))}
             </div>
           </div>

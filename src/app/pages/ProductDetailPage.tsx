@@ -77,24 +77,18 @@ export function ProductDetailPage() {
   const displayProducts =
     related.length > 0 ? related : products.filter((p) => p.isPopular);
 
-  const handleTelegram = () => {
-    const allImages = images
-      .map((img) => `${img.split("/").pop()?.split("?")[0] || "image"}\n${img}`)
-      .join("\n\n");
+  const handleShareViaUrl = () => {
+    const productUrl = `${window.location.origin}/products/${product.id}?preview=false`;
 
-    const message =
-      `NEW SHOE ORDER\n` +
-      `-------------------\n` +
-      `Name: ${product.name[l]}\n` +
-      `Price: $${product.price}\n` +
-      `Size: ${selectedSize ?? "Not selected"}\n` +
-      `Category: ${product.category}\n` +
-      `Discount: ${product.discount}%\n` +
-      `Stock: ${product.inStock ? "In Stock" : "Out of Stock"}\n\n` +
-      `Images:\n${allImages}`;
+    const shareText = `
+${product.name[lang as Lang]}
+💰 $${discountedPrice.toFixed(2)}
+
+🛍 View product
+`.trim();
 
     window.open(
-      `https://t.me/yoeungyeng?text=${encodeURIComponent(message)}`,
+      `https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(shareText)}`,
       "_blank",
     );
   };
@@ -115,8 +109,7 @@ export function ProductDetailPage() {
       `Size: ${selectedSize ?? "Not selected"}\n` +
       `Category: ${product.category}\n` +
       `Discount: ${product.discount}%\n` +
-      `Stock: ${product.inStock ? "In Stock" : "Out of Stock"}\n\n` +
-      `Images:\n${allImages}`;
+      `Stock: ${product.inStock ? "In Stock" : "Out of Stock"}\n\n`
 
     window.open(
       `https://m.me/smallTeam760?text=${encodeURIComponent(message)}`,
@@ -264,7 +257,9 @@ export function ProductDetailPage() {
                 {product.name[lang as Lang]}
               </h1>
 
-              <p className={`${bodyFont} text-[14px] text-gray-600 leading-relaxed`}>
+              <p
+                className={`${bodyFont} text-[14px] text-gray-600 leading-relaxed`}
+              >
                 {product.description[lang as Lang]}
               </p>
 
@@ -320,7 +315,7 @@ export function ProductDetailPage() {
               )}
 
               <SocialBar
-                onTelegram={handleTelegram}
+                onTelegram={handleShareViaUrl}
                 onMessenger={handleMessenger}
               />
             </div>

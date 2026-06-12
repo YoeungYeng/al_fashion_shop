@@ -19,25 +19,23 @@ export function Navbar() {
 
   const kh = lang === "km";
 
-  // Read ?category= from URL
   const activeCategory = useMemo(() => {
     const params = new URLSearchParams(location.search);
     return params.get("category") || "";
   }, [location.search]);
 
-  // Read ?sale=true from URL
   const activeSale = useMemo(() => {
     const params = new URLSearchParams(location.search);
     return params.get("sale") === "true";
   }, [location.search]);
 
   const handleCategoryClick = (category: string) => {
-    navigate(`/products?category=${category}`);
-    setMobileOpen(false);
-  };
-
-  const handleSaleClick = () => {
-    navigate("/products?sale=true");
+    // If the category clicked is "sale", we use the sale logic
+    if (category === "sale") {
+      navigate("/products?sale=true");
+    } else {
+      navigate(`/products?category=${category}`);
+    }
     setMobileOpen(false);
   };
 
@@ -49,94 +47,53 @@ export function Navbar() {
     setMobileOpen(false);
   };
 
-  // ── Font utility classes ──────────────────────────────────────────
-  const logoClass = kh
-    ? "font-header-kh text-base lg:text-lg font-medium"
-    : "font-header-en text-sm lg:text-base font-medium tracking-[0.08em]";
-
-  const navLinkClass = kh
-    ? "font-body-kh text-[14px] lg:text-[14px] font-bold"
-    : "font-body-en text-[14px] lg:text-[14px] font-bold tracking-[0.1em]";
-
-  const mobileNavClass = kh
-    ? "font-header-kh text-base font-semibold"
-    : "font-header-en text-sm font-bold tracking-[0.08em] uppercase";
-
+  const logoClass = kh ? "font-header-kh text-base lg:text-lg font-medium" : "font-header-en text-sm lg:text-base font-medium tracking-[0.08em]";
+  const navLinkClass = kh ? "font-body-kh text-[14px] lg:text-[14px] font-bold" : "font-body-en text-[14px] lg:text-[14px] font-medium tracking-[0.1em]";
+  const mobileNavClass = kh ? "font-header-kh text-base font-semibold" : "font-header-en text-sm font-bold tracking-[0.08em] uppercase";
   const searchClass = kh ? "font-body-kh text-sm" : "font-body-en text-sm";
-
-  const langClass = kh
-    ? "font-body-kh text-sm"
-    : "font-header-en text-[11px] font-bold tracking-[0.1em]";
+  const langClass = kh ? "font-body-kh text-sm" : "font-header-en text-[11px] font-bold tracking-[0.1em]";
 
   return (
     <>
-      <header className="fixed top-0 w-full z-[999] bg-white border-b border-black/10  p-2 ">
+      <header className="fixed top-0 w-full z-[999] bg-white border-b border-black/10 ">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <div className="flex items-center h-14">
-
-            {/* ── LOGO ─────────────────────────────────────────────── */}
-            <NavLink to="/" className="flex items-center gap-2 shrink-0">
-              <img
-                src={logo}
-                alt="AL Fashion"
-                className="w-12 h-12 object-cover rounded-full"
-              />
-              <span className={logoClass}>
-                {kh ? "អេអិល ហ្វេសសិន" : "AL Fashion"}
-              </span>
+            <NavLink to="/" className="flex items-center gap-2 shrink-0 cursor-pointer">
+              <img src={logo} alt="AL Fashion" className="w-12 h-12 object-cover rounded-full" />
+              <span className={logoClass}>{kh ? "អេអិល ហ្វេសសិន" : "AL Fashion"}</span>
             </NavLink>
 
             {/* ── DESKTOP NAV ──────────────────────────────────────── */}
-            <nav className="hidden lg:flex items-center ml-10 hover:cursor-pointer">
+            <nav className="hidden lg:flex items-center ml-10">
               {categories.map((category) => {
-                const active = activeCategory === category.slug;
+                const isSaleItem = category.slug === "sale";
+                const active = isSaleItem ? activeSale : activeCategory === category.slug;
+                
                 return (
                   <button
                     key={category.slug}
                     onClick={() => handleCategoryClick(category.slug)}
-                    className={`relative px-5 h-14 transition font-medium hover:cursor-pointer ${
-                      active
-                        ? "text-black"
-                        : "text-black/70 hover:text-black"
+                    className={`relative px-5 h-14 transition font-medium cursor-pointer ${
+                      isSaleItem 
+                        ? (active ? "text-red-600" : "text-red-500/80 hover:text-red-600")
+                        : (active ? "text-black" : "text-black/70 hover:text-black")
                     }`}
                   >
                     <span className={navLinkClass}>
                       {kh ? category.name.km : category.name.en}
                     </span>
                     {active && (
-                      <span className="absolute bottom-0 left-4 right-4 h-[2px] bg-black " />
+                      <span className={`absolute ${isSaleItem ? "bg-red-600" : "bg-black"}`} />
                     )}
                   </button>
                 );
               })}
-
-              {/* SALE */}
-              <button
-                onClick={handleSaleClick}
-                className={`relative px-5 h-14 transition font-medium hover:cursor-pointer ${
-                  activeSale
-                    ? "text-red-600"
-                    : "text-red-500/80 hover:text-red-600"
-                }`}
-              >
-                <span className={navLinkClass}>
-                  {kh ? "បញ្ចុះតម្លៃ" : "Sale"}
-                </span>
-                {activeSale && (
-                  <span className="absolute bottom-0 left-4 right-4 h-[2px] bg-red-600 " />
-                )}
-              </button>
+            
             </nav>
 
-            {/* ── RIGHT SIDE ───────────────────────────────────────── */}
             <div className="flex items-center gap-2 ml-auto">
-
-              {/* DESKTOP INLINE SEARCH */}
-              <div className="hidden lg:flex items-center gap-2 border border-black/15 px-3 py-1.5 w-52 xl:w-64 hover:border-black/30 transition">
-                <Search
-                  className="w-4 h-4 text-gray-400 shrink-0 cursor-pointer"
-                  onClick={handleSearch}
-                />
+              <div className="hidden lg:flex items-center  rounded gap-2 border border-black/15 px-3 py-1.5 w-52 xl:w-64 hover:border-black/30 transition">
+                <Search className="w-4 h-4 text-gray-400 shrink-0 cursor-pointer" onClick={handleSearch} />
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -145,42 +102,22 @@ export function Navbar() {
                   className={`${searchClass} flex-1 outline-none bg-transparent min-w-0`}
                 />
                 {query && (
-                  <button onClick={clearQuery}>
+                  <button onClick={clearQuery} className="cursor-pointer">
                     <CloseIcon className="w-3.5 h-3.5 text-gray-400 hover:text-black transition" />
                   </button>
                 )}
               </div>
 
-              {/* MOBILE SEARCH ICON → modal */}
-              {/* <button
-                onClick={() => setSearchOpen(true)}
-                className="lg:hidden p-2 rounded-full hover:bg-black/5 transition"
-              >
-                <Search className="w-5 h-5" />
-              </button> */}
-
-              {/* LANGUAGE TOGGLE */}
               <button
                 onClick={() => setLang(lang === "en" ? "km" : "en")}
-                className="inline-flex items-center gap-1.5 rounded-full hover:cursor-pointer bg-black/5 hover:bg-black/10 px-3 py-1.5 transition"
+                className="inline-flex items-center gap-1.5 rounded cursor-pointer bg-black/5 hover:bg-black/10 px-3 py-1.5 transition"
               >
-                <span
-                  className={lang === "en" ? "fi fi-us" : "fi fi-kh"}
-                  style={{ width: 18, height: 13, borderRadius: 2 }}
-                />
+                <span className={lang === "en" ? "fi fi-us" : "fi fi-kh"} style={{ width: 18, height: 13, borderRadius: 2 }} />
                 <span className={langClass}>{kh ? "ខ្មែរ" : "EN"}</span>
               </button>
 
-              {/* MOBILE HAMBURGER */}
-              <button
-                className="lg:hidden p-2 rounded hover:bg-black/5"
-                onClick={() => setMobileOpen(!mobileOpen)}
-              >
-                {mobileOpen ? (
-                  <CloseIcon className="w-5 h-5" />
-                ) : (
-                  <Menu className="w-5 h-5" />
-                )}
+              <button className="lg:hidden p-2 rounded cursor-pointer hover:bg-black/5" onClick={() => setMobileOpen(!mobileOpen)}>
+                {mobileOpen ? <CloseIcon className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -189,13 +126,8 @@ export function Navbar() {
         {/* ── MOBILE MENU ──────────────────────────────────────────── */}
         {mobileOpen && (
           <div className="lg:hidden border-t border-black/10 bg-white px-4 py-4">
-
-            {/* MOBILE SEARCH */}
             <div className="flex items-center gap-2 border border-black/15 px-3 py-2 mb-4">
-              <Search
-                className="w-4 h-4 text-gray-500 cursor-pointer shrink-0"
-                onClick={handleSearch}
-              />
+              <Search className="w-4 h-4 text-gray-500 cursor-pointer shrink-0" onClick={handleSearch} />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -203,26 +135,21 @@ export function Navbar() {
                 className={`${searchClass} flex-1 outline-none bg-transparent min-w-0`}
                 onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               />
-              {query && (
-                <CloseIcon
-                  className="w-4 h-4 cursor-pointer text-gray-400 shrink-0"
-                  onClick={clearQuery}
-                />
-              )}
+              {query && <CloseIcon className="w-4 h-4 cursor-pointer text-gray-400 shrink-0" onClick={clearQuery} />}
             </div>
 
-            {/* MOBILE CATEGORY ITEMS */}
             <div className="space-y-1">
               {categories.map((category) => {
-                const active = activeCategory === category.slug;
+                const isSaleItem = category.slug === "sale";
+                const active = isSaleItem ? activeSale : activeCategory === category.slug;
                 return (
                   <button
                     key={category.slug}
                     onClick={() => handleCategoryClick(category.slug)}
-                    className={`w-full text-left px-4 py-3  transition ${
-                      active
-                        ? "bg-black/5 text-black"
-                        : "text-black/70 hover:bg-black/5 hover:text-black"
+                    className={`w-full text-left px-4 py-3 transition cursor-pointer ${
+                      isSaleItem 
+                        ? (active ? "bg-red-50 text-red-600" : "text-red-500/80 hover:bg-red-50 hover:text-red-600")
+                        : (active ? "bg-black/5 text-black" : "text-black/70 hover:bg-black/5 hover:text-black")
                     }`}
                   >
                     <span className={mobileNavClass}>
@@ -231,54 +158,11 @@ export function Navbar() {
                   </button>
                 );
               })}
-
-              {/* MOBILE SALE */}
-              <button
-                onClick={handleSaleClick}
-                className={`w-full text-left px-4 py-3  transition ${
-                  activeSale
-                    ? "bg-red-50 text-red-600"
-                    : "text-red-500/80 hover:bg-red-50 hover:text-red-600"
-                }`}
-              >
-                <span className={mobileNavClass}>
-                  {kh ? "បញ្ចុះតម្លៃ" : "SALE"}
-                </span>
-              </button>
+              {/* MOBILE STATIC SALE BUTTON REMOVED FROM HERE */}
             </div>
           </div>
         )}
       </header>
-
-      {/* ── MOBILE SEARCH MODAL ──────────────────────────────────────── */}
-      {searchOpen && (
-        <div className="fixed inset-0 z-[9999] bg-black/40 flex justify-center items-start pt-24 px-4">
-          <div className="bg-white w-full max-w-xl shadow-xl p-4">
-            <div className="flex items-center gap-3">
-              <Search
-                className="w-5 h-5 text-gray-500 cursor-pointer shrink-0"
-                onClick={handleSearch}
-              />
-              <input
-                autoFocus
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={kh ? "ស្វែងរកស្បែកជើង..." : "Search shoes..."}
-                className={`${searchClass} flex-1 outline-none`}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              />
-              {query && (
-                <button onClick={clearQuery}>
-                  <CloseIcon className="w-4 h-4 text-gray-400" />
-                </button>
-              )}
-              <button onClick={() => setSearchOpen(false)}>
-                <CloseIcon className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }

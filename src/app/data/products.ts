@@ -76,21 +76,18 @@ export const categories: Category[] = [
     banner:
       "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
   },
-  // ==================== NEW SALE CATEGORY ====================
-  // {
-  //   slug: "sale",
-  //   name: { en: "Sale", km: "លក់" },
-  //   description: {
-  //     en: "All products on discount",
-  //     km: "ផលិតផលទាំងអស់មានបញ្ចុះតម្លៃ",
-  //   },
-  //   cover:
-  //     "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-  //   icon: "🔥",
-  //   gender: "both", // Show in both menus
-  //   banner:
-  //     "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-  // },
+  {
+    slug: "sale",
+    name: { en: "Sale", km: "បញ្ចុះតម្លៃ" },
+    description: {
+      en: "All products on discount",
+      km: "ផលិតផលទាំងអស់មានបញ្ចុះតម្លៃ",
+    },
+    cover: "https://assets-v2.lottiefiles.com/a/a15003f8-183b-11ef-8cd5-27e24c4c46a2/Hv2qDN1G0m.gif", // Use a sale-themed image
+    icon: "🔥",
+    gender: "both", // Show in both Men and Women menus
+    banner: "/assets/sale-white-banner.jpg", // Use your clean white banner here
+  },
 ];
 
 /* ============================================================
@@ -638,9 +635,6 @@ export const menus: Menu[] = [buildMenu("men"), buildMenu("women")];
 export function getSaleProducts(): Product[] {
   return products.filter((p) => p.discount > 0);
 }
-
-
-
 
 // Update getCategoryBySlug to support sale
 export function getCategoryBySlug(slug: string): Category | undefined {

@@ -17,10 +17,10 @@ function SectionHeader({
 }) {
   return (
     <div className="flex items-center justify-between mb-6 gap-4">
-      <h2 className="text-[14px] font-medium text-[#1C1917]">{title}</h2>
+      <h2 className="text-[16px] font-medium text-[#1C1917]">{title}</h2>
       <Link
         to={linkTo}
-        className="flex items-center gap-2 text-[14px] font-medium text-black hover:text-black/60 transition-colors"
+        className="flex items-center gap-2 text-[16px] font-medium text-black hover:text-black/60 transition-colors"
       >
         {linkLabel}
       </Link>
@@ -44,18 +44,18 @@ export function HomePage() {
         <section className="w-full py-4 md:py-4 lg:py-4">
           <div className="mx-auto px-4 md:px-8 lg:px-12 mb-8">
             <SectionHeader
-              title={kh ? "បញ្ចុះតម្លៃពិសេស" : "Flash Sale"}
+              title={kh ? "បញ្ចុះតម្លៃពិសេស" : "Flash Sale🔥"}
               linkTo="/products?sale=true"
               linkLabel={kh ? "មើលទាំងអស់" : "Shop More"}
             />
           </div>
-          <div className="-mt-10">
+          <div className="-mt-6">
              <PromotionPage />
           </div>
         </section>
 
         {/* NEW ARRIVALS (Now using CompactProductCard) */}
-        <section className="w-full py-4 md:py-4 lg:py-4 -mt-20">
+        <section className="w-full py-4 md:py-4 lg:py-4 mt-4">
           <div className="mx-auto px-4 md:px-8 lg:px-12">
             <SectionHeader
               title={t("home.categories")}

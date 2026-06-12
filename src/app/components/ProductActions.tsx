@@ -18,13 +18,11 @@ export function ProductActions({
 
   const discountRate = Math.max(
     0,
-    Math.min(100, Number(product.discount) || 0)
+    Math.min(100, Number(product.discount) || 0),
   );
 
   const discountedPrice =
-    discountRate > 0
-      ? product.price * (1 - discountRate / 100)
-      : product.price;
+    discountRate > 0 ? product.price * (1 - discountRate / 100) : product.price;
 
   const handleTelegramOrder = () => {
     const allImages = images
@@ -47,7 +45,7 @@ ${allImages}
 
     window.open(
       `https://t.me/yoeungyeng?text=${encodeURIComponent(message)}`,
-      "_blank"
+      "_blank",
     );
   };
 
@@ -57,28 +55,25 @@ ${allImages}
       .join("\n\n");
 
     const message = `
-    🛒 NEW SHOE ORDER
+    NEW SHOE ORDER
 
     Name: ${product.name[lang as Lang]}
     Price: $${discountedPrice.toFixed(2)}
     Category: ${product.category}
     Discount: ${discountRate}%
-    Stock: ${product.inStock ? "✅ In Stock" : "❌ Out of Stock"}
-
-    📸 Images:
-    ${allImages}
+    Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
     `.trim();
 
     window.open(
       `https://m.me/smallTeam760?text=${encodeURIComponent(message)}`,
-      "_blank"
+      "_blank",
     );
   };
 
-const handleShareViaUrl = () => {
-  const productUrl = `${window.location.origin}/products/${product.id}?preview=false`;
+  const handleShareViaUrl = () => {
+    const productUrl = `${window.location.origin}/products/${product.id}?preview=false`;
 
-  const shareText = `
+    const shareText = `
 ${product.name[lang as Lang]}
 💰 $${discountedPrice.toFixed(2)}
 ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
@@ -86,11 +81,11 @@ ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
 🛍 View product
 `.trim();
 
-  window.open(
-    `https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(shareText)}`,
-    "_blank"
-  );
-};
+    window.open(
+      `https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(shareText)}`,
+      "_blank",
+    );
+  };
 
   const buttonClass =
     "w-full h-8 text-[12px] sm:text-[12px] md:text-[12px] rounded flex items-center hover:cursor-pointer justify-center gap-2 text-[12px] text-white transition-all duration-200 active:scale-95";

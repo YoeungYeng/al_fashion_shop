@@ -55,7 +55,7 @@ export function HomePage() {
         </section>
 
         {/* NEW ARRIVALS (Now using CompactProductCard) */}
-        <section className="w-full py-4 md:py-4 lg:py-4 mt-4">
+        <section className="w-full py-4 md:py-4 lg:py-4 -mt-4">
           <div className="mx-auto px-4 md:px-8 lg:px-12">
             <SectionHeader
               title={t("home.categories")}

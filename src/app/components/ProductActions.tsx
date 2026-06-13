@@ -25,22 +25,16 @@ export function ProductActions({
     discountRate > 0 ? product.price * (1 - discountRate / 100) : product.price;
 
   const handleTelegramOrder = () => {
-    const allImages = images
-      .map((img, idx) => `Image ${idx + 1}:\n${img}`)
-      .join("\n\n");
 
     const message = `
-🛒 NEW SHOE ORDER
+    🛒 NEW SHOE ORDER
 
-Name: ${product.name[lang as Lang]}
-Price: $${discountedPrice.toFixed(2)}
-${discountRate > 0 ? `Original Price: $${product.price.toFixed(2)}` : ""}
-Category: ${product.category}
-Discount: ${discountRate}%
-Stock: ${product.inStock ? "✅ In Stock" : "❌ Out of Stock"}
-
-📸 Images:
-${allImages}
+    Name: ${product.name[lang as Lang]}
+    Price: $${discountedPrice.toFixed(2)}
+    ${discountRate > 0 ? `Original Price: $${product.price.toFixed(2)}` : ""}
+    Category: ${product.category}
+    Discount: ${discountRate}%
+    Stock: ${product.inStock ? "✅ In Stock" : "❌ Out of Stock"}
 `.trim();
 
     window.open(
@@ -53,11 +47,11 @@ ${allImages}
     const productUrl = `${window.location.origin}/products/${product.slug}`;
 
     const message = `
-Hi! I'm interested in this product:
+    Hi! I'm interested in this product:
 
-👟 ${product.name[lang as Lang]}
-💰 $${discountedPrice.toFixed(2)}
-${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
+    👟 ${product.name[lang as Lang]}
+    💰 $${discountedPrice.toFixed(2)}
+    ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
 
 🛍 ${productUrl}
   `.trim();
@@ -69,24 +63,25 @@ ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
   };
 
   const handleShareViaUrl = () => {
+    const telegramUsername = "yoeungyeng"; // without @
+
     const productUrl = `${window.location.origin}/products/${product.slug}`;
 
-    const shareText = `
-    ${product.name[lang as Lang]}
-    💰 $${discountedPrice.toFixed(2)}
-    ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
+    const message = `
+🛍 ${product.name[lang as Lang]}
+💰 $${discountedPrice.toFixed(2)}
+${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
+🔗 ${productUrl}
+`.trim();
 
-    🛍 View product
-    `.trim();
+    // Open seller chat
+    window.open(`https://t.me/${telegramUsername}`, "_blank");
 
-    window.open(
-      `https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(shareText)}`,
-      "_blank",
-    );
+    // Optional: copy message to clipboard
+    navigator.clipboard.writeText(message);
   };
 
-  const buttonClass =
-    `w-full h-8 text-[12px] sm:text-[12px] md:text-[12px] rounded flex items-center hover:cursor-pointer justify-center gap-2 text-[12px] 
+  const buttonClass = `w-full h-8 text-[12px] sm:text-[12px] md:text-[12px] rounded flex items-center hover:cursor-pointer justify-center gap-2 text-[12px] 
     text-white transition-all duration-200 active:scale-95`;
 
   return (
@@ -99,7 +94,7 @@ ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
     >
       {/* Telegram */}
       <button
-        onClick={handleShareViaUrl}
+        onClick={handleTelegramOrder}
         className={`${buttonClass} bg-[#229ED9] hover:bg-[#1A8AC4] rounded`}
       >
         <Send className="w-3 h-3 md:w-3 md:-h-3 sm:w-3 sm:-3 shrink-0 text-[12px] sm:text-sm md:text-[12px]" />

@@ -78,17 +78,19 @@ export function ProductDetailPage() {
   const displayProducts =
     related.length > 0 ? related : products.filter((p) => p.isPopular);
 
-  const handleShareViaUrl = () => {
-    const productUrl = `${window.location.origin}/products/${product.slug}`;
+  const handleTelegramOrder = () => {
+    const message = `
+    🛒 NEW SHOE ORDER
 
-    const shareText =
-      `${product.name[lang as Lang]}\n` +
-      `💰 $${discountedPrice.toFixed(2)}\n` +
-      `${product.discount > 0 ? `🔥 ${product.discount}% OFF\n` : ""}` +
-      `\n🛍 View product`;
+    Name: ${product.name[lang as Lang]}
+    Price: $${discountedPrice.toFixed(2)}
+
+    Category: ${product.category}
+    Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
+`.trim();
 
     window.open(
-      `https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(shareText)}`,
+      `https://t.me/yoeungyeng?text=${encodeURIComponent(message)}`,
       "_blank",
     );
   };
@@ -312,7 +314,7 @@ export function ProductDetailPage() {
               )}
 
               <SocialBar
-                onTelegram={handleShareViaUrl}
+                onTelegram={handleTelegramOrder}
                 onMessenger={handleMessenger}
               />
             </div>

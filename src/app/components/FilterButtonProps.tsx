@@ -16,7 +16,7 @@ export function FilterButton({
   return (
     <button
       onClick={onClick}
-      className={`relative rounded px-5 py-2.5 border font-normal text-gray-700 transition-all flex items-center gap-2 ${className}`}
+      className={`relative rounded px-4 py-2.5 border font-normal transition-all flex items-center gap-2 ${className}`}
     >
       <ListFilterIcon size={18} />
 

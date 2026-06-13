@@ -183,7 +183,7 @@ export function ProductsPage() {
         </div>
 
         {/* MAIN CONTENT */}
-        <div className="max-w-[1600px] mx-auto px-4 md:px-8 py-10">
+        <div className="max-w-[1600px] mx-auto px-4 md:px-8 py-10 -mt-4">
 
           {/* CATEGORY STRIP — image + cover style, URL-driven */}
           <div className="mb-4 flex flex-wrap justify-center gap-8 md:gap-12">
@@ -241,7 +241,7 @@ export function ProductsPage() {
 
           {/* TOOLBAR */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 mb-4">
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-14">
               <FilterButton
                 onClick={() => setShowFilters(true)}
                 hasActiveFilters={hasActiveFilters}
@@ -252,7 +252,7 @@ export function ProductsPage() {
               <select
                 value={sortKey}
                 onChange={(e) => setSortKey(e.target.value as SortKey)}
-                className={`${bodyFont} px-4 py-2.5 w-32 rounded border text-sm focus:outline-none focus:ring-2 focus:ring-black/50`}
+                className={`${bodyFont}  py-2.5 font-normal  rounded border text-sm focus:outline-none focus:ring-2 focus:ring-black/50`}
               >
                 <option value="date">{kh ? "តម្រៀប" : "Sort"}</option>
                 <option value="date">{kh ? "ថ្មីបំផុត" : "Newest"}</option>
@@ -273,7 +273,7 @@ export function ProductsPage() {
 
           {/* SEARCH INDICATOR */}
           {committedQuery.trim() && (
-            <div className="mb-6 p-4 bg-black/5 flex items-center justify-between gap-4">
+            <div className="mb-4 p-4 bg-black/5 flex items-center justify-between gap-4">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className={`${bodyFont} text-sm text-gray-500`}>
                   {kh ? "ស្វែងរក:" : "Search:"}
@@ -389,7 +389,7 @@ export function ProductsPage() {
               )}
 
               {/* PRICE */}
-              <div className="mb-6">
+              <div className="mb-4">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className={`${headerFont} font-semibold text-gray-800`}>
                     {kh ? "តម្លៃអតិបរមា" : "Max Price"}
@@ -413,7 +413,7 @@ export function ProductsPage() {
               </div>
 
               {/* SIZE */}
-              <div className="mb-8">
+              <div className="mb-4">
                 <h4 className={`${headerFont} font-semibold text-gray-800 mb-3`}>
                   {kh ? "ទំហំស្បែកជើង" : "Shoe Size"}
                 </h4>

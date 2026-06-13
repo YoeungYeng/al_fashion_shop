@@ -53,7 +53,7 @@ export function CompactProductCard({
     >
       {/* Product Image */}
       <div className={`relative w-full overflow-hidden bg-transparent ${imageAspect}`}>
-        <Link to={`/products/${product.id}`} onClick={onLinkClick}>
+        <Link to={`/products/${product.slug}`} onClick={onLinkClick}>
           <img
             src={images[currentIndex] || "/placeholder.jpg"}
             alt={product.name[lang as Lang]}

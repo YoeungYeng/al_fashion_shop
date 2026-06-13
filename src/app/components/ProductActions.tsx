@@ -50,7 +50,7 @@ ${allImages}
   };
 
   const handleShareFacebook = () => {
-    const productUrl = `${window.location.origin}/products/${product.id}`;
+    const productUrl = `${window.location.origin}/products/${product.slug}`;
 
     const message = `
 Hi! I'm interested in this product:
@@ -69,15 +69,15 @@ ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
   };
 
   const handleShareViaUrl = () => {
-    const productUrl = `${window.location.origin}/products/${product.id}`;
+    const productUrl = `${window.location.origin}/products/${product.slug}`;
 
     const shareText = `
-${product.name[lang as Lang]}
-💰 $${discountedPrice.toFixed(2)}
-${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
+    ${product.name[lang as Lang]}
+    💰 $${discountedPrice.toFixed(2)}
+    ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
 
-🛍 View product
-`.trim();
+    🛍 View product
+    `.trim();
 
     window.open(
       `https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(shareText)}`,

@@ -17,7 +17,7 @@ export const router = createBrowserRouter([
       { path: 'category/:slug',   Component: CategoryPage },
       { path: 'contact',          Component: ContactPage },
       // product details page
-      { path: 'products/:id',      Component: ProductDetailPage },
+      { path: 'products/:slug',      Component: ProductDetailPage },
     ],
   },
 ]);

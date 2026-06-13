@@ -28,7 +28,8 @@ export function ProductDetailPage() {
   const genderFromUrl = searchParams.get("gender") as "men" | "women" | null;
 
   // Find product
-  const product = products.find((p) => p.id === Number(id));
+  const { slug } = useParams<{ slug: string }>();
+  const product = products.find((p) => p.slug === slug);
 
   // Derived values (safe after hooks, before early return)
   const currentMenu = menus.find((m) => m.slug === genderFromUrl);
@@ -78,7 +79,7 @@ export function ProductDetailPage() {
     related.length > 0 ? related : products.filter((p) => p.isPopular);
 
   const handleShareViaUrl = () => {
-    const productUrl = `${window.location.origin}/products/${product.id}`;
+    const productUrl = `${window.location.origin}/products/${product.slug}`;
 
     const shareText =
       `${product.name[lang as Lang]}\n` +
@@ -93,7 +94,7 @@ export function ProductDetailPage() {
   };
 
   const handleMessenger = () => {
-    const productUrl = `${window.location.origin}/products/${product.id}`;
+    const productUrl = `${window.location.origin}/products/${product.slug}`;
 
     const message =
       `NEW SHOE ORDER\n` +

@@ -80,12 +80,11 @@ export function ProductDetailPage() {
   const handleShareViaUrl = () => {
     const productUrl = `${window.location.origin}/products/${product.id}`;
 
-    const shareText = `
-${product.name[lang as Lang]}
-💰 $${discountedPrice.toFixed(2)}
-
-🛍 View product
-`.trim();
+    const shareText =
+      `${product.name[lang as Lang]}\n` +
+      `💰 $${discountedPrice.toFixed(2)}\n` +
+      `${product.discount > 0 ? `🔥 ${product.discount}% OFF\n` : ""}` +
+      `\n🛍 View product`;
 
     window.open(
       `https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(shareText)}`,

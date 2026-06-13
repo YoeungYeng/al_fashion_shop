@@ -50,7 +50,7 @@ ${allImages}
   };
 
   const handleShareFacebook = () => {
-    const productUrl = `${window.location.origin}/products/${product.slug}`;
+    const productUrl = `${window.location.origin}/products/${product.id}`;
 
     const message = `
 Hi! I'm interested in this product:

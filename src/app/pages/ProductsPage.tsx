@@ -241,7 +241,7 @@ export function ProductsPage() {
 
           {/* TOOLBAR */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 mb-4">
-            <div className="flex flex-wrap items-center xl:gap-[150px] md:gap-[140px] sm:gap-[100px] gap-[150px]">
+            <div className="flex flex-wrap items-center xl:gap-[170px] md:gap-[160px] sm:gap-[100px] gap-[170px]">
               <FilterButton
                 onClick={() => setShowFilters(true)}
                 hasActiveFilters={hasActiveFilters}

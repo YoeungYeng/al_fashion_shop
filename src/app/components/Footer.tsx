@@ -83,7 +83,7 @@ export function Footer() {
 
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 object-contain rounded-full  flex items-center justify-center">
+              <div className="w-10 h-10 object-contain flex items-center justify-center">
                 <img src={logo} alt="" />
               </div>
 

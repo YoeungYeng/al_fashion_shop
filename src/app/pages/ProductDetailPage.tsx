@@ -324,7 +324,7 @@ export function ProductDetailPage() {
           <h2 className={`${headerFont} text-lg font-bold mb-4`}>
             {kh ? "ផលិតផលស្រដៀងគ្នា" : "You May Also Like"}
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4  gap-6">
             {displayProducts.slice(0, 8).map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}

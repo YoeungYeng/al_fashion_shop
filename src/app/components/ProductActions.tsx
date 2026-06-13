@@ -86,7 +86,8 @@ ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
   };
 
   const buttonClass =
-    "w-full h-8 text-[12px] sm:text-[12px] md:text-[12px] rounded flex items-center hover:cursor-pointer justify-center gap-2 text-[12px] text-white transition-all duration-200 active:scale-95";
+    `w-full h-8 text-[12px] sm:text-[12px] md:text-[12px] rounded flex items-center hover:cursor-pointer justify-center gap-2 text-[12px] 
+    text-white transition-all duration-200 active:scale-95`;
 
   return (
     <div
@@ -101,7 +102,7 @@ ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
         onClick={handleShareViaUrl}
         className={`${buttonClass} bg-[#229ED9] hover:bg-[#1A8AC4] rounded`}
       >
-        <Send className="w-4 h-4 md:w-4 md:-h-4 sm:w-3 sm:-3 shrink-0" />
+        <Send className="w-3 h-3 md:w-3 md:-h-3 sm:w-3 sm:-3 shrink-0 text-[12px] sm:text-sm md:text-[12px]" />
         <span>{kh ? "Telegram" : "Telegram"}</span>
       </button>
 
@@ -110,7 +111,7 @@ ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
         onClick={handleShareFacebook}
         className={`${buttonClass} bg-[#0084FF] hover:bg-[#0077E6]`}
       >
-        <MessageCircleMore className="w-4 h-4 md:w-4 md:-h-4 sm:w-3 sm:-3 shrink-0 text-[12px] sm:text-sm md:text-[12px]" />
+        <MessageCircleMore className="w-3 h-3 md:w-3 md:-h-3 sm:w-3 sm:-3 shrink-0 text-[12px] sm:text-sm md:text-[12px]" />
         <span>{kh ? "Messenger" : "Messenger"}</span>
       </button>
 

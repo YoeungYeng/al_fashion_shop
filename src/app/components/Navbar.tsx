@@ -69,7 +69,7 @@ export function Navbar() {
             <img
               src={logo}
               alt="AL Fashion"
-              className="w-8 h-8 bg-white object-contain rounded-full"
+              className="w-10 h-10 bg-white object-contain "
             />
             <span className={logoClass}>
               {kh ? "អេអិល ហ្វេសសិន" : "AL Fashion"}

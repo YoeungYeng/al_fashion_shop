@@ -82,13 +82,13 @@ export function ProductDetailPage() {
     const productUrl = `${window.location.origin}/products/${product.slug}`;
     const message = `
     🛒 NEW SHOE ORDER
- ${productUrl}
+
     Name: ${product.name[lang as Lang]}
     Price: $${discountedPrice.toFixed(2)}
 
     Category: ${product.category}
     Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
-   
+    ${productUrl}
 `.trim();
 
     window.open(

@@ -28,14 +28,14 @@ export function ProductActions({
     const productUrl = `${window.location.origin}/products/${product.slug}`;
     const message = `
     🛒 NEW SHOE ORDER
-${productUrl}
+
     Name: ${product.name[lang as Lang]}
     Price: $${discountedPrice.toFixed(2)}
     ${discountRate > 0 ? `Original Price: $${product.price.toFixed(2)}` : ""}
     Category: ${product.category}
     Discount: ${discountRate}%
     Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
-    
+    ${productUrl}
 `.trim();
 
     window.open(

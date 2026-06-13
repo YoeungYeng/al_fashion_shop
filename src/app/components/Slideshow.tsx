@@ -140,7 +140,7 @@ export function Slideshow() {
             onClick={() => go(i)}
             className={`h-2 rounded-full transition-all duration-300 ${
               current === i
-                ? "w-8 bg-primary"
+                ? "w-8 bg-black/70"
                 : "w-2 bg-white/60 hover:bg-white"
             }`}
           />

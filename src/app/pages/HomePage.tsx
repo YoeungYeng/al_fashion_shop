@@ -69,6 +69,7 @@ export function HomePage() {
                 .map((product) => (
                   <CompactProductCard 
                     key={product.id} 
+                    showCarousel={true}
                     product={product} 
                     imageAspect="aspect-square" // Makes it square like the promotion cards
                   />
@@ -93,6 +94,7 @@ export function HomePage() {
                   <CompactProductCard 
                     key={product.id} 
                     product={product} 
+                    showCarousel={true}
                     imageAspect="aspect-square" // Consistency across all sections
                   />
                 ))}

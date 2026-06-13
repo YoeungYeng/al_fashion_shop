@@ -100,6 +100,7 @@ export function PromotionPage() {
               > 
                 <PromotionCard
                   product={product}
+                  
                   onLinkClick={(e) => {
                     if (didDrag.current) e.preventDefault();
                   }}

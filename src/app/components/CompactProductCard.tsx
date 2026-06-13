@@ -100,7 +100,7 @@ export function CompactProductCard({
       </div>
 
       {/* Content Section */}
-      <div className="p-3 sm:p-4 flex flex-col items-center justify-center gap-2 w-full">
+      <div className="p-3 sm:p-4 flex flex-col items-center justify-center gap-2 w-full -mt-4">
         
         {/* FIX 1: Title Wrapper with min-height to prevent cards from jumping */}
         <div className="w-full text-center min-h-[40px] sm:min-h-[44px] flex items-center justify-center">
@@ -110,7 +110,7 @@ export function CompactProductCard({
         </div>
 
         {/* Price Section */}
-        <div className="flex items-center gap-2 justify-center">
+        <div className="flex items-center gap-2 justify-center -mt-4">
           <span className={`font-normal text-[14px] ${discountRate > 0 ? "text-primary" : "text-black"}`}>
             ${discountedPrice.toFixed(2)}
           </span>
@@ -123,7 +123,7 @@ export function CompactProductCard({
       </div>
 
       {/* FIX 2: Removed -mt-4 and added proper padding for buttons */}
-      <div className="px-3 pb-4 w-full flex flex-col">
+      <div className="px-3 pb-4 -mt-2 w-full flex flex-col">
         <ProductActions product={product} />
       </div>
     </div>

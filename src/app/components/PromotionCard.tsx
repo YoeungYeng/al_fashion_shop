@@ -10,7 +10,7 @@ export function PromotionCard({ product, onLinkClick }: PromotionCardProps) {
   return (
     <CompactProductCard
       product={product}
-      showCarousel={false}
+      showCarousel={true}
       className="w-full border-0 shadow-none"
       imageAspect="aspect-square"
       onLinkClick={onLinkClick}

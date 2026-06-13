@@ -78,7 +78,7 @@ export function ProductDetailPage() {
     related.length > 0 ? related : products.filter((p) => p.isPopular);
 
   const handleShareViaUrl = () => {
-    const productUrl = `${window.location.origin}/products/${product.id}?preview=false`;
+    const productUrl = `${window.location.origin}/products/${product.id}`;
 
     const shareText = `
 ${product.name[lang as Lang]}
@@ -94,7 +94,7 @@ ${product.name[lang as Lang]}
   };
 
   const handleMessenger = () => {
-    const productUrl = `${window.location.origin}/products/${product.slug}`;
+    const productUrl = `${window.location.origin}/products/${product.id}`;
 
     const message =
       `NEW SHOE ORDER\n` +

@@ -69,7 +69,7 @@ ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
   };
 
   const handleShareViaUrl = () => {
-    const productUrl = `${window.location.origin}/products/${product.slug}`;
+    const productUrl = `${window.location.origin}/products/${product.id}`;
 
     const shareText = `
 ${product.name[lang as Lang]}

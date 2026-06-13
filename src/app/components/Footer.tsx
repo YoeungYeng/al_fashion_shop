@@ -77,14 +77,14 @@ export function Footer() {
       className={`bg-transparent border-t border-black/10 text-black ${kh ? "font-body-kh" : "font-body-en"}`}
     >
       <div className="w-full border-1 border-black/60" />
-      <div className="max-w-[1700px] mx-auto px-6 py-14">
+      <div className="max-w-[1400px] mx-auto px-6 py-14">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* BRAND */}
 
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 object-contain flex items-center justify-center">
-                <img src={logo} alt="" />
+              <div className="object-contain flex items-center justify-center">
+                <img src={logo} alt="" className="h-11 object-contain"/>
               </div>
 
               <div>

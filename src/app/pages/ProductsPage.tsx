@@ -241,7 +241,7 @@ export function ProductsPage() {
 
           {/* TOOLBAR */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 mb-4">
-            <div className="flex flex-wrap items-center xl:gap-[170px] md:gap-[160px] sm:gap-[100px] gap-[170px]">
+            <div className="flex flex-wrap items-center gap-[50px]">
               <FilterButton
                 onClick={() => setShowFilters(true)}
                 hasActiveFilters={hasActiveFilters}
@@ -253,7 +253,7 @@ export function ProductsPage() {
               <select
                 value={sortKey}
                 onChange={(e) => setSortKey(e.target.value as SortKey)}
-                className={`${bodyFont} text-[14px] w-48 py-1.5 px-2 font-normal rounded border `}
+                className={`${bodyFont} text-[14px] py-1.5 px-2 font-normal rounded border `}
               >
                 <option value="date" >{kh ? "តម្រៀប" : "Sort"}</option>
                 <option value="date" >{kh ? "ថ្មីបំផុត" : "Newest"}</option>

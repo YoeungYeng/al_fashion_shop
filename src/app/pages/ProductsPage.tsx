@@ -252,7 +252,7 @@ export function ProductsPage() {
               <select
                 value={sortKey}
                 onChange={(e) => setSortKey(e.target.value as SortKey)}
-                className={`${bodyFont} text-sm py-2.5 font-normal rounded border focus:outline-none focus:ring-2 focus:ring-black/50`}
+                className={`${bodyFont} text-sm py-1.5 px-2 font-normal rounded border focus:outline-none focus:ring-2 focus:ring-black/50`}
               >
                 <option value="date">{kh ? "តម្រៀប" : "Sort"}</option>
                 <option value="date">{kh ? "ថ្មីបំផុត" : "Newest"}</option>

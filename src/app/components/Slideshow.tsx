@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useLang } from "../context/LanguageContext";
-import slide1 from "../../assets/vetrivel-viswanathar.jpg";
-import slide2 from "../../assets/vitor-monthay.jpg";
+import slide1 from "../../assets/slide1.png";
+import slide2 from "../../assets/slide2.png";
 const slides = [
   // {
   //   id: 1,
@@ -140,7 +140,7 @@ export function Slideshow() {
             onClick={() => go(i)}
             className={`h-2 rounded-full transition-all duration-300 ${
               current === i
-                ? "w-8 bg-black/70"
+                ? "w-8 bg-black/"
                 : "w-2 bg-white/60 hover:bg-white"
             }`}
           />

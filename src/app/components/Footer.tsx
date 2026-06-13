@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { useLang } from "../context/LanguageContext";
 
-import logo from "../../assets/al_fashion_logo-LF9KwT_A.jpg";
+import logo from "../../assets/al_fahion_logo.png";
 
 const socials = [
   { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
@@ -76,14 +76,14 @@ export function Footer() {
     <footer
       className={`bg-transparent border-t border-black/10 text-black ${kh ? "font-body-kh" : "font-body-en"}`}
     >
-       <div className="w-full border-1 border-black/60"/>
+      <div className="w-full border-1 border-black/60" />
       <div className="max-w-[1700px] mx-auto px-6 py-14">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* BRAND */}
-         
+
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full  flex items-center shadow justify-center">
+              <div className="w-8 h-8 object-contain rounded-full  flex items-center justify-center">
                 <img src={logo} alt="" />
               </div>
 

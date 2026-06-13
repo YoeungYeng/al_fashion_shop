@@ -4,7 +4,7 @@ import { Search, X as CloseIcon, Menu } from "lucide-react";
 import { useLang } from "../context/LanguageContext";
 import { useSearch } from "../context/SearchContext";
 import { categories } from "../data/products";
-import logo from "../../assets/al_fashion_logo-LF9KwT_A.jpg";
+import logo from "../../assets/al_fahion_logo.png";
 import "flag-icons/css/flag-icons.min.css";
 
 export function Navbar() {
@@ -44,7 +44,7 @@ export function Navbar() {
     setMobileOpen(false);
   };
 
-  // ✅ UNIFIED FONT STYLE (FIXED)
+  //  UNIFIED FONT STYLE (FIXED)
   const navTextClass = kh
     ? "font-body-kh text-[14px] font-medium"
     : "font-body-en text-[14px] font-medium tracking-[0.1em]";
@@ -69,7 +69,7 @@ export function Navbar() {
             <img
               src={logo}
               alt="AL Fashion"
-              className="w-12 h-12 object-cover rounded-full"
+              className="w-8 h-8 bg-white object-contain rounded-full"
             />
             <span className={logoClass}>
               {kh ? "អេអិល ហ្វេសសិន" : "AL Fashion"}

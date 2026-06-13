@@ -25,7 +25,7 @@ export function ProductActions({
     discountRate > 0 ? product.price * (1 - discountRate / 100) : product.price;
 
   const handleTelegramOrder = () => {
-
+    const productUrl = `${window.location.origin}/products/${product.slug}`;
     const message = `
     🛒 NEW SHOE ORDER
 
@@ -34,7 +34,8 @@ export function ProductActions({
     ${discountRate > 0 ? `Original Price: $${product.price.toFixed(2)}` : ""}
     Category: ${product.category}
     Discount: ${discountRate}%
-    Stock: ${product.inStock ? "✅ In Stock" : "❌ Out of Stock"}
+    Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
+    Image: ${productUrl}
 `.trim();
 
     window.open(

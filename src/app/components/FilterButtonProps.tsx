@@ -11,7 +11,7 @@ export function FilterButton({ onClick, hasActiveFilters = false, label, classNa
   return (
     <button
       onClick={onClick}
-      className={`relative rounded px-2 py-1.5 border font-normal text-sm transition-all flex items-center gap-2 ${className}`}
+      className={`relative rounded px-2 py-1.5 h-10 border font-normal text-[14px] transition-all flex items-center gap-2 ${className}`}
     >
       <ListFilterIcon size={16} />  {/* reduced from 18 to match text-sm */}
       <span>{label}</span>

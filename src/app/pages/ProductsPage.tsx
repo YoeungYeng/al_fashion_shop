@@ -246,18 +246,19 @@ export function ProductsPage() {
                 onClick={() => setShowFilters(true)}
                 hasActiveFilters={hasActiveFilters}
                 label={kh ? "តម្រង" : "Filters"}
-                className={bodyFont}
+                className={`${bodyFont} text-[14px] px-3 font-normal rounded border focus:outline-none focus:ring-2 focus:ring-black/50`}
+
               />
 
               <select
                 value={sortKey}
                 onChange={(e) => setSortKey(e.target.value as SortKey)}
-                className={`${bodyFont} text-sm py-1.5 px-2 font-normal rounded border focus:outline-none focus:ring-2 focus:ring-black/50`}
+                className={`${bodyFont} text-[14px] py-1.5 px-2 font-normal rounded border `}
               >
-                <option value="date">{kh ? "តម្រៀប" : "Sort"}</option>
-                <option value="date">{kh ? "ថ្មីបំផុត" : "Newest"}</option>
-                <option value="name">{kh ? "ឈ្មោះ A-Z" : "Name A–Z"}</option>
-                <option value="price_asc">
+                <option value="date" >{kh ? "តម្រៀប" : "Sort"}</option>
+                <option value="date" >{kh ? "ថ្មីបំផុត" : "Newest"}</option>
+                <option value="name" >{kh ? "ឈ្មោះ A-Z" : "Name A–Z"}</option>
+                <option value="price_asc" >
                   {kh ? "តម្លៃទាប → ខ្ពស់" : "Price Low → High"}
                 </option>
                 <option value="price_desc">

@@ -49,20 +49,18 @@ ${allImages}
     );
   };
 
-  const handleMessenger = () => {
-    const allImages = images
-      .map((img, idx) => `Image ${idx + 1}:\n${img}`)
-      .join("\n\n");
+  const handleShareFacebook = () => {
+    const productUrl = `${window.location.origin}/products/${product.slug}`;
 
     const message = `
-    NEW SHOE ORDER
+Hi! I'm interested in this product:
 
-    Name: ${product.name[lang as Lang]}
-    Price: $${discountedPrice.toFixed(2)}
-    Category: ${product.category}
-    Discount: ${discountRate}%
-    Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
-    `.trim();
+👟 ${product.name[lang as Lang]}
+💰 $${discountedPrice.toFixed(2)}
+${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
+
+🛍 ${productUrl}
+  `.trim();
 
     window.open(
       `https://m.me/smallTeam760?text=${encodeURIComponent(message)}`,
@@ -71,7 +69,7 @@ ${allImages}
   };
 
   const handleShareViaUrl = () => {
-    const productUrl = `${window.location.origin}/products/${product.id}?preview=false`;
+    const productUrl = `${window.location.origin}/products/${product.slug}`;
 
     const shareText = `
 ${product.name[lang as Lang]}
@@ -109,7 +107,7 @@ ${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
 
       {/* Messenger */}
       <button
-        onClick={handleMessenger}
+        onClick={handleShareFacebook}
         className={`${buttonClass} bg-[#0084FF] hover:bg-[#0077E6]`}
       >
         <MessageCircleMore className="w-4 h-4 md:w-4 md:-h-4 sm:w-3 sm:-3 shrink-0 text-[12px] sm:text-sm md:text-[12px]" />

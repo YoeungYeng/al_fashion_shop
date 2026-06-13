@@ -94,22 +94,19 @@ ${product.name[lang as Lang]}
   };
 
   const handleMessenger = () => {
-    const allImages = images
-      .map((img) => {
-        const fileName = img.split("/").pop()?.split("?")[0] || "image";
-        return `${fileName}\n${img}`;
-      })
-      .join("\n\n");
+    const productUrl = `${window.location.origin}/products/${product.slug}`;
 
     const message =
       `NEW SHOE ORDER\n` +
       `-------------------\n` +
-      `Name: ${product.name[l]}\n` +
-      `Price: $${product.price}\n` +
-      `Size: ${selectedSize ?? "Not selected"}\n` +
-      `Category: ${product.category}\n` +
-      `Discount: ${product.discount}%\n` +
-      `Stock: ${product.inStock ? "In Stock" : "Out of Stock"}\n\n`
+      `👟 Name: ${product.name[l]}\n` +
+      `💰 Price: $${discountedPrice.toFixed(2)}\n` +
+      `${product.discount > 0 ? `🔥 Discount: ${product.discount}% OFF\n` : ""}` +
+      `📐 Size: ${selectedSize ?? "Not selected"}\n` +
+      `🗂 Category: ${product.category}\n` +
+      `📦 Stock: ${product.inStock ? "In Stock" : "Out of Stock"}\n` +
+      `-------------------\n` +
+      `🛍 ${productUrl}`;
 
     window.open(
       `https://m.me/smallTeam760?text=${encodeURIComponent(message)}`,

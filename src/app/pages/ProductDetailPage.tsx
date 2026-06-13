@@ -79,14 +79,16 @@ export function ProductDetailPage() {
     related.length > 0 ? related : products.filter((p) => p.isPopular);
 
   const handleTelegramOrder = () => {
+    const productUrl = `${window.location.origin}/products/${product.slug}`;
     const message = `
     🛒 NEW SHOE ORDER
-
+ ${productUrl}
     Name: ${product.name[lang as Lang]}
     Price: $${discountedPrice.toFixed(2)}
 
     Category: ${product.category}
     Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
+   
 `.trim();
 
     window.open(

@@ -1,11 +1,10 @@
-import { useMemo, useState, useEffect } from "react";
-import { useSearchParams } from "react-router";
+import { useMemo, useState } from "react";
+import { useSearchParams, useNavigate } from "react-router";
 import { ProductCard } from "../components/ProductCard";
 import { useLang } from "../context/LanguageContext";
 import { products, categories, menus } from "../data/products";
 import { useSearch } from "../context/SearchContext";
 import { X } from "lucide-react";
-import { Filter } from "lucide-react";
 import { FilterButton } from "../components/FilterButtonProps";
 
 type SortKey = "date" | "name" | "price_asc" | "price_desc";
@@ -16,6 +15,7 @@ export function ProductsPage() {
   const { lang } = useLang();
   const { committedQuery, clearQuery } = useSearch();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const kh = lang === "km";
   const l = lang as "en" | "km";
@@ -23,7 +23,7 @@ export function ProductsPage() {
   const headerFont = kh ? "font-header-kh" : "font-header-en";
   const bodyFont = kh ? "font-body-kh" : "font-body-en";
 
-  // Read URL params
+  // Read URL params — single source of truth
   const genderFromUrl = searchParams.get("gender") as "men" | "women" | null;
   const categoryFromUrl = searchParams.get("category") || "";
   const saleFromUrl = searchParams.get("sale") === "true";
@@ -31,17 +31,36 @@ export function ProductsPage() {
   // Sort — independent, never reset by Clear Filters
   const [sortKey, setSortKey] = useState<SortKey>("date");
 
-  // Filters — reset by Clear Filters
+  // Filters — price and size stay as local state
   const [maxPrice, setMaxPrice] = useState(maxPriceInData);
   const [selectedSize, setSelectedSize] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
   const [showFilters, setShowFilters] = useState(false);
-  const isSalePage = saleFromUrl || selectedCategory === "sale";
 
-  // Sync category when URL changes (navbar clicks)
-  useEffect(() => {
-    setSelectedCategory(categoryFromUrl);
-  }, [categoryFromUrl]);
+  const isSalePage = saleFromUrl || categoryFromUrl === "sale";
+
+  // Category click — updates URL, no local state needed
+  const handleCategoryClick = (slug: string) => {
+    const isSale = slug === "sale";
+    const params = new URLSearchParams(searchParams);
+
+    if (isSale) {
+      if (params.get("sale") === "true") {
+        params.delete("sale");
+      } else {
+        params.set("sale", "true");
+        params.delete("category");
+      }
+    } else {
+      if (params.get("category") === slug) {
+        params.delete("category");
+      } else {
+        params.set("category", slug);
+        params.delete("sale");
+      }
+    }
+
+    navigate(`/products?${params.toString()}`, { replace: true });
+  };
 
   const visibleCategories = useMemo(() => {
     if (!genderFromUrl) return categories;
@@ -52,8 +71,8 @@ export function ProductsPage() {
   const filtered = useMemo(() => {
     let list = [...products];
 
-    // 1. Sale — only products with a discount value > 0
-    if (saleFromUrl) {
+    // 1. Sale — URL param OR category strip "sale" click
+    if (saleFromUrl || categoryFromUrl === "sale") {
       list = list.filter((p) => p.discount && p.discount > 0);
     }
 
@@ -61,14 +80,16 @@ export function ProductsPage() {
     if (genderFromUrl) {
       const menu = menus.find((m) => m.slug === genderFromUrl);
       if (menu) {
-        const slugs = new Set(menu.categories.map((c) => c.slug));
+        const slugs = new Set(
+          menu.categories.map((c) => c.slug).filter((s) => s !== "sale"),
+        );
         list = list.filter((p) => slugs.has(p.category));
       }
     }
 
-    // 3. Category
-    if (selectedCategory) {
-      list = list.filter((p) => p.category === selectedCategory);
+    // 3. Category — skip "sale" slug, handled in step 1
+    if (categoryFromUrl && categoryFromUrl !== "sale") {
+      list = list.filter((p) => p.category === categoryFromUrl);
     }
 
     // 4. Search query
@@ -108,42 +129,36 @@ export function ProductsPage() {
   }, [
     saleFromUrl,
     genderFromUrl,
-    selectedCategory,
+    categoryFromUrl,
     committedQuery,
     sortKey,
     maxPrice,
     selectedSize,
   ]);
 
-  const currentCategory = categories.find((c) => c.slug === selectedCategory);
+  const currentCategory = categories.find((c) => c.slug === categoryFromUrl);
   const currentMenu = menus.find((m) => m.slug === genderFromUrl);
 
-  // Resets filters only — sort preserved
+  // Resets price/size/search filters only — sort and URL params preserved
   const clearAll = () => {
     setMaxPrice(maxPriceInData);
     setSelectedSize("");
-    setSelectedCategory(categoryFromUrl);
     clearQuery();
   };
 
   const hasActiveFilters =
     !!selectedSize ||
     maxPrice !== maxPriceInData ||
-    !!(selectedCategory && selectedCategory !== categoryFromUrl) ||
     !!committedQuery.trim();
 
   // Page title: sale > category > gender > all
-  const pageTitle = saleFromUrl
-    ? kh
-      ? "បញ្ចុះតម្លៃ"
-      : "Sale"
+  const pageTitle = isSalePage
+    ? kh ? "បញ្ចុះតម្លៃ" : "Sale"
     : currentCategory
       ? currentCategory.name[l]
       : currentMenu
         ? currentMenu.name[l]
-        : kh
-          ? "ផលិតផលទាំងអស់"
-          : "All Products";
+        : kh ? "ផលិតផលទាំងអស់" : "All Products";
 
   const bannerSrc =
     "https://pedroshoes.com.kh/cdn/shop/collections/plp-slotbanner-desktop_d01b3633-5724-4fa4-a8c6-f22141def307_2400x.jpg";
@@ -169,26 +184,25 @@ export function ProductsPage() {
 
         {/* MAIN CONTENT */}
         <div className="max-w-[1600px] mx-auto px-4 md:px-8 py-10">
-          {/* CATEGORY STRIP — on sale page, only show categories with discounted items */}
-          <div className="mb-12 flex flex-wrap justify-center gap-8 md:gap-12">
+
+          {/* CATEGORY STRIP — image + cover style, URL-driven */}
+          <div className="mb-4 flex flex-wrap justify-center gap-8 md:gap-12">
             {visibleCategories.map((cat) => {
               const isSaleCategory = cat.slug === "sale";
               const isActive = isSaleCategory
                 ? isSalePage
-                : selectedCategory === cat.slug;
+                : categoryFromUrl === cat.slug;
 
               return (
                 <button
                   key={cat.slug}
-                  onClick={() =>
-                    setSelectedCategory(
-                      selectedCategory === cat.slug ? "" : cat.slug,
-                    )
-                  }
+                  onClick={() => handleCategoryClick(cat.slug)}
                   className="group flex flex-col items-center cursor-pointer"
                 >
                   <div
-                    className={`w-24 md:w-32 transition-all duration-300 ${isActive ? "scale-110" : "group-hover:scale-105"}`}
+                    className={`w-24 md:w-32 transition-all duration-300 ${
+                      isActive ? "scale-110" : "group-hover:scale-105"
+                    }`}
                   >
                     <img
                       src={cat.cover}
@@ -197,7 +211,7 @@ export function ProductsPage() {
                     />
                   </div>
 
-                  {/* TEXT COLOR: Red if Sale + Active, Black otherwise */}
+                  {/* TEXT: red if Sale+Active, black otherwise */}
                   <span
                     className={`${bodyFont} mt-2 text-[14px] transition-colors ${
                       isSaleCategory && isActive
@@ -210,7 +224,7 @@ export function ProductsPage() {
                     {cat.name[l]}
                   </span>
 
-                  {/* UNDERLINE: Red if Sale + Active, Black otherwise */}
+                  {/* UNDERLINE: red if Sale+Active, black otherwise */}
                   <div
                     className={`mt-1 h-[2px] transition-all duration-300 ${
                       isActive
@@ -226,7 +240,7 @@ export function ProductsPage() {
           </div>
 
           {/* TOOLBAR */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 mb-8">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 mb-4">
             <div className="flex flex-wrap items-center gap-3">
               <FilterButton
                 onClick={() => setShowFilters(true)}
@@ -235,7 +249,6 @@ export function ProductsPage() {
                 className={bodyFont}
               />
 
-              {/* Sort — never reset by Clear Filters */}
               <select
                 value={sortKey}
                 onChange={(e) => setSortKey(e.target.value as SortKey)}
@@ -258,42 +271,6 @@ export function ProductsPage() {
             </p>
           </div>
 
-          {/* ACTIVE FILTER CHIPS */}
-          {hasActiveFilters && (
-            <div className="flex flex-wrap gap-2 mb-6">
-              {selectedCategory && selectedCategory !== categoryFromUrl && (
-                <span
-                  className={`${bodyFont} flex items-center gap-1.5 px-3 py-1 bg-black/5 text-black text-sm`}
-                >
-                  {categories.find((c) => c.slug === selectedCategory)?.name[l]}
-                  <button onClick={() => setSelectedCategory(categoryFromUrl)}>
-                    <X className="w-3 h-3" />
-                  </button>
-                </span>
-              )}
-              {selectedSize && (
-                <span
-                  className={`${bodyFont} flex items-center gap-1.5 px-3 py-1 bg-black/5 text-black text-sm`}
-                >
-                  {kh ? "ទំហំ" : "Size"} {selectedSize}
-                  <button onClick={() => setSelectedSize("")}>
-                    <X className="w-3 h-3" />
-                  </button>
-                </span>
-              )}
-              {maxPrice !== maxPriceInData && (
-                <span
-                  className={`${bodyFont} flex items-center gap-1.5 px-3 py-1 bg-black/5 text-black text-sm`}
-                >
-                  {kh ? "តម្លៃ ≤" : "Price ≤"} ${maxPrice}
-                  <button onClick={() => setMaxPrice(maxPriceInData)}>
-                    <X className="w-3 h-3" />
-                  </button>
-                </span>
-              )}
-            </div>
-          )}
-
           {/* SEARCH INDICATOR */}
           {committedQuery.trim() && (
             <div className="mb-6 p-4 bg-black/5 flex items-center justify-between gap-4">
@@ -313,9 +290,7 @@ export function ProductsPage() {
                 >
                   {filtered.length > 0
                     ? `${filtered.length} ${kh ? "ផលិតផល" : "found"}`
-                    : kh
-                      ? "រកមិនឃើញ"
-                      : "No results"}
+                    : kh ? "រកមិនឃើញ" : "No results"}
                 </span>
               </div>
               <button
@@ -343,7 +318,7 @@ export function ProductsPage() {
               >
                 {kh ? "រកមិនឃើញផលិតផល" : "No products found"}
               </h3>
-              {saleFromUrl && (
+              {isSalePage && (
                 <p className={`${bodyFont} text-sm text-gray-400 mt-2`}>
                   {kh
                     ? "មិនមានផលិតផលបញ្ចុះតម្លៃនៅពេលនេះទេ"
@@ -361,14 +336,12 @@ export function ProductsPage() {
             onClick={() => setShowFilters(false)}
           >
             <div
-              className="bg-white w-full sm:max-w-md p-6 md:p-8 shadow-xl max-h-[90vh] overflow-y-auto"
+              className="bg-white w-full sm:max-w-md p-6 md:p-4 shadow-xl max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* HEADER */}
-              <div className="flex items-center justify-between mb-6">
-                <h3
-                  className={`${headerFont} text-lg font-bold text-[#1C1917]`}
-                >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className={`${headerFont} text-lg font-bold text-[#1C1917]`}>
                   {kh ? "តម្រង" : "Filters"}
                 </h3>
                 <button
@@ -380,37 +353,37 @@ export function ProductsPage() {
               </div>
 
               {/* CATEGORY — hidden on sale page */}
-              {!saleFromUrl && (
+              {!isSalePage && (
                 <div className="mb-6">
-                  <h4
-                    className={`${headerFont} font-semibold text-gray-800 mb-3`}
-                  >
+                  <h4 className={`${headerFont} font-semibold text-gray-800 mb-3`}>
                     {kh ? "ប្រភេទ" : "Category"}
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     <button
-                      onClick={() => setSelectedCategory("")}
+                      onClick={() => navigate("/products", { replace: true })}
                       className={`${bodyFont} px-4 rounded py-2 border text-sm transition-all ${
-                        selectedCategory === ""
+                        categoryFromUrl === ""
                           ? "bg-black text-white border-black"
                           : "bg-white hover:border-black"
                       }`}
                     >
                       {kh ? "ទាំងអស់" : "All"}
                     </button>
-                    {visibleCategories.map((cat) => (
-                      <button
-                        key={cat.slug}
-                        onClick={() => setSelectedCategory(cat.slug)}
-                        className={`${bodyFont} px-4 py-2 border rounded text-sm transition-all ${
-                          selectedCategory === cat.slug
-                            ? "bg-black text-white border-black"
-                            : "bg-white hover:border-black"
-                        }`}
-                      >
-                        {cat.name[l]}
-                      </button>
-                    ))}
+                    {visibleCategories
+                      .filter((c) => c.slug !== "sale")
+                      .map((cat) => (
+                        <button
+                          key={cat.slug}
+                          onClick={() => handleCategoryClick(cat.slug)}
+                          className={`${bodyFont} px-4 py-2 border rounded text-sm transition-all ${
+                            categoryFromUrl === cat.slug
+                              ? "bg-black text-white border-black"
+                              : "bg-white hover:border-black"
+                          }`}
+                        >
+                          {cat.name[l]}
+                        </button>
+                      ))}
                   </div>
                 </div>
               )}
@@ -421,9 +394,7 @@ export function ProductsPage() {
                   <h4 className={`${headerFont} font-semibold text-gray-800`}>
                     {kh ? "តម្លៃអតិបរមា" : "Max Price"}
                   </h4>
-                  <span
-                    className={`${bodyFont} text-sm font-medium text-black`}
-                  >
+                  <span className={`${bodyFont} text-sm font-medium text-black`}>
                     ${maxPrice}
                   </span>
                 </div>
@@ -435,9 +406,7 @@ export function ProductsPage() {
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
                   className="w-full accent-black"
                 />
-                <div
-                  className={`${bodyFont} flex justify-between text-xs text-gray-400 mt-1`}
-                >
+                <div className={`${bodyFont} flex justify-between text-xs text-gray-400 mt-1`}>
                   <span>$0</span>
                   <span>${maxPriceInData}</span>
                 </div>
@@ -445,9 +414,7 @@ export function ProductsPage() {
 
               {/* SIZE */}
               <div className="mb-8">
-                <h4
-                  className={`${headerFont} font-semibold text-gray-800 mb-3`}
-                >
+                <h4 className={`${headerFont} font-semibold text-gray-800 mb-3`}>
                   {kh ? "ទំហំស្បែកជើង" : "Shoe Size"}
                 </h4>
                 <div className="flex flex-wrap gap-2">

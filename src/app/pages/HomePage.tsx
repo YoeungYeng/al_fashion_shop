@@ -4,7 +4,7 @@ import { useLang } from "../context/LanguageContext";
 import { products } from "../data/products";
 import { PromotionPage } from "../components/PromotionPage";
 // Import the CompactProductCard instead of NewArrivalCard and ProductCard
-import { CompactProductCard } from "../components/CompactProductCard"; 
+import { CompactProductCard } from "../components/CompactProductCard";
 
 function SectionHeader({
   title,
@@ -40,6 +40,39 @@ export function HomePage() {
       <Slideshow />
 
       <div className="max-w-[1600px] mx-auto px-4 md:px-8 py-10">
+        {/* category */}
+        <section>
+          <div className="mb-4 flex flex-wrap justify-center gap-8 md:gap-12">
+            <button
+              // onClick={() => handleCategoryClick(cat.slug)}
+              className="group flex flex-col items-center cursor-pointer"
+            >
+              <div
+                className={`w-24 md:w-32 transition-all duration-300 scale-110 group-hover:scale-105 `}
+              >
+                <img
+                  src=""
+                  alt=""
+                  className="max-w-20 max-h-20 object-contain mx-auto"
+                />
+              </div>
+
+              {/* TEXT: red if Sale+Active, black otherwise */}
+              <span
+                className={`mt-2 text-[14px] transition-colors text-red-600 font-medium"
+                       
+                    }`}
+              >
+                Category
+              </span>
+
+              {/* UNDERLINE: red if Sale+Active, black otherwise */}
+              <div
+                className={`mt-1 h-[2px] transition-all duration-300 ${"w-14 bg-black"}`}
+              />
+            </button>
+          </div>
+        </section>
         {/* FLASH SALE (The Slider) */}
         <section className="w-full py-4 md:py-4 lg:py-4">
           <div className="mx-auto px-4 md:px-8 lg:px-12 mb-8">
@@ -50,7 +83,7 @@ export function HomePage() {
             />
           </div>
           <div className="-mt-6">
-             <PromotionPage />
+            <PromotionPage />
           </div>
         </section>
 
@@ -67,10 +100,10 @@ export function HomePage() {
                 .filter((p) => p.isPopular)
                 .slice(0, 6)
                 .map((product) => (
-                  <CompactProductCard 
-                    key={product.id} 
+                  <CompactProductCard
+                    key={product.id}
                     showCarousel={true}
-                    product={product} 
+                    product={product}
                     imageAspect="aspect-square" // Makes it square like the promotion cards
                   />
                 ))}
@@ -91,9 +124,9 @@ export function HomePage() {
                 .filter((p) => p.isPopular)
                 .slice(0, 10)
                 .map((product) => (
-                  <CompactProductCard 
-                    key={product.id} 
-                    product={product} 
+                  <CompactProductCard
+                    key={product.id}
+                    product={product}
                     showCarousel={true}
                     imageAspect="aspect-square" // Consistency across all sections
                   />

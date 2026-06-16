@@ -68,16 +68,16 @@ export function Navbar() {
           <NavLink to="/" className="flex items-center gap-2 shrink-0">
             <img
               src={logo}
-              alt="AL Fashion"
+              alt="AL Store"
               className="h-10 bg-white object-contain "
             />
             <span className={logoClass}>
-              {kh ? "អេអិល ហ្វេសសិន" : "AL Fashion"}
+              {kh ? "អេអិល ស្តរ" : "AL Store"}
             </span>
           </NavLink>
 
           {/* DESKTOP NAV */}
-          <nav className="hidden lg:flex items-center ml-10">
+          {/* <nav className="hidden lg:flex items-center ml-10">
             {categories.map((category) => {
               const isSaleItem = category.slug === "sale";
               const active = isSaleItem
@@ -104,7 +104,7 @@ export function Navbar() {
                 </button>
               );
             })}
-          </nav>
+          </nav> */}
 
           {/* RIGHT ACTIONS */}
           <div className="flex items-center gap-2 ml-auto">

@@ -1,7 +1,7 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Slideshow } from "../components/Slideshow";
 import { useLang } from "../context/LanguageContext";
-import { products } from "../data/products";
+import { products, categories } from "../data/products";
 import { PromotionPage } from "../components/PromotionPage";
 // Import the CompactProductCard instead of NewArrivalCard and ProductCard
 import { CompactProductCard } from "../components/CompactProductCard";
@@ -31,6 +31,17 @@ function SectionHeader({
 export function HomePage() {
   const { lang, t } = useLang();
   const kh = lang === "km";
+  const navigate = useNavigate();
+  const l = lang as "en" | "km";
+  const bodyFont = kh ? "font-body-kh" : "font-body-en";
+
+  const handleCategoryClick = (slug: string) => {
+    if (slug === "sale") {
+      navigate("/products?sale=true");
+    } else {
+      navigate(`/products?category=${slug}`);
+    }
+  };
 
   return (
     <div
@@ -43,34 +54,59 @@ export function HomePage() {
         {/* category */}
         <section>
           <div className="mb-4 flex flex-wrap justify-center gap-8 md:gap-12">
+            {/* "All" link */}
             <button
-              // onClick={() => handleCategoryClick(cat.slug)}
+              onClick={() => navigate("/products")}
               className="group flex flex-col items-center cursor-pointer"
             >
-              <div
-                className={`w-24 md:w-32 transition-all duration-300 scale-110 group-hover:scale-105 `}
-              >
+              <div className="w-24 md:w-32 transition-all duration-300 group-hover:scale-105">
                 <img
-                  src=""
-                  alt=""
+                  src="/icons/all.png" // swap for your actual "all" icon
+                  alt={kh ? "ទាំងអស់" : "All"}
                   className="max-w-20 max-h-20 object-contain mx-auto"
                 />
               </div>
-
-              {/* TEXT: red if Sale+Active, black otherwise */}
               <span
-                className={`mt-2 text-[14px] transition-colors text-red-600 font-medium"
-                       
-                    }`}
+                className={`${bodyFont} mt-2 text-[14px] text-black/60 group-hover:text-black transition-colors`}
               >
-                Category
+                {kh ? "ទាំងអស់" : "All"}
               </span>
-
-              {/* UNDERLINE: red if Sale+Active, black otherwise */}
-              <div
-                className={`mt-1 h-[2px] transition-all duration-300 ${"w-14 bg-black"}`}
-              />
+              <div className="mt-1 h-[2px] w-0 group-hover:w-14 bg-black transition-all duration-300" />
             </button>
+
+            {/* Real categories, including Sale */}
+            {categories.map((cat) => {
+              const isSale = cat.slug === "sale";
+              return (
+                <button
+                  key={cat.slug}
+                  onClick={() => handleCategoryClick(cat.slug)}
+                  className="group flex flex-col items-center cursor-pointer"
+                >
+                  <div className="w-24 md:w-32 transition-all duration-300 group-hover:scale-105">
+                    <img
+                      src={cat.cover}
+                      alt={cat.name[l]}
+                      className="max-w-20 max-h-20 object-contain mx-auto"
+                    />
+                  </div>
+                  <span
+                    className={`${bodyFont} mt-2 text-[14px] transition-colors ${
+                      isSale
+                        ? "text-red-600 font-medium"
+                        : "text-black/60 group-hover:text-black"
+                    }`}
+                  >
+                    {cat.name[l]}
+                  </span>
+                  <div
+                    className={`mt-1 h-[2px] w-0 group-hover:w-14 transition-all duration-300 ${
+                      isSale ? "bg-red-600" : "bg-black"
+                    }`}
+                  />
+                </button>
+              );
+            })}
           </div>
         </section>
         {/* FLASH SALE (The Slider) */}

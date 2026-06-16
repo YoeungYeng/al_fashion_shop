@@ -20,7 +20,7 @@ export interface Product {
   telegramLink: string;
   brand?: string;
   sizes?: string[];
-  color?: string;
+  color?: { en: string; km: string };
 }
 
 export interface Category {
@@ -52,6 +52,19 @@ export const TELEGRAM_BASE = "https://t.me/yoeungyeng";
 
 export const categories: Category[] = [
   {
+    slug: "sale",
+    name: { en: "Sale", km: "បញ្ចុះតម្លៃ" },
+    description: {
+      en: "All products on discount",
+      km: "ផលិតផលទាំងអស់មានបញ្ចុះតម្លៃ",
+    },
+    cover:
+      "https://png.pngtree.com/png-clipart/20250421/original/pngtree-3d-render-of-red-sale-tags-with-percentage-sign-png-image_20757962.png", // Use a sale-themed image
+    icon: "🔥",
+    gender: "both", // Show in both Men and Women menus
+    banner: "/assets/sale-white-banner.jpg", // Use your clean white banner here
+  },
+  {
     slug: "classic-boots",
     name: { en: "Sneakers", km: "ស្បែកជើងកីឡា" },
     description: { en: "Premium leather boots", km: "ប៊ូតស្បែកគុណភាពខ្ពស់" },
@@ -75,18 +88,6 @@ export const categories: Category[] = [
     gender: "both",
     banner:
       "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-  },
-  {
-    slug: "sale",
-    name: { en: "Sale", km: "បញ្ចុះតម្លៃ" },
-    description: {
-      en: "All products on discount",
-      km: "ផលិតផលទាំងអស់មានបញ្ចុះតម្លៃ",
-    },
-    cover: "https://png.pngtree.com/png-clipart/20250421/original/pngtree-3d-render-of-red-sale-tags-with-percentage-sign-png-image_20757962.png", // Use a sale-themed image
-    icon: "🔥",
-    gender: "both", // Show in both Men and Women menus
-    banner: "/assets/sale-white-banner.jpg", // Use your clean white banner here
   },
 ];
 
@@ -123,7 +124,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_1`,
     brand: "Timberland",
     sizes: ["39", "40", "41", "42", "43", "44"],
-    color: "Wheat",
+    color: { en: "Wheat", km: "ស្រូវសាលី" },
   },
   {
     id: 2,
@@ -145,7 +146,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_2`,
     brand: "Classic",
     sizes: ["39", "40", "41", "42", "43"],
-    color: "Black",
+    color: { en: "Black", km: "ខ្មៅ" },
   },
   {
     id: 3,
@@ -167,7 +168,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_3`,
     brand: "Worker Pro",
     sizes: ["40", "41", "42", "43", "44"],
-    color: "Brown",
+    color: { en: "Brown", km: "ត្នោត" },
   },
   {
     id: 4,
@@ -191,7 +192,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_4`,
     brand: "Oxford Classic",
     sizes: ["39", "40", "41", "42", "43"],
-    color: "Brown",
+    color: { en: "Brown", km: "ត្នោត" },
   },
   {
     id: 5,
@@ -213,7 +214,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_5`,
     brand: "Oxford",
     sizes: ["39", "40", "41", "42", "43", "44"],
-    color: "Black",
+    color: { en: "Black", km: "ខ្មៅ" },
   },
   {
     id: 6,
@@ -239,7 +240,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_6`,
     brand: "Loafer Co",
     sizes: ["39", "40", "41", "42"],
-    color: "Brown",
+    color: { en: "Brown", km: "ត្នោត" },
   },
   {
     id: 7,
@@ -264,7 +265,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_7`,
     brand: "Luxury Step",
     sizes: ["39", "40", "41", "42", "43"],
-    color: "Black",
+    color: { en: "Black", km: "ខ្មៅ" },
   },
   {
     id: 8,
@@ -288,12 +289,15 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_8`,
     brand: "Derby Style",
     sizes: ["39", "40", "41", "42", "43"],
-    color: "Brown",
+    color: { en: "Brown", km: "ត្នោត" },
   },
   {
     id: 9,
     slug: "Kieran-leather-penny-loafers",
-    name: { en: "Kieran Leather Penny Loafers", km: "Kieran Leather Penny Loafers" },
+    name: {
+      en: "Kieran Leather Penny Loafers",
+      km: "Kieran Leather Penny Loafers",
+    },
     description: {
       en: "Comfortable roam leather loafers.",
       km: "Loafers ស្បែក ផាសុក",
@@ -314,7 +318,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_9`,
     brand: "Derby Pro",
     sizes: ["39", "40", "41", "42", "43", "44"],
-    color: "Black",
+    color: { en: "Black", km: "ខ្មៅ" },
   },
   {
     id: 10,
@@ -340,12 +344,15 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_10`,
     brand: "Geto",
     sizes: ["39", "40", "41", "42", "43", "44"],
-    color: "Tan",
+    color: { en: "Tan", km: "ត្នោតស្រាល" },
   },
   {
     id: 11,
     slug: "Men's-Stream-Suede-Sneakers",
-    name: { en: "Men's Stream Suede Sneakers", km: "Men's Stream Suede Sneakers" },
+    name: {
+      en: "Men's Stream Suede Sneakers",
+      km: "Men's Stream Suede Sneakers",
+    },
     description: {
       en: "Stylish suede chukka boots.",
       km: "Boots Chukka រចនាបែបស្អាត",
@@ -366,7 +373,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_11`,
     brand: "Geto",
     sizes: ["40", "41", "42", "43"],
-    color: "Brown Suede",
+    color: { en: "Tan", km: "ត្នោតស្រាល" },
   },
   {
     id: 12,
@@ -392,7 +399,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_12`,
     brand: "Geto",
     sizes: ["39", "40", "41", "42", "43"],
-    color: "Beige",
+    color: { en: "Beige", km: "ត្នោតខ្ចី" },
   },
   {
     id: 13,
@@ -418,7 +425,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_13`,
     brand: "Heritage",
     sizes: ["39", "40", "41", "42", "43", "44"],
-    color: "Brown",
+    color: { en: "Brown", km: "ត្នោត" },
   },
   {
     id: 14,
@@ -444,7 +451,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_14`,
     brand: "Geto",
     sizes: ["39", "40", "41", "42", "43"],
-    color: "Black",
+    color: { en: "Brown", km: "ត្នោត" },
   },
   {
     id: 15,
@@ -462,7 +469,7 @@ export const products: Product[] = [
       "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-1_dfc04245-64ed-4df9-8b02-051c2116558d_1800x1800.jpg?v=1745503545",
       "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-3_b4b72028-5330-492d-88c8-a27a58f5a699_1800x1800.jpg?v=1745503545",
       "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-5_3153f2ce-1441-4cfb-981a-44c99d4346ec_1800x1800.jpg?v=1745503546",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-6_b9c7aaca-18d2-41a2-a2cc-387af9260e14_1800x1800.jpg?v=1745503546"
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-6_b9c7aaca-18d2-41a2-a2cc-387af9260e14_1800x1800.jpg?v=1745503546",
     ],
     inStock: true,
     isNew: false,
@@ -471,7 +478,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_15`,
     brand: "Geto",
     sizes: ["40", "41", "42", "43", "44"],
-    color: "Chestnut",
+    color: { en: "Chestnut", km: "ត្នោតខ្ចី" },
   },
   {
     id: 16,
@@ -489,7 +496,7 @@ export const products: Product[] = [
       "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-1_1800x1800.jpg?v=1772629274",
       "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-3_1800x1800.jpg?v=1772629275",
       "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-4_1800x1800.jpg?v=1772629274",
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-5_1800x1800.jpg?v=1772629275"
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-5_1800x1800.jpg?v=1772629275",
     ],
     inStock: true,
     isNew: false,
@@ -498,7 +505,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_16`,
     brand: "Geto",
     sizes: ["39", "40", "41", "42"],
-    color: "Navy Suede",
+    color: { en: "Navy Suede", km: "សមុទ្រ" },
   },
   {
     id: 17,
@@ -524,7 +531,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_17`,
     brand: "Geto",
     sizes: ["39", "40", "41", "42", "43", "44"],
-    color: "Dark Brown",
+    color: { en: "Dark Brown", km: "ពណ៌ត្នោតចាស់" },
   },
   {
     id: 18,
@@ -550,7 +557,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_18`,
     brand: "Geto",
     sizes: ["39", "40", "41", "42", "43"],
-    color: "Black",
+    color: { en: "Dark Brown", km: "ពណ៌ត្នោតចាស់" },
   },
   {
     id: 19,
@@ -573,7 +580,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_19`,
     brand: "Sneakers",
     sizes: ["40", "41", "42", "43", "44"],
-    color: "Olive",
+    color: { en: "Dark Brown", km: "ពណ៌ត្នោតចាស់" },
   },
   {
     id: 20,
@@ -599,7 +606,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_20`,
     brand: "Geto",
     sizes: ["39", "40", "41", "42", "43"],
-    color: "Burgundy",
+    color: { en: "Dark Brown", km: "ពណ៌ត្នោតចាស់" },
   },
 ];
 
@@ -640,5 +647,3 @@ export function getSaleProducts(): Product[] {
 export function getCategoryBySlug(slug: string): Category | undefined {
   return categories.find((c) => c.slug === slug);
 }
-
-

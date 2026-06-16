@@ -310,12 +310,18 @@ export function ProductDetailPage() {
                     {kh ? "ពណ៌:" : "Color:"}
                   </span>
                   <span className={`${bodyFont} font-medium text-[14px]`}>
-                    {product.color}
+                    {product.color[lang as Lang]}
                   </span>
                 </div>
               )}
 
-              <SocialBar
+              {/* order now */}
+              <div className="-mb-4">
+                <h3 className={`${headerFont} text-black text-[14px] sm:text-[16px] font-normal`}>
+                  {kh ? "កម្មង់ទិញ" : "Order Now:"}
+                </h3>
+              </div>
+              <SocialBar 
                 onTelegram={handleTelegramOrder}
                 onMessenger={handleMessenger}
               />

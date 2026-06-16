@@ -91,7 +91,7 @@ export function Footer() {
                 <p
                   className={`font-bold text-lg leading-none ${kh ? "font-header-kh" : ""}`}
                 >
-                  AL Fashion Store
+                 {kh ? "អេអិល ស្តរ" : " AL Store"}
                 </p>
               </div>
             </div>

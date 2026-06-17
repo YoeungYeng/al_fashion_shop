@@ -264,11 +264,11 @@ export const products: Product[] = [
 
     // 🔥 NEW: color → images mapping
     imagesByColor: {
-      "#F5DEB3": [
+      "#2014FF": [
         "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-2_1800x1800.jpg",
         "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-3_1800x1800.jpg",
       ],
-      "#000000": [
+      "#FFFFFF": [
         "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-03-1_1800x1800.jpg?v=1776909175",
         "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-03-2_1800x1800.jpg?v=1776909174",
         "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-03-3_1800x1800.jpg?v=1776909174"

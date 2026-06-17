@@ -86,7 +86,7 @@ export function HomePage() {
 
       <div className="max-w-[1600px] mx-auto px-4 md:px-8 py-10">
         {/* CATEGORY */}
-        <section className="w-full px-2 md:px-2 lg:px-2 py-2 md:py-2 -mb-5 -mt-4">
+        <section className="w-full px-2 md:px-2 lg:px-2 py-2 md:py-2 -mb-2 -mt-4">
           <Swiper
             spaceBetween={4}
             slidesPerView={5}

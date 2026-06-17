@@ -126,7 +126,7 @@ export const categories: Category[] = [
           en: "Sneakers",
           km: "ស្បែកជើងប៉ាតា",
         },
-        cover: "src/assets/sneaker (1).png",
+        cover: "https://i.ibb.co/dJJr8MPG/sneaker-1.png",
       },
       {
         slug: "sports-shoes",
@@ -134,7 +134,7 @@ export const categories: Category[] = [
           en: "Sports Shoes",
           km: "ស្បែកជើងកីឡា",
         },
-        cover: "src/assets/sport (1).png",
+        cover: "https://i.ibb.co/hxDqkckt/sport-1.png",
       },
       {
         slug: "sandals",
@@ -142,7 +142,7 @@ export const categories: Category[] = [
           en: "Sandals",
           km: "ស្បែកជើងស៊ក",
         },
-        cover: "src/assets/sandal (1).png",
+        cover: "https://i.ibb.co/cSKG4zQV/sandal-1.png",
       },
       {
         slug: "flip-flops",
@@ -150,7 +150,7 @@ export const categories: Category[] = [
           en: "Flip-Flops",
           km: "ស្បែកជើងផ្ទាត់",
         },
-        cover: "src/assets/flip-flops (1).png",
+        cover: "https://i.ibb.co/jvc91JLr/flip-flops-1.png",
       },
     ],
   },

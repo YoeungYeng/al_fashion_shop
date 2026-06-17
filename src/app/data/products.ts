@@ -269,8 +269,9 @@ export const products: Product[] = [
         "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-3_1800x1800.jpg",
       ],
       "#000000": [
-        "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM1-46600223-52-2_1800x1800.jpg?v=1781068000",
-        "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM1-46600223-52-3_1800x1800.jpg?v=1781068001",
+        "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-03-1_1800x1800.jpg?v=1776909175",
+        "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-03-2_1800x1800.jpg?v=1776909174",
+        "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-03-3_1800x1800.jpg?v=1776909174"
       ],
     },
 
@@ -281,7 +282,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_1`,
     brand: "Timberland",
     sizes: ["39", "40", "41", "42", "43", "44"],
-    color: ["#F5DEB3", "#000000"],
+    color: ["2014FF", "#FFFFFF"],
   },
 
   {

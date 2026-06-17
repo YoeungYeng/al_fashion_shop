@@ -282,7 +282,7 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_1`,
     brand: "Timberland",
     sizes: ["39", "40", "41", "42", "43", "44"],
-    color: ["2014FF", "#FFFFFF"],
+    color: ["#2014FF", "#FFFFFF"],
   },
 
   {

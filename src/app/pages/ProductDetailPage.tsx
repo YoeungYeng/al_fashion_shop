@@ -103,7 +103,7 @@ export function ProductDetailPage() {
       `-------------------\n` +
       `Name: ${product.name[lang as Lang]}\n` +
       `Price: $${discountedPrice.toFixed(2)}\n` +
-      `Color: ${colorText}\n` +
+      // `Color: ${colorText}\n` +
       `Size: ${sizeText}\n` +
       `Stock: ${product.inStock ? "In Stock" : "Out of Stock"}\n` +
       `-------------------\n` +

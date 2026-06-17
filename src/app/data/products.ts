@@ -83,10 +83,10 @@ export const categories: Category[] = [
       en: "All products",
       km: "ផលិតផលទាំងអស់",
     },
-    cover: "src/assets/all.png",
+    cover: "https://i.ibb.co/cc7Q4wJY/all-removebg-preview-1.png",
     icon: "🛍️",
     gender: "both",
-    banner: "/images/banners/all.jpg",
+    banner: "https://i.ibb.co/cc7Q4wJY/all-removebg-preview-1.png",
   },
 
   {
@@ -99,10 +99,10 @@ export const categories: Category[] = [
       en: "Discount products",
       km: "ផលិតផលបញ្ចុះតម្លៃ",
     },
-    cover: "src/assets/discount1.png",
+    cover: "https://i.ibb.co/Nd6dH0Qn/discount-removebg-preview.png",
     icon: "🔥",
     gender: "both",
-    banner: "/images/banners/discount.jpg",
+    banner: "https://i.ibb.co/Nd6dH0Qn/discount-removebg-preview.png",
   },
 
   {
@@ -115,10 +115,10 @@ export const categories: Category[] = [
       en: "All shoes collection",
       km: "ប្រភេទស្បែកជើងទាំងអស់",
     },
-    cover: "src/assets/boots.png",
+    cover: "https://i.ibb.co/39CcpWXx/boots.png",
     icon: "👟",
     gender: "both",
-    banner: "/images/banners/shoes.jpg",
+    banner: "https://i.ibb.co/39CcpWXx/boots.png",
     subcategories: [
       {
         slug: "sneakers",
@@ -165,10 +165,10 @@ export const categories: Category[] = [
       en: "Belts collection",
       km: "ប្រភេទខ្សែក្រវ៉ាត់",
     },
-    cover: "src/assets/belt.png",
+    cover: "https://i.ibb.co/7xf81w9m/belt-removebg-preview.png",
     icon: "🧷",
     gender: "both",
-    banner: "/images/banners/belts.jpg",
+    banner: "https://i.ibb.co/7xf81w9m/belt-removebg-preview.png",
   },
 
   {
@@ -181,10 +181,10 @@ export const categories: Category[] = [
       en: "Bags collection",
       km: "ប្រភេទកាបូប",
     },
-    cover: "src/assets/badge.png",
+    cover: "https://i.ibb.co/2YLFbD1b/badges-removebg-preview.png",
     icon: "👜",
     gender: "both",
-    banner: "/images/banners/bags.jpg",
+    banner: "https://i.ibb.co/2YLFbD1b/badges-removebg-preview.png",
   },
 
   {
@@ -197,10 +197,10 @@ export const categories: Category[] = [
       en: "Fashion and clothing",
       km: "សម្លៀកបំពាក់",
     },
-    cover: "src/assets/t-shirt.png",
+    cover: "https://i.ibb.co/8QPjgr8/t-shirt.png",
     icon: "👕",
     gender: "both",
-    banner: "/images/banners/clothing.jpg",
+    banner: "https://i.ibb.co/8QPjgr8/t-shirt.png",
   },
 
   {
@@ -213,27 +213,27 @@ export const categories: Category[] = [
       en: "Beauty and cosmetics",
       km: "គ្រឿងសំអាង",
     },
-    cover: "src/assets/cosmetics.png",
+    cover: "https://i.ibb.co/0VZ9rfVc/cosmetics.png",
     icon: "💄",
     gender: "both",
-    banner: "/images/banners/cosmetics.jpg",
+    banner: "https://i.ibb.co/0VZ9rfVc/cosmetics.png",
   },
 
-  {
-    slug: "daily-necessities",
-    name: {
-      en: "Daily Necessities",
-      km: "សម្ភារៈប្រើប្រាស់ប្រចាំថ្ងៃ",
-    },
-    description: {
-      en: "Daily necessities products",
-      km: "សម្ភារៈប្រើប្រាស់ប្រចាំថ្ងៃ",
-    },
-    cover: "src/assets/accessories.png",
-    icon: "🧴",
-    gender: "both",
-    banner: "/images/banners/daily.jpg",
-  },
+  // {
+  //   slug: "daily-necessities",
+  //   name: {
+  //     en: "Daily Necessities",
+  //     km: "សម្ភារៈប្រើប្រាស់ប្រចាំថ្ងៃ",
+  //   },
+  //   description: {
+  //     en: "Daily necessities products",
+  //     km: "សម្ភារៈប្រើប្រាស់ប្រចាំថ្ងៃ",
+  //   },
+  //   cover: "src/assets/accessories.png",
+  //   icon: "🧴",
+  //   gender: "both",
+  //   banner: "/images/banners/daily.jpg",
+  // },
 ];
 
 /* ============================================================

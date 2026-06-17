@@ -3,27 +3,42 @@ import { Slideshow } from "../components/Slideshow";
 import { useLang } from "../context/LanguageContext";
 import { products, categories } from "../data/products";
 import { PromotionPage } from "../components/PromotionPage";
-// Import the CompactProductCard instead of NewArrivalCard and ProductCard
 import { CompactProductCard } from "../components/CompactProductCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 function SectionHeader({
   title,
   linkTo,
   linkLabel,
+  external = false,
 }: {
-  title: string;
-  linkTo: string;
-  linkLabel: string;
+  title?: string;
+  linkTo?: string;
+  linkLabel?: string;
+  external?: boolean;
 }) {
   return (
     <div className="flex items-center justify-between mb-6 gap-4">
       <h2 className="text-[16px] font-medium text-[#1C1917]">{title}</h2>
-      <Link
-        to={linkTo}
-        className="flex items-center gap-2 text-[16px] font-medium text-black hover:text-black/60 transition-colors"
-      >
-        {linkLabel}
-      </Link>
+
+      {external ? (
+        <a
+          href={linkTo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 text-[16px] font-medium text-black hover:text-black/60 transition-colors"
+        >
+          {linkLabel}
+        </a>
+      ) : (
+        <Link
+          to={linkTo}
+          className="flex items-center gap-2 text-[16px] font-medium text-black hover:text-black/60 transition-colors"
+        >
+          {linkLabel}
+        </Link>
+      )}
     </div>
   );
 }
@@ -35,13 +50,32 @@ export function HomePage() {
   const l = lang as "en" | "km";
   const bodyFont = kh ? "font-body-kh" : "font-body-en";
 
+  // Every category slug (including "all" and "discount") routes through the
+  // same `?category=` param. ProductsPage + getProductsByCategory() already
+  // special-case "all" (no filtering) and "discount" (discount > 0 across
+  // every category), so no branching is needed here.
   const handleCategoryClick = (slug: string) => {
-    if (slug === "sale") {
-      navigate("/products?sale=true");
-    } else {
-      navigate(`/products?category=${slug}`);
-    }
+    navigate(`/products?category=${slug}`);
   };
+
+  const STORE = {
+    name: "AL Fashion Store",
+    address: "Phnom Penh, Cambodia",
+    lat: 11.5544553,
+    lng: 104.9000144,
+  };
+
+  const getGoogleMapLinks = (lat: number, lng: number) => {
+    return {
+      mapEmbedSrc: `https://maps.google.com/maps?q=${lat},${lng}&output=embed`,
+      mapDirectionsLink: `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`,
+    };
+  };
+
+  const { mapEmbedSrc, mapDirectionsLink } = getGoogleMapLinks(
+    STORE.lat,
+    STORE.lng,
+  );
 
   return (
     <div
@@ -51,64 +85,54 @@ export function HomePage() {
       <Slideshow />
 
       <div className="max-w-[1600px] mx-auto px-4 md:px-8 py-10">
-        {/* category */}
-        <section>
-          <div className="mb-4 flex flex-wrap justify-center gap-8 md:gap-12">
-            {/* "All" link */}
-            <button
-              onClick={() => navigate("/products")}
-              className="group flex flex-col items-center cursor-pointer"
-            >
-              <div className="w-24 md:w-32 transition-all duration-300 group-hover:scale-105">
-                <img
-                  src="/icons/all.png" // swap for your actual "all" icon
-                  alt={kh ? "ទាំងអស់" : "All"}
-                  className="max-w-20 max-h-20 object-contain mx-auto"
-                />
-              </div>
-              <span
-                className={`${bodyFont} mt-2 text-[14px] text-black/60 group-hover:text-black transition-colors`}
-              >
-                {kh ? "ទាំងអស់" : "All"}
-              </span>
-              <div className="mt-1 h-[2px] w-0 group-hover:w-14 bg-black transition-all duration-300" />
-            </button>
+        {/* CATEGORY */}
+        <section className="w-full px-2 md:px-2 lg:px-2 py-2 md:py-2 -mb-5 -mt-4">
+          <Swiper
+            spaceBetween={4}
+            slidesPerView={5}
+            allowSlideNext
+            centerInsufficientSlides
+            observer
+            observeParents
+            breakpoints={{
+              640: {
+                slidesPerView: 4,
+              },
+              768: {
+                slidesPerView: 7,
+              },
+              1024: {
+                slidesPerView: 14,
+              },
+            }}
+          >
+            {/* All */}
 
-            {/* Real categories, including Sale */}
-            {categories.map((cat) => {
-              const isSale = cat.slug === "sale";
-              return (
+            {categories.map((cat) => (
+              <SwiperSlide key={cat.slug}>
                 <button
-                  key={cat.slug}
                   onClick={() => handleCategoryClick(cat.slug)}
-                  className="group flex flex-col items-center cursor-pointer"
+                  className="group flex flex-col items-center"
                 >
-                  <div className="w-24 md:w-32 transition-all duration-300 group-hover:scale-105">
-                    <img
-                      src={cat.cover}
-                      alt={cat.name[l]}
-                      className="max-w-20 max-h-20 object-contain mx-auto"
-                    />
-                  </div>
+                  <img
+                    src={cat.cover}
+                    alt={cat.name[l]}
+                    className="w-20 h-20 object-contain"
+                  />
+
                   <span
-                    className={`${bodyFont} mt-2 text-[14px] transition-colors ${
-                      isSale
-                        ? "text-red-600 font-medium"
-                        : "text-black/60 group-hover:text-black"
+                    className={`mt-2 text-sm ${
+                      cat.slug === "discount" ? "text-red-600" : "text-black/60"
                     }`}
                   >
                     {cat.name[l]}
                   </span>
-                  <div
-                    className={`mt-1 h-[2px] w-0 group-hover:w-14 transition-all duration-300 ${
-                      isSale ? "bg-red-600" : "bg-black"
-                    }`}
-                  />
                 </button>
-              );
-            })}
-          </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </section>
+
         {/* FLASH SALE (The Slider) */}
         <section className="w-full py-4 md:py-4 lg:py-4">
           <div className="mx-auto px-4 md:px-8 lg:px-12 mb-8">
@@ -140,7 +164,7 @@ export function HomePage() {
                     key={product.id}
                     showCarousel={true}
                     product={product}
-                    imageAspect="aspect-square" // Makes it square like the promotion cards
+                    imageAspect="aspect-square"
                   />
                 ))}
             </div>
@@ -164,9 +188,48 @@ export function HomePage() {
                     key={product.id}
                     product={product}
                     showCarousel={true}
-                    imageAspect="aspect-square" // Consistency across all sections
+                    imageAspect="aspect-square"
                   />
                 ))}
+            </div>
+          </div>
+        </section>
+
+        {/* VISIT US */}
+        <section className="w-full py-4 md:py-4 lg:py-6">
+          <div className="mx-auto px-4 md:px-8 lg:px-12">
+            <SectionHeader
+              title={kh ? "ស្វែងរកហាងយើង" : "Visit Our Store"}
+              linkTo={mapDirectionsLink}
+              external
+            />
+
+            <div className="flex w-full  gap-5 lg:gap-6">
+              {/* Google Map */}
+              <div className="lg:col-span-2 w-full rounded-lg overflow-hidden border border-black/10">
+                <div className="relative">
+                  <iframe
+                    src={mapEmbedSrc}
+                    width="100%"
+                    height="420"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    allowFullScreen
+                  />
+
+                  {/* small invisible hint only on hover */}
+                  <a
+                    href={mapDirectionsLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0"
+                  />
+
+                  <div className="absolute bottom-3 right-3 bg-white/90 px-3 py-1 text-xs rounded shadow">
+                    Click to open in Google Maps
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

@@ -1,22 +1,22 @@
 import { NavLink } from "react-router";
-import {
-  Facebook,
-  Instagram,
-  Youtube,
-  Send,
-  Phone,
-  Mail,
-  MapPin,
-} from "lucide-react";
+import { Facebook, Send, Phone, Mail, MapPin } from "lucide-react";
 import { useLang } from "../context/LanguageContext";
+import { FaTiktok } from "react-icons/fa";
 
 import logo from "../../assets/al_fahion_logo.png";
 
 const socials = [
-  { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
-  { icon: Send, href: "https://t.me/yourcafe", label: "Telegram" },
-  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-  { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
+  {
+    icon: Facebook,
+    href: "https://www.facebook.com/share/1HMVYM3kXZ/",
+    label: "Facebook",
+  },
+  { icon: Send, href: "https://t.me/ALfashionshop", label: "Telegram" },
+  {
+    icon: FaTiktok,
+    href: "https://tiktok.com/@alfashion168",
+    label: "Instagram",
+  },
 ];
 
 type MenuKey =
@@ -84,14 +84,14 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="object-contain flex items-center justify-center">
-                <img src={logo} alt="" className="h-11 object-contain"/>
+                <img src={logo} alt="" className="h-11 object-contain" />
               </div>
 
               <div>
                 <p
                   className={`font-bold text-lg leading-none ${kh ? "font-header-kh" : ""}`}
                 >
-                 {kh ? "អេអិល ស្តរ" : " AL Store"}
+                  {kh ? "អេអិល ស្តរ" : " AL Store"}
                 </p>
               </div>
             </div>
@@ -108,12 +108,12 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-black/60">
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4" />
-                +855 12 345 678
+                +855 12 869 255
               </li>
 
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
-                info@shoestore.com
+                pepperpheara@gmail.com
               </li>
 
               <li className="flex items-center gap-2">

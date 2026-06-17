@@ -27,7 +27,7 @@ export function ProductActions({
   const handleTelegramOrder = () => {
     const productUrl = `${window.location.origin}/products/${product.slug}`;
     const message = `
-    🛒 NEW SHOE ORDER
+     NEW SHOE ORDER
 
     Name: ${product.name[lang as Lang]}
     Price: $${discountedPrice.toFixed(2)}
@@ -39,7 +39,7 @@ export function ProductActions({
 `.trim();
 
     window.open(
-      `https://t.me/yoeungyeng?text=${encodeURIComponent(message)}`,
+      `https://t.me/PhearaPum?text=${encodeURIComponent(message)}`,
       "_blank",
     );
   };
@@ -58,7 +58,7 @@ export function ProductActions({
   `.trim();
 
     window.open(
-      `https://m.me/smallTeam760?text=${encodeURIComponent(message)}`,
+      `https://m.me/thebestwayformen?text=${encodeURIComponent(message)}`,
       "_blank",
     );
   };
@@ -69,10 +69,10 @@ export function ProductActions({
     const productUrl = `${window.location.origin}/products/${product.slug}`;
 
     const message = `
-🛍 ${product.name[lang as Lang]}
-💰 $${discountedPrice.toFixed(2)}
-${discountRate > 0 ? `🔥 ${discountRate}% OFF` : ""}
-🔗 ${productUrl}
+ ${product.name[lang as Lang]}
+ $${discountedPrice.toFixed(2)}
+${discountRate > 0 ? ` ${discountRate}% OFF` : ""}
+ ${productUrl}
 `.trim();
 
     // Open seller chat

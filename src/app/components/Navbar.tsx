@@ -184,34 +184,7 @@ export function Navbar() {
           </div>
 
           {/* NAV ITEMS */}
-          <div className="space-y-1">
-            {categories.map((category) => {
-              const isSaleItem = category.slug === "sale";
-              const active = isSaleItem
-                ? activeSale
-                : activeCategory === category.slug;
-
-              return (
-                <button
-                  key={category.slug}
-                  onClick={() => handleCategoryClick(category.slug)}
-                  className={`w-full text-left px-4 py-3 transition ${
-                    isSaleItem
-                      ? active
-                        ? "bg-red-50 text-red-600"
-                        : "text-red-500/80 hover:bg-red-50"
-                      : active
-                      ? "bg-black/5 text-black"
-                      : "text-black/70 hover:bg-black/5"
-                  }`}
-                >
-                  <span className={navTextClass}>
-                    {kh ? category.name.km : category.name.en}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+          {/* npm */}
         </div>
       )}
     </header>

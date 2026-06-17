@@ -1,26 +1,55 @@
-/* ============================================================
-   TYPES
-============================================================ */
-
 export type Gender = "men" | "women" | "both";
 
 export interface Product {
   id: number;
   slug: string;
+
   name: { en: string; km: string };
   description: { en: string; km: string };
+
   price: number;
   discount: number;
+
   category: string;
+  subcategory?: string;
+
+  // fallback images (default)
   images: string[];
+
+  // 🔥 NEW: color → images mapping (for variant switching)
+  imagesByColor?: {
+    [color: string]: string[];
+  };
+
   inStock: boolean;
   isNew: boolean;
   isPopular: boolean;
+
   createdAt: string;
+
   telegramLink: string;
+
   brand?: string;
+
   sizes?: string[];
-  color?: { en: string; km: string };
+
+  // colors (hex or names)
+  color?: string[];
+
+  // 🔥 OPTIONAL (future upgrade)
+  stockByColor?: {
+    [color: string]: number;
+  };
+
+  priceByColor?: {
+    [color: string]: number;
+  };
+}
+
+export interface SubCategory {
+  slug: string;
+  name: { en: string; km: string };
+  cover?: string; // optional, falls back to parent category's cover if omitted
 }
 
 export interface Category {
@@ -31,6 +60,7 @@ export interface Category {
   icon: string;
   gender: Gender; // which menu(s) this category appears under
   banner: string;
+  subcategories?: SubCategory[];
 }
 
 export interface Menu {
@@ -40,54 +70,169 @@ export interface Menu {
   products: Product[];
 }
 
-/* ============================================================
-   TELEGRAM BOT
-============================================================ */
-
 export const TELEGRAM_BASE = "https://t.me/yoeungyeng";
-
-/* ============================================================
-   CATEGORIES
-============================================================ */
 
 export const categories: Category[] = [
   {
-    slug: "sale",
-    name: { en: "Sale", km: "បញ្ចុះតម្លៃ" },
-    description: {
-      en: "All products on discount",
-      km: "ផលិតផលទាំងអស់មានបញ្ចុះតម្លៃ",
+    slug: "all",
+    name: {
+      en: "All",
+      km: "ទាំងអស់",
     },
-    cover:
-      "https://png.pngtree.com/png-clipart/20250421/original/pngtree-3d-render-of-red-sale-tags-with-percentage-sign-png-image_20757962.png", // Use a sale-themed image
-    icon: "🔥",
-    gender: "both", // Show in both Men and Women menus
-    banner: "/assets/sale-white-banner.jpg", // Use your clean white banner here
-  },
-  {
-    slug: "classic-boots",
-    name: { en: "Sneakers", km: "ស្បែកជើងកីឡា" },
-    description: { en: "Premium leather boots", km: "ប៊ូតស្បែកគុណភាពខ្ពស់" },
-    cover:
-      "https://png.pngtree.com/png-vector/20250422/ourmid/pngtree-white-sneakers-for-school-kids-png-image_15978669.png",
-    icon: "🥾",
-    gender: "men",
-    banner:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
-  },
-  {
-    slug: "loafers",
-    name: { en: "Loafers", km: "ស្បែកជើងឃ្លប់" },
     description: {
-      en: "Comfortable everyday loafers",
-      km: "ស្បែកជើងស្រួលពាក់",
+      en: "All products",
+      km: "ផលិតផលទាំងអស់",
     },
-    cover:
-      "https://png.pngtree.com/png-vector/20250416/ourmid/pngtree-classic-brown-leather-loafers-for-men-stylish-everyday-wear-png-image_16005977.png",
-    icon: "🥿",
+    cover: "src/assets/all.png",
+    icon: "🛍️",
     gender: "both",
-    banner:
-      "https://cdn.shopify.com/s/files/1/0288/1404/9355/files/c5e7fe43-e3a7-436b-b1b2-6d59f9a8e45e.png?v=1734601972",
+    banner: "/images/banners/all.jpg",
+  },
+
+  {
+    slug: "discount",
+    name: {
+      en: "Discount",
+      km: "បញ្ចុះតម្លៃ",
+    },
+    description: {
+      en: "Discount products",
+      km: "ផលិតផលបញ្ចុះតម្លៃ",
+    },
+    cover: "src/assets/discount1.png",
+    icon: "🔥",
+    gender: "both",
+    banner: "/images/banners/discount.jpg",
+  },
+
+  {
+    slug: "shoes",
+    name: {
+      en: "Shoes",
+      km: "ស្បែកជើង",
+    },
+    description: {
+      en: "All shoes collection",
+      km: "ប្រភេទស្បែកជើងទាំងអស់",
+    },
+    cover: "src/assets/boots.png",
+    icon: "👟",
+    gender: "both",
+    banner: "/images/banners/shoes.jpg",
+    subcategories: [
+      {
+        slug: "sneakers",
+        name: {
+          en: "Sneakers",
+          km: "ស្បែកជើងប៉ាតា",
+        },
+        cover: "src/assets/sneaker (1).png",
+      },
+      {
+        slug: "sports-shoes",
+        name: {
+          en: "Sports Shoes",
+          km: "ស្បែកជើងកីឡា",
+        },
+        cover: "src/assets/sport (1).png",
+      },
+      {
+        slug: "sandals",
+        name: {
+          en: "Sandals",
+          km: "ស្បែកជើងស៊ក",
+        },
+        cover: "src/assets/sandal (1).png",
+      },
+      {
+        slug: "flip-flops",
+        name: {
+          en: "Flip-Flops",
+          km: "ស្បែកជើងផ្ទាត់",
+        },
+        cover: "src/assets/flip-flops (1).png",
+      },
+    ],
+  },
+
+  {
+    slug: "belts",
+    name: {
+      en: "Belts",
+      km: "ខ្សែក្រវ៉ាត់",
+    },
+    description: {
+      en: "Belts collection",
+      km: "ប្រភេទខ្សែក្រវ៉ាត់",
+    },
+    cover: "src/assets/belt.png",
+    icon: "🧷",
+    gender: "both",
+    banner: "/images/banners/belts.jpg",
+  },
+
+  {
+    slug: "bags",
+    name: {
+      en: "Bags",
+      km: "កាបូប",
+    },
+    description: {
+      en: "Bags collection",
+      km: "ប្រភេទកាបូប",
+    },
+    cover: "src/assets/badge.png",
+    icon: "👜",
+    gender: "both",
+    banner: "/images/banners/bags.jpg",
+  },
+
+  {
+    slug: "clothing",
+    name: {
+      en: "Clothing",
+      km: "សម្លៀកបំពាក់",
+    },
+    description: {
+      en: "Fashion and clothing",
+      km: "សម្លៀកបំពាក់",
+    },
+    cover: "src/assets/t-shirt.png",
+    icon: "👕",
+    gender: "both",
+    banner: "/images/banners/clothing.jpg",
+  },
+
+  {
+    slug: "cosmetics",
+    name: {
+      en: "Cosmetics",
+      km: "គ្រឿងសំអាង",
+    },
+    description: {
+      en: "Beauty and cosmetics",
+      km: "គ្រឿងសំអាង",
+    },
+    cover: "src/assets/cosmetics.png",
+    icon: "💄",
+    gender: "both",
+    banner: "/images/banners/cosmetics.jpg",
+  },
+
+  {
+    slug: "daily-necessities",
+    name: {
+      en: "Daily Necessities",
+      km: "សម្ភារៈប្រើប្រាស់ប្រចាំថ្ងៃ",
+    },
+    description: {
+      en: "Daily necessities products",
+      km: "សម្ភារៈប្រើប្រាស់ប្រចាំថ្ងៃ",
+    },
+    cover: "src/assets/accessories.png",
+    icon: "🧴",
+    gender: "both",
+    banner: "/images/banners/daily.jpg",
   },
 ];
 
@@ -98,7 +243,7 @@ export const categories: Category[] = [
 export const products: Product[] = [
   {
     id: 1,
-    slug: "timberland-6inch-premium",
+    slug: "strata-sneakers",
     name: {
       en: "Strata Sneakers",
       km: "Strata Sneakers",
@@ -109,14 +254,26 @@ export const products: Product[] = [
     },
     price: 180,
     discount: 10,
-    category: "classic-boots",
+    category: "shoes",
+    subcategory: "sneakers",
+
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-2_74e0f362-dc0d-44cf-9fe0-b0ee009c6755_1800x1800.jpg?v=1727185944",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-1_173b78b4-de15-48fb-920e-5b2fbae4bc1e_1800x1800.jpg?v=1727185944",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-3_9e248ca6-9c14-4fee-b8df-67460f96f0e9_1800x1800.jpg?v=1727185944",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-4_859346bf-5e5b-4d9c-8ab1-58725be88b92_1800x1800.jpg?v=1727185944",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-5_9cc6825a-565d-479c-91bb-65a79abe7141_1800x1800.jpg?v=1727185944",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-2_1800x1800.jpg",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-2_1800x1800.jpg"
     ],
+
+    // 🔥 NEW: color → images mapping
+    imagesByColor: {
+      "#F5DEB3": [
+        "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-2_1800x1800.jpg",
+        "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-76210252-06-3_1800x1800.jpg",
+      ],
+      "#000000": [
+        "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM1-46600223-52-2_1800x1800.jpg?v=1781068000",
+        "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM1-46600223-52-3_1800x1800.jpg?v=1781068001",
+      ],
+    },
+
     inStock: true,
     isNew: false,
     isPopular: true,
@@ -124,496 +281,343 @@ export const products: Product[] = [
     telegramLink: `${TELEGRAM_BASE}?start=shoe_1`,
     brand: "Timberland",
     sizes: ["39", "40", "41", "42", "43", "44"],
-    color: { en: "Wheat", km: "ស្រូវសាលី" },
+    color: ["#F5DEB3", "#000000"],
   },
+
   {
     id: 2,
-    slug: "chelsea-black-leather-boots",
-    name: { en: "Chelsea Black Leather Boots", km: "Chelsea ស្បែកខ្មៅ" },
-    description: { en: "Elegant slip-on boots.", km: "Boots ស្អាតពាក់ងាយ" },
-    price: 120,
-    discount: 5,
-    category: "chelsea-boots",
-    images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-96380017-01-1_bb832d48-d11f-48b8-bc2f-cafa83d6270b_1800x1800.jpg?v=1756908981",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-96380017-01-3_ff35feb6-ae75-416b-a73f-23ea41a70681_1800x1800.jpg?v=1756908980",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-96380017-01-4_e8de534b-94af-4b2e-b4f3-3b87c198c6a8_1800x1800.jpg?v=1756908981",
-    ],
-    inStock: true,
-    isNew: true,
-    isPopular: true,
-    createdAt: "2025-01-12",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_2`,
-    brand: "Classic",
-    sizes: ["39", "40", "41", "42", "43"],
-    color: { en: "Black", km: "ខ្មៅ" },
-  },
-  {
-    id: 3,
-    slug: "burnished-leather-work-boots",
-    name: { en: "Burnished Leather Work Boots", km: "Boots ការងារ ស្បែកពិត" },
-    description: { en: "Heavy duty durable boots.", km: "Boots ធន់ការងារ" },
-    price: 140,
+    slug: "cyclone-sneakers",
+    name: { en: "Cyclone Sneakers Sneakers", km: "ស្បែកជើង Cyclone Sneakers" },
+    description: {
+      en: "Lightweight everyday sneakers with breathable mesh upper.",
+      km: "ស្បែកជើងស្រាល ប្រើប្រាស់ប្រចាំថ្ងៃ មានភ្លុកខ្យល់",
+    },
+    price: 65,
     discount: 0,
-    category: "work-boots",
+    category: "shoes",
+    subcategory: "sneakers",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-46380088-01-2_9d1b553f-8d71-453f-b965-95b3b57e63ab_1800x1800.jpg?v=1735742199",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-46380088-01-3_e28333c1-4e0a-459e-ad0d-4ba1726924b0_1800x1800.jpg?v=1735742199",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-46380088-01-4_6dc4915c-261c-455a-94ff-761a943cb237_1800x1800.jpg?v=1735742199",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-2_fc87e24e-3e80-447e-acb5-e741b9130962_1800x1800.jpg?v=1755094575",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-1_949ee568-1356-406d-b329-871822233214_1800x1800.jpg?v=1755094575",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-3_64facb22-4f68-4290-80f2-169810fa9713_1800x1800.jpg?v=1755094575",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-5_ac359f11-b8da-4a10-9e37-69c460f427df_1800x1800.jpg?v=1755094576",
     ],
     inStock: true,
     isNew: true,
     isPopular: false,
-    createdAt: "2025-01-15",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_3`,
-    brand: "Worker Pro",
-    sizes: ["40", "41", "42", "43", "44"],
-    color: { en: "Brown", km: "ត្នោត" },
+    createdAt: "2026-02-01",
+    telegramLink: `${TELEGRAM_BASE}?start=shoe_2`,
+    sizes: ["38", "39", "40", "41", "42"],
+    color: ["#FFFFFF"], // White
   },
+
+  {
+    id: 3,
+    slug: "apex-sport-trainers",
+    name: { en: "Apex Sport Trainers", km: "ស្បែកជើងកីឡា Apex" },
+    description: {
+      en: "Cushioned trainers built for daily workouts and running.",
+      km: "ស្បែកជើងកីឡា សម្រាប់ហាត់ប្រាណ និងរត់ប្រចាំថ្ងៃ",
+    },
+    price: 75,
+    discount: 15,
+    category: "shoes",
+    subcategory: "sports-shoes",
+    images: [
+      "https://zandokh.com/image/catalog/products/2026-05/5162511001/AV8A9644a.jpg",
+      "https://zandokh.com/image/catalog/products/2026-05/5162511001/AV8A9648a.jpg",
+      "https://zandokh.com/image/catalog/products/2026-05/5162511001/AV8A9647.jpg",
+      "https://zandokh.com/image/catalog/products/2026-05/5162511001/AV8A9646.jpg",
+    ],
+    inStock: true,
+    isNew: false,
+    isPopular: true,
+    createdAt: "2026-01-15",
+    telegramLink: `${TELEGRAM_BASE}?start=shoe_3`,
+    sizes: ["39", "40", "41", "42", "43"],
+    color: ["#000000"], // Black
+  },
+
   {
     id: 4,
-    slug: "oxford-brown",
-    name: { en: "Leather Oxford Shoes", km: "Oxford ស្បែកត្នោត" },
+    slug: "coastal-sandals",
+    name: { en: "Coastal Sandals", km: "ស្បែកជើងសង្រ្គោះ Coastal" },
     description: {
-      en: "Formal classic oxford shoes.",
-      km: "ស្បែកជើង formal classic",
+      en: "Durable strap sandals for warm-weather wear.",
+      km: "ស្បែកជើងសង្រ្គោះ រឹងមាំ សម្រាប់ពាក់ពេលក្ដៅ",
+    },
+    price: 28,
+    discount: 0,
+    category: "shoes",
+    subcategory: "sandals",
+    images: [
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-85110456-01-2_c2d97e82-7214-453b-8757-dcc4618915fd_1800x1800.jpg?v=1721226539",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-85110456-01-1_51cbc983-a75f-4060-9b13-394e5ecd4311_1800x1800.jpg?v=1721226539",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-85110456-01-3_14a4c662-8a10-40c4-96db-e72079b1f346_1800x1800.jpg?v=1721226539",
+      "https://pedroshoes.com.kh/cdn/shop/files/2024-L6-PM1-85110456-01-4_8db02c37-d169-419f-bf30-be3b27858117_1800x1800.jpg?v=1721226539",
+    ],
+    inStock: true,
+    isNew: false,
+    isPopular: false,
+    createdAt: "2025-11-20",
+    telegramLink: `${TELEGRAM_BASE}?start=shoe_4`,
+    sizes: ["38", "39", "40", "41", "42", "43"],
+    color: ["#8B4513"], // Brown
+  },
+
+  {
+    id: 5,
+    slug: "breeze-flip-flops",
+    name: { en: "Breeze Flip-Flops", km: "ស្បែកជើងផ្ទាត់ Breeze" },
+    description: {
+      en: "Soft sole flip-flops, easy to slip on and go.",
+      km: "ស្បែកជើងផ្ទាត់ ខ្នើយទន់ ស្រួលពាក់",
+    },
+    price: 12,
+    discount: 5,
+    category: "shoes",
+    subcategory: "flip-flops",
+    images: [
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM1-86380211-01-1_1800x1800.jpg?v=1779762157",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM1-86380211-01-2_1800x1800.jpg?v=1779762154",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM1-86380211-01-3_1800x1800.jpg?v=1779762154",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM1-86380211-01-4_1800x1800.jpg?v=1779762153",
+    ],
+    inStock: true,
+    isNew: true,
+    isPopular: false,
+    createdAt: "2026-03-05",
+    telegramLink: `${TELEGRAM_BASE}?start=shoe_5`,
+    sizes: ["38", "39", "40", "41", "42", "43"],
+    color: ["#000080"], // Navy
+  },
+
+  {
+    id: 6,
+    slug: "oxford-classic-shoes",
+    name: { en: "Jonah Backstrap Sandals", km: "ស្បែកជើងស៊ក Jonah Backstrap" },
+    description: {
+      en: "Polished leather oxfords for formal occasions.",
+      km: "ស្បែកជើងស្បែកពិត សម្រាប់ឱកាសផ្លូវការ",
     },
     price: 95,
     discount: 0,
-    category: "oxford",
+    category: "shoes",
+    subcategory: "shoes",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-46380091-29-2_e0c8f614-60bc-49be-bac2-1dd4bc381d79_1800x1800.jpg?v=1749086562",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-46380091-29-1_5d5dfd05-5f67-456a-aaa6-4efed133fd0c_1800x1800.jpg?v=1749086562",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-85110485-01-2_6e3ace73-6ab6-4c47-9efc-28bd86a9e34a_1800x1800.jpg?v=1770214247",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-85110485-01-1_e07fcbb8-23c8-4f17-995a-5896a3c4e3bf_1800x1800.jpg?v=1770214247",
     ],
     inStock: true,
     isNew: false,
     isPopular: true,
-    createdAt: "2025-01-18",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_4`,
-    brand: "Oxford Classic",
-    sizes: ["39", "40", "41", "42", "43"],
-    color: { en: "Brown", km: "ត្នោត" },
-  },
-  {
-    id: 5,
-    slug: "oxford-black",
-    name: { en: "Oxford Black Formal Shoes", km: "Oxford ខ្មៅ Formal" },
-    description: { en: "Perfect for office wear.", km: "សម្រាប់ការិយាល័យ" },
-    price: 100,
-    discount: 5,
-    category: "oxford",
-    images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46600216-02-2_0a542ef0-1461-4b30-9518-d1e1096c6eb6_1800x1800.jpg?v=1767191028",
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46600216-02-1_a9a3b07f-1108-4775-b51b-9147221046ae_1800x1800.jpg?v=1767191028",
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46600216-02-4_90befed9-1b7c-4f4d-8172-d46580265ecc_1800x1800.jpg?v=1767191028",
-    ],
-    inStock: true,
-    isNew: false,
-    isPopular: true,
-    createdAt: "2025-01-20",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_5`,
-    brand: "Oxford",
-    sizes: ["39", "40", "41", "42", "43", "44"],
-    color: { en: "Black", km: "ខ្មៅ" },
-  },
-  {
-    id: 6,
-    slug: "kendall-leather-loafers",
-    name: { en: "Kendall Leather Loafers", km: "Loafers ស្បែកត្នោត" },
-    description: {
-      en: "Comfortable slip-on loafers.",
-      km: "ពាក់ងាយ និងផាសុកភាព",
-    },
-    price: 85,
-    discount: 0,
-    category: "loafers",
-    images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PW1-66210006-41-2_1800x1800.jpg?v=1780462048",
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PW1-66210006-41-1_1800x1800.jpg?v=1780462048",
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PW1-66210006-41-4_1800x1800.jpg?v=1780462047",
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PW1-66210006-41-5_1800x1800.jpg?v=1780462049",
-    ],
-    inStock: true,
-    isNew: true,
-    isPopular: true,
-    createdAt: "2025-01-22",
+    createdAt: "2025-09-12",
     telegramLink: `${TELEGRAM_BASE}?start=shoe_6`,
-    brand: "Loafer Co",
-    sizes: ["39", "40", "41", "42"],
-    color: { en: "Brown", km: "ត្នោត" },
+    sizes: ["39", "40", "41", "42", "43", "44"],
+    color: ["#000000"], // Black
   },
+
   {
     id: 7,
-    slug: "cross-strap-sandals",
-    name: { en: "Cross Strap Sandals", km: "ស្បែកជើងខ្សែ Cross" },
-    description: {
-      en: "Casual cross strap sandals.",
-      km: "ស្បែកជើង Sandals ស្រួល",
+    slug: "heritage-leather-belt",
+    name: {
+      en: "Grid Leather Reversible Tang Belt",
+      km: "ខ្សែក្រវ៉ាត់ស្បែក Grid Leather Reversible Tang",
     },
-    price: 110,
-    discount: 10,
-    category: "sandals",
+    description: {
+      en: "Full-grain leather belt with brushed metal buckle.",
+      km: "ខ្សែក្រវ៉ាត់ស្បែកពិត ក្បាលដែកប្រណិត",
+    },
+    price: 35,
+    discount: 20,
+    category: "belts",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM1-86380191-2-IB-1_1800x1800.jpg?v=1778050939",
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM1-86380191-2-IB-2_1800x1800.jpg?v=1778050939",
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM1-86380191-2-IB-4_1800x1800.jpg?v=1778050938",
+      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM3-15940314-01-1_3ae93d54-f1c4-40b3-928d-69d37f2ca66f_1800x1800.jpg?v=1764215742",
     ],
     inStock: true,
     isNew: false,
     isPopular: true,
-    createdAt: "2025-01-25",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_7`,
-    brand: "Luxury Step",
-    sizes: ["39", "40", "41", "42", "43"],
-    color: { en: "Black", km: "ខ្មៅ" },
+    createdAt: "2025-10-02",
+    telegramLink: `${TELEGRAM_BASE}?start=belt_1`,
+    sizes: ["S", "M", "L", "XL"],
+    color: ["#8B4513"],
   },
+
   {
     id: 8,
-    slug: "wyatt-leather-loafers",
-    name: { en: "Wyatt Leather Loafers", km: "Loafers Wyatt ស្បែក" },
-    description: {
-      en: "Classic loafer shoes.",
-      km: "ស្បែកជើង Loafers classic",
+    slug: "urban-canvas-belt",
+    name: {
+      en: "Leather Automatic Belt",
+      km: "ខ្សែក្រវ៉ាត់ Leather Automatic",
     },
-    price: 90,
+    description: {
+      en: "Casual canvas belt with adjustable fit.",
+      km: "ខ្សែក្រវ៉ាត់ Canvas សម្រាប់ពាក់ប្រចាំថ្ងៃ",
+    },
+    price: 15,
     discount: 0,
-    category: "loafers",
+    category: "belts",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-56600018-29-2_dda55213-5909-4b39-a012-9c08448a2360_1800x1800.jpg?v=1767840139",
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-56600018-29-3_e62e030e-2d77-4652-9ca7-fc5255d69d25_1800x1800.jpg?v=1767840139",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM3-15940331-Z4-2_1800x1800.jpg?v=1779857917",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM3-15940331-Z4-3_1800x1800.jpg?v=1779857918",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L3-PM3-15940331-Z4-4_1800x1800.jpg?v=1779857918",
     ],
     inStock: true,
-    isNew: false,
+    isNew: true,
     isPopular: false,
-    createdAt: "2025-02-01",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_8`,
-    brand: "Derby Style",
-    sizes: ["39", "40", "41", "42", "43"],
-    color: { en: "Brown", km: "ត្នោត" },
+    createdAt: "2026-02-18",
+    telegramLink: `${TELEGRAM_BASE}?start=belt_2`,
+    sizes: ["105", "115", "125"],
+    color: ["#000000"], // Olive
   },
+
   {
     id: 9,
-    slug: "Kieran-leather-penny-loafers",
-    name: {
-      en: "Kieran Leather Penny Loafers",
-      km: "Kieran Leather Penny Loafers",
-    },
+    slug: "voyager-backpack",
+    name: { en: "Travis Crossbody", km: "កាបូបស្ពាយ Travis Crossbody" },
     description: {
-      en: "Comfortable roam leather loafers.",
-      km: "Loafers ស្បែក ផាសុក",
+      en: "Spacious daily backpack with padded laptop sleeve.",
+      km: "កាបូបស្ពាយធំ មានស្រោមកុំព្យូទ័រ",
     },
-    price: 92,
-    discount: 5,
-    category: "loafers",
+    price: 42,
+    discount: 10,
+    category: "bags",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-46600192-1-52-2_86ace6c0-9127-4ce3-9be1-3faf29ef61a0_1800x1800.jpg?v=1767191058",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-46600192-1-52-1_6df272f4-ae26-4d6a-bfed-a480a7a2269e_1800x1800.jpg?v=1767191058",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-46600192-1-52-4_440279b1-9c5f-4c20-9859-a6e649131811_1800x1800.jpg?v=1767191059",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-46600192-1-52-5_41c55c67-75ba-40fd-902a-02c7cb113a2c_1800x1800.jpg?v=1767191059",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM2-25210269-01-1_86e6074a-3e8a-469c-9b96-ad4eb9473ac8_1800x1800.jpg?v=1767191045",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM2-25210269-01-3_b93db752-927f-4906-b64c-08ecdf798f3f_1800x1800.jpg?v=1767191045",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM2-25210269-01-5_10194595-3b71-4300-93a3-e07e3bbd7de6_1800x1800.jpg?v=1767191044",
     ],
     inStock: true,
     isNew: false,
     isPopular: true,
-    createdAt: "2025-02-05",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_9`,
-    brand: "Derby Pro",
-    sizes: ["39", "40", "41", "42", "43", "44"],
-    color: { en: "Black", km: "ខ្មៅ" },
+    createdAt: "2025-12-08",
+    telegramLink: `${TELEGRAM_BASE}?start=bag_1`,
+    sizes: ["Small"],
+    color: ["#36454F"], // Charcoal
   },
+
   {
     id: 10,
-    slug: "fleet-suede-sneakers",
-    name: { en: "Fleet Suede Sneakers", km: "Fleet Suede Sneakers" },
+    slug: "mini-crossbody-bag",
+    name: { en: "Noah Crossbody Bag", km: "កាបូប Noah Crossbody" },
     description: {
-      en: "Premium Geto classic boots with durable leather.",
-      km: "Geto Boots ស្បែកពិត រចនាបែប classic",
+      en: "Compact crossbody bag for essentials on the go.",
+      km: "កាបូបតូច ស្ពាយឆ្លង សម្រាប់របស់ចាំបាច់",
     },
-    price: 165,
-    discount: 12,
-    category: "classic-boots",
+    price: 22,
+    discount: 0,
+    category: "bags",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-2_81497677-ebd4-47c0-9731-09f54154f361_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-1_b9ee1a17-6a99-4e95-964b-119d95475cf0_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-3_9e0f03e2-77e5-4894-874a-187d48c7390f_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-4_4fe02bc9-4392-4f02-ae95-ce00b5bf7b5e_1800x1800.jpg?v=1763776338",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM2-26320271-01-2_67f9824f-7f0f-48d2-a1ea-d060ce54158c_1800x1800.jpg?v=1768402936",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM2-26320271-01-6_88ba6f07-913b-488e-93f9-d968c8b78408_1800x1800.jpg?v=1768402936",
+      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM2-26320271-01-4_83a44102-033f-4228-984e-561bcd809e2f_1800x1800.jpg?v=1768402936",
     ],
     inStock: true,
     isNew: true,
-    isPopular: true,
-    createdAt: "2025-06-01",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_10`,
-    brand: "Geto",
-    sizes: ["39", "40", "41", "42", "43", "44"],
-    color: { en: "Tan", km: "ត្នោតស្រាល" },
+    isPopular: false,
+    createdAt: "2026-04-01",
+    telegramLink: `${TELEGRAM_BASE}?start=bag_2`,
+    color: ["#000000"], // Red
+    sizes: ["Small"],
   },
+
   {
     id: 11,
-    slug: "Men's-Stream-Suede-Sneakers",
-    name: {
-      en: "Men's Stream Suede Sneakers",
-      km: "Men's Stream Suede Sneakers",
-    },
+    slug: "essential-cotton-tee",
+    name: { en: "Essential Cotton Tee", km: "អាវយឺត Cotton" },
     description: {
-      en: "Stylish suede chukka boots.",
-      km: "Boots Chukka រចនាបែបស្អាត",
+      en: "Soft 100% cotton tee for everyday wear.",
+      km: "អាវយឺត Cotton ១០០% ស្រួលពាក់ប្រចាំថ្ងៃ",
     },
-    price: 135,
-    discount: 8,
-    category: "classic-boots",
+    price: 9,
+    discount: 0,
+    category: "clothing",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-76210237-1-05-2_3030536d-e128-4bc0-82e6-ccf18cbf68c3_1800x1800.jpg?v=1733324510",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-76210237-1-05-1_60dd0a5d-c723-4f1e-897b-3b5b5c98934e_1800x1800.jpg?v=1733324510",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-76210237-1-05-4_7d3a82dc-03ac-4370-861c-b4d0d7b1af01_1800x1800.jpg?v=1733324510",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-76210237-1-05-5_cecf14c4-6194-4400-aa9b-fd0c3aa1f58e_1800x1800.jpg?v=1733324510",
+      "https://zandokh.com/image/catalog/products/2026-06/4122601570/10S26KNI007_Beige-(4).jpg",
     ],
     inStock: true,
     isNew: false,
     isPopular: true,
-    createdAt: "2025-06-03",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_11`,
-    brand: "Geto",
-    sizes: ["40", "41", "42", "43"],
-    color: { en: "Tan", km: "ត្នោតស្រាល" },
+    createdAt: "2025-08-22",
+    telegramLink: `${TELEGRAM_BASE}?start=cloth_1`,
+    sizes: ["S", "M", "L", "XL"],
+    color: ["#FCFCAE"], // Gray
   },
+
   {
     id: 12,
-    slug: "Novo-cyclone-sneakers",
-    name: { en: "Novo Cyclone Sneakers", km: "Novo Cyclone Sneakers" },
+    slug: "denim-jacket",
+    name: { en: "Regular Fitted Polo Shirt", km: "Regular Fitted Polo Shirt" },
     description: {
-      en: "Iconic lightweight desert boots.",
-      km: "Desert Boots ស្រាល និងប្រើប្រាស់បានយូរ",
+      en: "Classic washed denim jacket with button front.",
+      km: "អាវខូបវ Jean ផ្តិលលាប សាបទងមុខ",
     },
-    price: 125,
-    discount: 5,
-    category: "classic-boots",
+    price: 38,
+    discount: 25,
+    category: "clothing",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210263-07-2_43f8c4f0-885c-411e-b560-63b674e63b20_1800x1800.jpg?v=1738804651",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210263-07-2_43f8c4f0-885c-411e-b560-63b674e63b20_1800x1800.jpg?v=1738804651",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210263-07-3_3f78f4a8-1f5b-495d-a8fc-e2d6899c7664_1800x1800.jpg?v=1738804651",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210263-07-4_1b41385f-c451-4789-a51a-29ebbdb1e021_1800x1800.jpg?v=1738804651",
+      "https://zandokh.com/image/catalog/products/2026-06/4122603539/10S26POL029_Dark-Sapphire-(1).jpg",
+      "https://zandokh.com/image/catalog/products/2026-06/4122603539/10S26POL029_Dark-Sapphire-(2).jpg",
+      "https://zandokh.com/image/catalog/products/2026-06/4122603539/10S26POL029_Dark-Sapphire-(6).jpg",
     ],
     inStock: true,
-    isNew: true,
-    isPopular: false,
-    createdAt: "2025-06-05",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_12`,
-    brand: "Geto",
-    sizes: ["39", "40", "41", "42", "43"],
-    color: { en: "Beige", km: "ត្នោតខ្ចី" },
+    isNew: false,
+    isPopular: true,
+    createdAt: "2025-11-30",
+    telegramLink: `${TELEGRAM_BASE}?start=cloth_2`,
+    sizes: ["S", "M", "L", "XL"],
+    color: ["#000000"], // Light Blue
   },
+
   {
     id: 13,
-    slug: "classic-brogue-brown",
-    name: { en: "Classic Brown Brogue Shoes", km: "Brogue ត្នោត Classic" },
+    slug: "matte-lip-tint",
+    name: { en: "Perfume", km: "ទឹកអប់" },
     description: {
-      en: "Handcrafted wingtip brogues.",
-      km: "ស្បែកជើង Brogue ស្បែកពិត",
+      en: "Long-lasting matte lip tint, lightweight on lips.",
+      km: "ស្តិកមាត់ Matte ស្រួលប្រើ ស្រួលជាប់",
     },
-    price: 115,
+    price: 6,
     discount: 0,
-    category: "brogue",
+    category: "cosmetics",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-2_81497677-ebd4-47c0-9731-09f54154f361_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-1_b9ee1a17-6a99-4e95-964b-119d95475cf0_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-3_9e0f03e2-77e5-4894-874a-187d48c7390f_1800x1800.jpg?v=1763776338",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L7-PM1-66210004-01-4_4fe02bc9-4392-4f02-ae95-ce00b5bf7b5e_1800x1800.jpg?v=1763776338",
+      "https://zandokh.com/image/catalog/products/2026-17/7512510038/image_2026-05-14_15-31-54.jpg",
+      "https://zandokh.com/image/catalog/products/2026-17/7512510038/image_2026-05-14_15-31-54.jpg",
     ],
     inStock: true,
-    isNew: false,
-    isPopular: true,
-    createdAt: "2025-06-07",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_13`,
-    brand: "Heritage",
-    sizes: ["39", "40", "41", "42", "43", "44"],
-    color: { en: "Brown", km: "ត្នោត" },
+    isNew: true,
+    isPopular: false,
+    createdAt: "2026-03-20",
+    telegramLink: `${TELEGRAM_BASE}?start=cos_1`,
+    color: ["#FF4040"], // Coral Red
   },
+
   {
     id: 14,
-    slug: "geto-double-monk-strap",
-    name: { en: "Geto Double Monk Strap", km: "Geto Monk Strap ខ្មៅ" },
+    slug: "travel-toiletry-kit",
+    name: { en: "Body Scrubber", km: "ឧបករណ៍ដុសខ្លួន" },
     description: {
-      en: "Elegant double monk strap shoes.",
-      km: "ស្បែកជើង Monk Strap ប្រណិត",
+      en: "Compact toiletry kit with travel-sized essentials.",
+      km: "សំភារៈចំបាច់ទំហំតូចសម្រាប់ដំណើរកម្សាន្ត",
     },
-    price: 130,
+    price: 14,
     discount: 10,
-    category: "monk-strap",
+    category: "daily-necessities",
     images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-56600014-01-2_7d01e2a4-e45b-4ac1-bab4-d710ea5a4e69_1800x1800.jpg",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-56600014-64-2_db418fa4-321d-4c4e-b792-88f9439b8e6a_1800x1800.jpg",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-56600014-64-3_93b8871b-f915-453a-984c-9ed7f471927e_1800x1800.jpg",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-56600014-64-4_631b4630-c9a0-4e7d-a7cd-d3080c2813f5_1800x1800.jpg",
-    ],
-    inStock: true,
-    isNew: true,
-    isPopular: true,
-    createdAt: "2025-06-08",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_14`,
-    brand: "Geto",
-    sizes: ["39", "40", "41", "42", "43"],
-    color: { en: "Brown", km: "ត្នោត" },
-  },
-  {
-    id: 15,
-    slug: "geto-jodhpur-boots",
-    name: { en: "Novo Cyclone Sneakers", km: "Novo Cyclone Sneakers" },
-    description: {
-      en: "Premium leather Jodhpur boots.",
-      km: "Jodhpur Boots ស្បែកពិត",
-    },
-    price: 155,
-    discount: 15,
-    category: "classic-boots",
-    images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-2_55fba4ef-127b-42ca-91cf-2ea9f3f148b6_1800x1800.jpg?v=1745503545",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-1_dfc04245-64ed-4df9-8b02-051c2116558d_1800x1800.jpg?v=1745503545",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-3_b4b72028-5330-492d-88c8-a27a58f5a699_1800x1800.jpg?v=1745503545",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-5_3153f2ce-1441-4cfb-981a-44c99d4346ec_1800x1800.jpg?v=1745503546",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L3-PM1-76210263-3-24-6_b9c7aaca-18d2-41a2-a2cc-387af9260e14_1800x1800.jpg?v=1745503546",
-    ],
-    inStock: true,
-    isNew: false,
-    isPopular: true,
-    createdAt: "2025-06-09",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_15`,
-    brand: "Geto",
-    sizes: ["40", "41", "42", "43", "44"],
-    color: { en: "Chestnut", km: "ត្នោតខ្ចី" },
-  },
-  {
-    id: 16,
-    slug: "leather-loafers",
-    name: { en: "Leather Loafers", km: "Leather Loafers" },
-    description: {
-      en: "Soft suede penny loafers.",
-      km: "Loafers Suede ផាសុកភាព",
-    },
-    price: 98,
-    discount: 0,
-    category: "loafers",
-    images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-2_1800x1800.jpg?v=1772629275",
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-1_1800x1800.jpg?v=1772629274",
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-3_1800x1800.jpg?v=1772629275",
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-4_1800x1800.jpg?v=1772629274",
-      "https://pedroshoes.com.kh/cdn/shop/files/2026-L2-PM1-46380099-02-5_1800x1800.jpg?v=1772629275",
+      "https://zandokh.com/image/catalog/products/11512603049/image_2026-05-23_12-40-02.jpg",
+      "https://zandokh.com/image/catalog/products/11512603049/image_2026-05-23_12-40-08.jpg",
     ],
     inStock: true,
     isNew: false,
     isPopular: false,
-    createdAt: "2025-06-10",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_16`,
-    brand: "Geto",
-    sizes: ["39", "40", "41", "42"],
-    color: { en: "Navy Suede", km: "សមុទ្រ" },
-  },
-  {
-    id: 17,
-    slug: "Cyclone-Sneakers",
-    name: { en: "Cyclone Sneakers", km: "ស្បែកជើងប៉ាតា" },
-    description: {
-      en: "Rugged cap toe derby boots.",
-      km: "Boots Cap Toe ធន់ខ្លាំង",
-    },
-    price: 145,
-    discount: 7,
-    category: "classic-boots",
-    images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-2_fc87e24e-3e80-447e-acb5-e741b9130962_1800x1800.jpg?v=1755094575",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-3_64facb22-4f68-4290-80f2-169810fa9713_1800x1800.jpg?v=1755094575",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-5_ac359f11-b8da-4a10-9e37-69c460f427df_1800x1800.jpg?v=1755094576",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L6-PM1-76210272-03-1_949ee568-1356-406d-b329-871822233214_1800x1800.jpg?v=1755094575",
-    ],
-    inStock: true,
-    isNew: true,
-    isPopular: true,
-    createdAt: "2025-06-11",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_17`,
-    brand: "Geto",
-    sizes: ["39", "40", "41", "42", "43", "44"],
-    color: { en: "Dark Brown", km: "ពណ៌ត្នោតចាស់" },
-  },
-  {
-    id: 18,
-    slug: "novo-cyclone-sneakers",
-    name: { en: "Novo Cyclone Sneakers", km: "Novo Cyclone Sneakers" },
-    description: {
-      en: "Lightweight cyclone sneakers.",
-      km: "Sneakers ស្រាល Cyclone",
-    },
-    price: 160,
-    discount: 20,
-    category: "sneakers",
-    images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210263-07-2_43f8c4f0-885c-411e-b560-63b674e63b20_1800x1800.jpg?v=1738804651",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210263-07-1_7d965029-06ed-4248-9194-c52d30c4a370_1800x1800.jpg?v=1738804651",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210263-07-3_3f78f4a8-1f5b-495d-a8fc-e2d6899c7664_1800x1800.jpg?v=1738804651",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210263-07-4_1b41385f-c451-4789-a51a-29ebbdb1e021_1800x1800.jpg?v=1738804651",
-    ],
-    inStock: true,
-    isNew: false,
-    isPopular: true,
-    createdAt: "2025-06-12",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_18`,
-    brand: "Geto",
-    sizes: ["39", "40", "41", "42", "43"],
-    color: { en: "Dark Brown", km: "ពណ៌ត្នោតចាស់" },
-  },
-  {
-    id: 19,
-    slug: "lewis-suede-sneakers",
-    name: { en: "Lewis Suede Sneakers", km: "Lewis Suede Sneakers" },
-    description: { en: "Casual suede sneakers.", km: "Sneakers Suede ស្រួល" },
-    price: 138,
-    discount: 0,
-    category: "sneakers",
-    images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210261-10-2_bc102800-9a8a-4c06-9aff-eb6f4cdf4c80_1800x1800.jpg?v=1735137092",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210261-10-3_3520c88e-0196-498b-8d4e-afcb08aa5e94_1800x1800.jpg?v=1735137092",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210261-10-4_bf5fecaf-df95-45d0-8aa4-93a8a3a9fe97_1800x1800.jpg?v=1735137092",
-      "https://pedroshoes.com.kh/cdn/shop/files/2025-L2-PM1-76210261-10-5_9ed8166e-f9da-4394-8602-8b33e38ec145_1800x1800.jpg?v=1735137092",
-    ],
-    inStock: true,
-    isNew: false,
-    isPopular: false,
-    createdAt: "2025-06-13",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_19`,
-    brand: "Sneakers",
-    sizes: ["40", "41", "42", "43", "44"],
-    color: { en: "Dark Brown", km: "ពណ៌ត្នោតចាស់" },
-  },
-  {
-    id: 20,
-    slug: "stream-suede-sneakers",
-    name: { en: "Men's Stream Suede Sneakers", km: "Stream Suede Sneakers" },
-    description: {
-      en: "Sophisticated stream suede sneakers.",
-      km: "Sneakers Suede Stream ប្រណិត",
-    },
-    price: 108,
-    discount: 8,
-    category: "sneakers",
-    images: [
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-76210237-1-05-2_3030536d-e128-4bc0-82e6-ccf18cbf68c3_1800x1800.jpg?v=1733324510",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-76210237-1-05-3_e305aa22-dcf4-4224-879c-2de14c6d29bc_1800x1800.jpg?v=1733324510",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-76210237-1-05-4_7d3a82dc-03ac-4370-861c-b4d0d7b1af01_1800x1800.jpg?v=1733324510",
-      "https://pedroshoes.com.kh/cdn/shop/files/2024-L7-PM1-76210237-1-05-5_cecf14c4-6194-4400-aa9b-fd0c3aa1f58e_1800x1800.jpg?v=1733324510",
-    ],
-    inStock: true,
-    isNew: true,
-    isPopular: true,
-    createdAt: "2025-06-14",
-    telegramLink: `${TELEGRAM_BASE}?start=shoe_20`,
-    brand: "Geto",
-    sizes: ["39", "40", "41", "42", "43"],
-    color: { en: "Dark Brown", km: "ពណ៌ត្នោតចាស់" },
+    createdAt: "2025-10-15",
+    telegramLink: `${TELEGRAM_BASE}?start=daily_1`,
+    color: ["#000000"],
   },
 ];
 
 /* ============================================================
    MENU BUILDER
-   Derives Men / Women menus from categories + products.
-   No data duplication — gender lives on Category only.
 ============================================================ */
 
 function buildMenu(gender: "men" | "women"): Menu {
@@ -637,13 +641,41 @@ export const menus: Menu[] = [buildMenu("men"), buildMenu("women")];
 
 /* ============================================================
    HELPERS
-   Convenience functions for components.
 ============================================================ */
+
+/**
+ * Extracts products for a clicked category (and optional subcategory).
+ *
+ * - "all"      -> every product, no filtering at all
+ * - "discount" -> every product with discount > 0, regardless of category
+ * - anything else -> products whose `category` matches, optionally
+ *   narrowed further by `subcategorySlug` (e.g. "shoes" + "sneakers")
+ */
+export function getProductsByCategory(
+  categorySlug: string,
+  subcategorySlug?: string,
+): Product[] {
+  if (categorySlug === "all") {
+    return products;
+  }
+
+  if (categorySlug === "discount") {
+    return products.filter((p) => p.discount > 0);
+  }
+
+  return products.filter((p) => {
+    const matchesCategory = p.category === categorySlug;
+    const matchesSubcategory = subcategorySlug
+      ? p.subcategory === subcategorySlug
+      : true;
+    return matchesCategory && matchesSubcategory;
+  });
+}
+
 export function getSaleProducts(): Product[] {
   return products.filter((p) => p.discount > 0);
 }
 
-// Update getCategoryBySlug to support sale
 export function getCategoryBySlug(slug: string): Category | undefined {
   return categories.find((c) => c.slug === slug);
 }

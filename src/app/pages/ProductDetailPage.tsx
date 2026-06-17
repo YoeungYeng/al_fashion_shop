@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate, useSearchParams, Link } from "react-router";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { useLang, Lang } from "../context/LanguageContext";
@@ -7,7 +7,6 @@ import { products, categories, menus } from "../data/products";
 import { SocialBar } from "../components/SocialBar";
 
 export function ProductDetailPage() {
-  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { lang } = useLang();
   const [searchParams] = useSearchParams();
@@ -15,29 +14,41 @@ export function ProductDetailPage() {
   const kh = lang === "km";
   const l = lang as "en" | "km";
 
-  // Font helpers
   const headerFont = kh ? "font-header-kh" : "font-header-en";
   const bodyFont = kh ? "font-body-kh" : "font-body-en";
 
-  // ALL hooks must be declared before any early return
+  // hooks
   const [mainIndex, setMainIndex] = useState(0);
   const [thumbOffset, setThumbOffset] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
-  // URL params
+  // params
   const genderFromUrl = searchParams.get("gender") as "men" | "women" | null;
-
-  // Find product
   const { slug } = useParams<{ slug: string }>();
+
   const product = products.find((p) => p.slug === slug);
 
-  // Derived values (safe after hooks, before early return)
   const currentMenu = menus.find((m) => m.slug === genderFromUrl);
+
   const currentCategory = product
     ? categories.find((c) => c.slug === product.category)
     : undefined;
 
-  // Early return — after all hooks
+  // default color
+  useEffect(() => {
+    if (product?.color?.length && !selectedColor) {
+      setSelectedColor(product.color[0]);
+    }
+  }, [product]);
+
+  // safe images by color
+  const images =
+    (selectedColor && product?.imagesByColor?.[selectedColor]) ||
+    product?.images ||
+    [];
+
+  // early return
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -47,7 +58,7 @@ export function ProductDetailPage() {
           </h2>
           <button
             onClick={() => navigate(-1)}
-            className={`${bodyFont} px-6 py-3 bg-primary text-white rounded-xl hover:opacity-90 transition`}
+            className={`${bodyFont} px-6 py-3 bg-primary text-white rounded-xl`}
           >
             {kh ? "ត្រឡប់ក្រោយ" : "Go Back"}
           </button>
@@ -56,13 +67,13 @@ export function ProductDetailPage() {
     );
   }
 
-  const images = product.images || [];
-
   const VISIBLE_THUMBS = 4;
+
   const canScrollUp = thumbOffset > 0;
   const canScrollDown = thumbOffset + VISIBLE_THUMBS < images.length;
 
   const scrollUp = () => setThumbOffset((o) => Math.max(o - 1, 0));
+
   const scrollDown = () =>
     setThumbOffset((o) => Math.min(o + 1, images.length - VISIBLE_THUMBS));
 
@@ -71,28 +82,35 @@ export function ProductDetailPage() {
       ? product.price * (1 - product.discount / 100)
       : product.price;
 
-  // Related products
   const related = products.filter(
     (p) => p.category === product.category && p.id !== product.id,
   );
+
   const displayProducts =
     related.length > 0 ? related : products.filter((p) => p.isPopular);
 
   const handleTelegramOrder = () => {
     const productUrl = `${window.location.origin}/products/${product.slug}`;
-    const message = `
-    🛒 NEW SHOE ORDER
 
-    Name: ${product.name[lang as Lang]}
-    Price: $${discountedPrice.toFixed(2)}
+    const colorText = selectedColor
+      ? selectedColor.toUpperCase()
+      : "Not selected";
 
-    Category: ${product.category}
-    Stock: ${product.inStock ? "In Stock" : "Out of Stock"}
-    ${productUrl}
-`.trim();
+    const sizeText = selectedSize ?? "Not selected";
+
+    const message =
+      `NEW ORDER\n` +
+      `-------------------\n` +
+      `Name: ${product.name[lang as Lang]}\n` +
+      `Price: $${discountedPrice.toFixed(2)}\n` +
+      `Color: ${colorText}\n` +
+      `Size: ${sizeText}\n` +
+      `Stock: ${product.inStock ? "In Stock" : "Out of Stock"}\n` +
+      `-------------------\n` +
+      `Product: ${productUrl}`;
 
     window.open(
-      `https://t.me/yoeungyeng?text=${encodeURIComponent(message)}`,
+      `https://t.me/PhearaPum?text=${encodeURIComponent(message)}`,
       "_blank",
     );
   };
@@ -101,240 +119,154 @@ export function ProductDetailPage() {
     const productUrl = `${window.location.origin}/products/${product.slug}`;
 
     const message =
-      `NEW SHOE ORDER\n` +
+      `NEW ORDER\n` +
       `-------------------\n` +
-      `👟 Name: ${product.name[l]}\n` +
-      `💰 Price: $${discountedPrice.toFixed(2)}\n` +
-      `${product.discount > 0 ? `🔥 Discount: ${product.discount}% OFF\n` : ""}` +
-      `📐 Size: ${selectedSize ?? "Not selected"}\n` +
-      `🗂 Category: ${product.category}\n` +
-      `📦 Stock: ${product.inStock ? "In Stock" : "Out of Stock"}\n` +
+      `Name: ${product.name[l]}\n` +
+      `Price: $${discountedPrice.toFixed(2)}\n` +
+      `Color: ${selectedColor ?? "Not selected"}\n` +
+      `Size: ${selectedSize ?? "Not selected"}\n` +
       `-------------------\n` +
-      `🛍 ${productUrl}`;
+      `${productUrl}`;
 
     window.open(
-      `https://m.me/smallTeam760?text=${encodeURIComponent(message)}`,
+      `https://m.me/thebestwayformen?text=${encodeURIComponent(message)}`,
       "_blank",
     );
   };
 
   return (
-    <div className={`min-h-screen mt-20 bg-transparent ${bodyFont}`}>
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className={`min-h-screen mt-20 ${bodyFont}`}>
+      <div className="max-w-[1400px] mx-auto px-4 py-10">
         {/* BREADCRUMB */}
-        <div className="mb-2">
-          <nav
-            className={`${bodyFont} text-[14px] md:text-[14px] sm:text-[14px] text-gray-500 flex items-center gap-1.5 flex-wrap`}
-          >
-            <Link to="/" className="hover:text-black transition-colors">
-              {kh ? "ទំព័រដើម" : "Home"}
-            </Link>
-
-            <span>/</span>
-
-            <Link to="/products" className="hover:text-black transition-colors">
-              {kh ? "ផលិតផល" : "Products"}
-            </Link>
-
-            {currentMenu && (
-              <>
-                <span>/</span>
-                <Link
-                  to={`/products?gender=${currentMenu.slug}`}
-                  className="hover:text-black transition-colors"
-                >
-                  {currentMenu.name[l]}
-                </Link>
-              </>
-            )}
-
-            {currentCategory && (
-              <>
-                <span>/</span>
-                <Link
-                  to={`/products?gender=${currentMenu?.slug}&category=${currentCategory.slug}`}
-                  className="hover:text-black transition-colors"
-                >
-                  {currentCategory.name[l]}
-                </Link>
-              </>
-            )}
-
-            {/* Current page — not a link */}
+        <div className="mb-4 text-gray-500 text-sm flex gap-2 flex-wrap">
+          <Link to="/">Home</Link>
+          <span>/</span>
+          <Link to="/products">Products</Link>
+          {currentCategory && (
             <>
               <span>/</span>
-              <span className="text-gray-900 font-medium">
-                {product.name[l]}
-              </span>
+              <span>{currentCategory.name[l]}</span>
             </>
-          </nav>
+          )}
+          <span>/</span>
+          <span className="text-black">{product.name[l]}</span>
         </div>
 
-        <div className="p-6 sm:p-8">
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* === IMAGE GALLERY === */}
-            <div className="flex gap-3 flex-1">
-              {/* Thumbnails */}
-              {images.length > 1 && (
-                <div className="flex flex-col items-center gap-2 w-[72px] shrink-0">
-                  <button
-                    onClick={scrollUp}
-                    disabled={!canScrollUp}
-                    className={`p-1 border transition-all ${
-                      canScrollUp
-                        ? "border-gray-300 hover:border-primary text-gray-600 hover:text-black"
-                        : "border-gray-100 text-gray-300 cursor-not-allowed"
-                    }`}
-                  >
-                    <ChevronUp className="w-4 h-4" />
-                  </button>
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* IMAGE */}
+          <div className="flex gap-3 flex-1">
+            {/* thumbnails */}
+            {images.length > 1 && (
+              <div className="flex flex-col gap-2 w-[72px]">
+                <button onClick={scrollUp} disabled={!canScrollUp}>
+                  <ChevronUp />
+                </button>
 
-                  <div className="flex flex-col gap-2 overflow-hidden">
-                    {images
-                      .slice(thumbOffset, thumbOffset + VISIBLE_THUMBS)
-                      .map((img, i) => {
-                        const realIndex = thumbOffset + i;
-                        return (
-                          <button
-                            key={realIndex}
-                            onClick={() => setMainIndex(realIndex)}
-                            className={`w-[68px] h-[68px] overflow-hidden border-2 transition-all shrink-0 ${
-                              mainIndex === realIndex
-                                ? "border-black/20 shadow-md"
-                                : "border-gray-200 hover:border-gray-400"
-                            }`}
-                          >
-                            <img
-                              src={img}
-                              alt={`thumb-${realIndex}`}
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                e.currentTarget.src =
-                                  "https://via.placeholder.com/300x300?text=No+Image";
-                              }}
-                            />
-                          </button>
-                        );
-                      })}
-                  </div>
+                {images
+                  .slice(thumbOffset, thumbOffset + VISIBLE_THUMBS)
+                  .map((img, i) => {
+                    const realIndex = thumbOffset + i;
 
-                  <button
-                    onClick={scrollDown}
-                    disabled={!canScrollDown}
-                    className={`p-1 border transition-all ${
-                      canScrollDown
-                        ? "border-gray-300 hover:border-black text-gray-600 hover:text-black"
-                        : "border-gray-100 text-gray-300 cursor-not-allowed"
-                    }`}
-                  >
-                    <ChevronDown className="w-4 h-4" />
-                  </button>
-                </div>
-              )}
-
-              {/* Main Image */}
-              <div className="flex-1 overflow-hidden bg-[#FAF6EF] aspect-square max-h-[480px]">
-                <img
-                  src={
-                    images[mainIndex] ||
-                    images[0] ||
-                    "https://via.placeholder.com/600x600?text=No+Image"
-                  }
-                  alt={product.name[lang as Lang]}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src =
-                      "https://via.placeholder.com/600x600?text=Image+Not+Found";
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* === PRODUCT INFO === */}
-            <div className="flex-1 flex flex-col gap-4">
-              <h1
-                className={`${headerFont} text-[14px] sm:text-[16px] font-normal`}
-              >
-                {product.name[lang as Lang]}
-              </h1>
-
-              <p
-                className={`${bodyFont} text-[14px] text-gray-600 leading-relaxed`}
-              >
-                {product.description[lang as Lang]}
-              </p>
-
-              <div className="flex items-center gap-2 flex-wrap justify-start">
-                <span
-                  className={`font-normal text-[14px] sm:text-[14px] ${
-                    product.discount > 0 ? "text-primary" : "text-black"
-                  }`}
-                >
-                  ${discountedPrice.toFixed(2)}
-                </span>
-                {product.discount > 0 && (
-                  <span className="text-gray-400 text-xs sm:text-sm line-through">
-                    ${product.price.toFixed(2)}
-                  </span>
-                )}
-              </div>
-
-              {/* Sizes */}
-              {product.sizes && product.sizes.length > 0 && (
-                <div>
-                  <p className={`${bodyFont} font-medium mb-2`}>
-                    {kh ? "ទំហំ:" : "Sizes:"}
-                  </p>
-                  <div className="flex gap-2 flex-wrap">
-                    {product.sizes.map((size) => (
+                    return (
                       <button
-                        key={size}
-                        onClick={() => setSelectedSize(size)}
-                        className={`${bodyFont} px-4 py-2 border text-[12px] rounded font-medium transition-all ${
-                          selectedSize === size
-                            ? "border-black bg-black/5 text-black"
-                            : "border-gray-300 hover:border-gray-400"
+                        key={realIndex}
+                        onClick={() => setMainIndex(realIndex)}
+                        className={`border ${
+                          mainIndex === realIndex
+                            ? "border-black"
+                            : "border-gray-300"
                         }`}
                       >
-                        {size}
+                        <img src={img} />
                       </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+                    );
+                  })}
 
-              {/* Color */}
-              {product.color && (
-                <div className="flex items-center gap-3">
-                  <span className={`${bodyFont} text-gray-500 text-[14px]`}>
-                    {kh ? "ពណ៌:" : "Color:"}
-                  </span>
-                  <span className={`${bodyFont} font-medium text-[14px]`}>
-                    {product.color[lang as Lang]}
-                  </span>
-                </div>
-              )}
-
-              {/* order now */}
-              <div className="-mb-4">
-                <h3 className={`${headerFont} text-black text-[14px] sm:text-[16px] font-normal`}>
-                  {kh ? "កម្មង់ទិញ" : "Order Now:"}
-                </h3>
+                <button onClick={scrollDown} disabled={!canScrollDown}>
+                  <ChevronDown />
+                </button>
               </div>
-              <SocialBar 
-                onTelegram={handleTelegramOrder}
-                onMessenger={handleMessenger}
+            )}
+
+            {/* main image */}
+            <div className="flex-1">
+              <img
+                src={images[mainIndex] || images[0]}
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
+
+          {/* INFO */}
+          <div className="flex-1 space-y-4">
+            <h1 className={headerFont}>{product.name[l]}</h1>
+
+            <p className="text-gray-600">{product.description[l]}</p>
+
+            <div className="text-lg font-bold">
+              ${discountedPrice.toFixed(2)}
+            </div>
+
+            {/* SIZE */}
+            {product.sizes && (
+              <div>
+                <p>Sizes</p>
+                <div className="flex gap-2">
+                  {product.sizes.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => setSelectedSize(s)}
+                      className={`border px-3 py-1 ${
+                        selectedSize === s ? "bg-black text-white" : ""
+                      }`}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* COLOR */}
+            {product.color && (
+              <div className="flex gap-2 items-center">
+                <p>Color:</p>
+
+                {product.color.map((color) => {
+                  const isSelected = selectedColor === color;
+
+                  return (
+                    <div
+                      key={color}
+                      onClick={() => {
+                        setSelectedColor(color);
+                        setMainIndex(0);
+                        setThumbOffset(0);
+                      }}
+                      className={`w-6 h-6 rounded border cursor-pointer ${
+                        isSelected ? "border-black scale-110" : ""
+                      }`}
+                      style={{ backgroundColor: color }}
+                    />
+                  );
+                })}
+              </div>
+            )}
+
+            {/* ORDER */}
+            <h1>{kh ? "កម្មង់ឥឡូវនេះ៖" : "Order Now:"}</h1>
+            <SocialBar
+              onTelegram={handleTelegramOrder}
+              onMessenger={handleMessenger}
+            />
+          </div>
         </div>
 
-        {/* YOU MAY ALSO LIKE */}
+        {/* RELATED */}
         <div className="mt-16">
-          <h2 className={`${headerFont} text-lg font-bold mb-4`}>
-            {kh ? "ផលិតផលស្រដៀងគ្នា" : "You May Also Like"}
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4  gap-6">
+          <h2>You May Also Like</h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {displayProducts.slice(0, 8).map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}

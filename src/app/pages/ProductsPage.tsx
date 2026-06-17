@@ -6,6 +6,7 @@ import { products, categories, menus } from "../data/products";
 import { useSearch } from "../context/SearchContext";
 import { X } from "lucide-react";
 import { FilterButton } from "../components/FilterButtonProps";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 type SortKey = "date" | "name" | "price_asc" | "price_desc";
 
@@ -23,32 +24,39 @@ export function ProductsPage() {
   const headerFont = kh ? "font-header-kh" : "font-header-en";
   const bodyFont = kh ? "font-body-kh" : "font-body-en";
 
-  // Read URL params — single source of truth
   const genderFromUrl = searchParams.get("gender") as "men" | "women" | null;
   const categoryFromUrl = searchParams.get("category") || "";
+  const subcategoryFromUrl = searchParams.get("subcategory") || "";
   const saleFromUrl = searchParams.get("sale") === "true";
 
-  // Sort — independent, never reset by Clear Filters
   const [sortKey, setSortKey] = useState<SortKey>("date");
-
-  // Filters — price and size stay as local state
   const [maxPrice, setMaxPrice] = useState(maxPriceInData);
   const [selectedSize, setSelectedSize] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
-  const isSalePage = saleFromUrl || categoryFromUrl === "sale";
+  // "discount" is the real slug in data.ts (there is no "sale" category).
+  // It's treated the same way ?sale=true is: filter by discount > 0 across
+  // every category, not by an exact p.category match.
+  const isSalePage = saleFromUrl || categoryFromUrl === "discount";
 
-  // Category click — updates URL, no local state needed
   const handleCategoryClick = (slug: string) => {
-    const isSale = slug === "sale";
     const params = new URLSearchParams(searchParams);
 
-    if (isSale) {
-      if (params.get("sale") === "true") {
+    if (slug === "all") {
+      // "all" means "no category filter" — clear it instead of setting
+      // category=all, which would try to match p.category === "all" and
+      // always return zero products.
+      params.delete("category");
+      params.delete("sale");
+    } else if (slug === "discount") {
+      const alreadyOnDiscount =
+        params.get("category") === "discount" || saleFromUrl;
+      if (alreadyOnDiscount) {
+        params.delete("category");
         params.delete("sale");
       } else {
-        params.set("sale", "true");
-        params.delete("category");
+        params.set("category", "discount");
+        params.delete("sale");
       }
     } else {
       if (params.get("category") === slug) {
@@ -59,7 +67,22 @@ export function ProductsPage() {
       }
     }
 
+    params.delete("subcategory");
     navigate(`/products?${params.toString()}`, { replace: true });
+  };
+
+  const handleSubcategoryClick = (slug: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (params.get("subcategory") === slug) {
+      params.delete("subcategory");
+    } else {
+      params.set("subcategory", slug);
+    }
+    navigate(`/products?${params.toString()}`, { replace: true });
+  };
+
+  const backToCategories = () => {
+    navigate("/products", { replace: true });
   };
 
   const visibleCategories = useMemo(() => {
@@ -71,28 +94,34 @@ export function ProductsPage() {
   const filtered = useMemo(() => {
     let list = [...products];
 
-    // 1. Sale — URL param OR category strip "sale" click
-    if (saleFromUrl || categoryFromUrl === "sale") {
+    if (saleFromUrl || categoryFromUrl === "discount") {
       list = list.filter((p) => p.discount && p.discount > 0);
     }
 
-    // 2. Gender
     if (genderFromUrl) {
       const menu = menus.find((m) => m.slug === genderFromUrl);
       if (menu) {
         const slugs = new Set(
-          menu.categories.map((c) => c.slug).filter((s) => s !== "sale"),
+          menu.categories
+            .map((c) => c.slug)
+            .filter((s) => s !== "discount" && s !== "all"),
         );
         list = list.filter((p) => slugs.has(p.category));
       }
     }
 
-    // 3. Category — skip "sale" slug, handled in step 1
-    if (categoryFromUrl && categoryFromUrl !== "sale") {
+    if (
+      categoryFromUrl &&
+      categoryFromUrl !== "discount" &&
+      categoryFromUrl !== "all"
+    ) {
       list = list.filter((p) => p.category === categoryFromUrl);
     }
 
-    // 4. Search query
+    if (subcategoryFromUrl) {
+      list = list.filter((p) => p.subcategory === subcategoryFromUrl);
+    }
+
     const q = committedQuery.toLowerCase().trim();
     if (q) {
       list = list.filter(
@@ -103,15 +132,12 @@ export function ProductsPage() {
       );
     }
 
-    // 5. Max price
     list = list.filter((p) => p.price <= maxPrice);
 
-    // 6. Size
     if (selectedSize) {
       list = list.filter((p) => p.sizes?.includes(selectedSize));
     }
 
-    // 7. Sort
     return list.sort((a, b) => {
       switch (sortKey) {
         case "name":
@@ -130,6 +156,7 @@ export function ProductsPage() {
     saleFromUrl,
     genderFromUrl,
     categoryFromUrl,
+    subcategoryFromUrl,
     committedQuery,
     sortKey,
     maxPrice,
@@ -137,9 +164,12 @@ export function ProductsPage() {
   ]);
 
   const currentCategory = categories.find((c) => c.slug === categoryFromUrl);
+  const currentSubcategory = currentCategory?.subcategories?.find(
+    (s) => s.slug === subcategoryFromUrl,
+  );
   const currentMenu = menus.find((m) => m.slug === genderFromUrl);
+  const showSubcategoryView = !!currentCategory?.subcategories?.length;
 
-  // Resets price/size/search filters only — sort and URL params preserved
   const clearAll = () => {
     setMaxPrice(maxPriceInData);
     setSelectedSize("");
@@ -147,18 +177,21 @@ export function ProductsPage() {
   };
 
   const hasActiveFilters =
-    !!selectedSize ||
-    maxPrice !== maxPriceInData ||
-    !!committedQuery.trim();
+    !!selectedSize || maxPrice !== maxPriceInData || !!committedQuery.trim();
 
-  // Page title: sale > category > gender > all
   const pageTitle = isSalePage
-    ? kh ? "បញ្ចុះតម្លៃ" : "Sale"
-    : currentCategory
-      ? currentCategory.name[l]
-      : currentMenu
-        ? currentMenu.name[l]
-        : kh ? "ផលិតផលទាំងអស់" : "All Products";
+    ? kh
+      ? "បញ្ចុះតម្លៃ"
+      : "Sale"
+    : currentSubcategory
+      ? currentSubcategory.name[l]
+      : currentCategory
+        ? currentCategory.name[l]
+        : currentMenu
+          ? currentMenu.name[l]
+          : kh
+            ? "ផលិតផលទាំងអស់"
+            : "All Products";
 
   const bannerSrc =
     "https://pedroshoes.com.kh/cdn/shop/collections/plp-slotbanner-desktop_d01b3633-5724-4fa4-a8c6-f22141def307_2400x.jpg";
@@ -184,60 +217,135 @@ export function ProductsPage() {
 
         {/* MAIN CONTENT */}
         <div className="max-w-[1600px] mx-auto px-4 md:px-8 py-10 -mt-4">
+          {/* SUBCATEGORY VIEW */}
+          {showSubcategoryView ? (
+            <section className="w-full mb-4">
+              <Swiper
+                spaceBetween={10}
+                slidesPerView={5}
+                centerInsufficientSlides
+                observer
+                observeParents
+                breakpoints={{
+                  640: { slidesPerView: 4 },
+                  768: { slidesPerView: 7 },
+                  1024: { slidesPerView: 10 },
+                }}
+              >
+                {currentCategory?.subcategories?.map((sub) => {
+                  const isActive = subcategoryFromUrl === sub.slug;
 
-          {/* CATEGORY STRIP — image + cover style, URL-driven */}
-          <div className="mb-4 flex flex-wrap justify-center gap-8 md:gap-12">
-            {visibleCategories.map((cat) => {
-              const isSaleCategory = cat.slug === "sale";
-              const isActive = isSaleCategory
-                ? isSalePage
-                : categoryFromUrl === cat.slug;
+                  return (
+                    <SwiperSlide key={sub.slug}>
+                      <button
+                        onClick={() => handleSubcategoryClick(sub.slug)}
+                        className="group flex flex-col items-center w-full"
+                      >
+                        <div
+                          className={`transition-all duration-300 ${
+                            isActive ? "scale-110" : "group-hover:scale-105"
+                          }`}
+                        >
+                          <img
+                            src={sub.cover || currentCategory?.cover}
+                            alt={sub.name[l]}
+                            className="w-20 h-20 object-contain mx-auto"
+                          />
+                        </div>
 
-              return (
-                <button
-                  key={cat.slug}
-                  onClick={() => handleCategoryClick(cat.slug)}
-                  className="group flex flex-col items-center cursor-pointer"
-                >
-                  <div
-                    className={`w-24 md:w-32 transition-all duration-300 ${
-                      isActive ? "scale-110" : "group-hover:scale-105"
-                    }`}
-                  >
-                    <img
-                      src={cat.cover}
-                      alt={cat.name[l]}
-                      className="max-w-20 max-h-20 object-contain mx-auto"
-                    />
-                  </div>
+                        <span
+                          className={`mt-2 text-sm transition-colors ${
+                            isActive
+                              ? "text-black font-medium"
+                              : "text-black/60"
+                          }
+                          ${kh ? "font-body-kh" : ""}`}
+                        >
+                          {sub.name[l]}
+                        </span>
 
-                  {/* TEXT: red if Sale+Active, black otherwise */}
-                  <span
-                    className={`${bodyFont} mt-2 text-[14px] transition-colors ${
-                      isSaleCategory && isActive
-                        ? "text-red-600 font-medium"
-                        : isActive
-                          ? "text-black font-medium"
-                          : "text-black/60"
-                    }`}
-                  >
-                    {cat.name[l]}
-                  </span>
+                        <div
+                          className={`mt-1 h-[2px] transition-all duration-300 mx-auto ${
+                            isActive ? "w-10 bg-black" : "w-0"
+                          }`}
+                        />
+                      </button>
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
+            </section>
+          ) : (
+            /* CATEGORY VIEW */
+            <section className="w-full mb-4">
+              <Swiper
+                spaceBetween={4}
+                slidesPerView={5}
+                allowSlideNext
+                centerInsufficientSlides
+                observer
+                observeParents
+                breakpoints={{
+                  640: { slidesPerView: 4 },
+                  768: { slidesPerView: 7 },
+                  1024: { slidesPerView: 14 },
+                }}
+              >
+                {categories.map((cat) => {
+                  const isDiscountCategory = cat.slug === "discount";
+                  const isAllCategory = cat.slug === "all";
 
-                  {/* UNDERLINE: red if Sale+Active, black otherwise */}
-                  <div
-                    className={`mt-1 h-[2px] transition-all duration-300 ${
-                      isActive
-                        ? isSaleCategory
-                          ? "w-14 bg-red-600"
-                          : "w-14 bg-black"
-                        : "w-0"
-                    }`}
-                  />
-                </button>
-              );
-            })}
-          </div>
+                  const isActive =
+                    (isDiscountCategory && isSalePage) ||
+                    (isAllCategory && !categoryFromUrl && !saleFromUrl) ||
+                    categoryFromUrl === cat.slug;
+
+                  return (
+                    <SwiperSlide key={cat.slug}>
+                      <button
+                        onClick={() => handleCategoryClick(cat.slug)}
+                        className="group flex flex-col items-center w-full"
+                      >
+                        <div
+                          className={`transition-all duration-300 ${
+                            isActive ? "scale-110" : "group-hover:scale-105"
+                          }`}
+                        >
+                          <img
+                            src={cat.cover}
+                            alt={cat.name[l]}
+                            className="w-20 h-20 object-contain mx-auto"
+                          />
+                        </div>
+
+                        <span
+                          className={`mt-2 text-sm transition-colors ${
+                            isDiscountCategory && isActive
+                              ? "text-red-600 font-medium"
+                              : isActive
+                                ? "text-black/70 font-medium"
+                                : "text-black/60"
+                          } ${kh ? "font-body-kh" : ""}`}
+                        >
+                          {cat.name[l]}
+                        </span>
+
+                        <div
+                          className={`mt-1 h-[2px] transition-all duration-300 mx-auto ${
+                            isActive
+                              ? isDiscountCategory
+                                ? "w-10 bg-red-600"
+                                : "w-10 bg-black"
+                              : "w-0"
+                          }`}
+                        />
+                      </button>
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
+            </section>
+          )}
 
           {/* TOOLBAR */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 mb-4">
@@ -247,7 +355,6 @@ export function ProductsPage() {
                 hasActiveFilters={hasActiveFilters}
                 label={kh ? "តម្រង" : "Filters"}
                 className={`${bodyFont} text-[14px] px-3 font-normal rounded border focus:outline-none focus:ring-2 focus:ring-black/50`}
-
               />
 
               <select
@@ -255,10 +362,10 @@ export function ProductsPage() {
                 onChange={(e) => setSortKey(e.target.value as SortKey)}
                 className={`${bodyFont} text-[14px] py-1.5 px-2 font-normal rounded border `}
               >
-                <option value="date" >{kh ? "តម្រៀប" : "Sort"}</option>
-                <option value="date" >{kh ? "ថ្មីបំផុត" : "Newest"}</option>
-                <option value="name" >{kh ? "ឈ្មោះ A-Z" : "Name A–Z"}</option>
-                <option value="price_asc" >
+                <option value="date">{kh ? "តម្រៀប" : "Sort"}</option>
+                <option value="date">{kh ? "ថ្មីបំផុត" : "Newest"}</option>
+                <option value="name">{kh ? "ឈ្មោះ A-Z" : "Name A–Z"}</option>
+                <option value="price_asc">
                   {kh ? "តម្លៃទាប → ខ្ពស់" : "Price Low → High"}
                 </option>
                 <option value="price_desc">
@@ -291,7 +398,9 @@ export function ProductsPage() {
                 >
                   {filtered.length > 0
                     ? `${filtered.length} ${kh ? "ផលិតផល" : "found"}`
-                    : kh ? "រកមិនឃើញ" : "No results"}
+                    : kh
+                      ? "រកមិនឃើញ"
+                      : "No results"}
                 </span>
               </div>
               <button
@@ -340,9 +449,10 @@ export function ProductsPage() {
               className="bg-white w-full sm:max-w-md p-6 md:p-4 shadow-xl max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* HEADER */}
               <div className="flex items-center justify-between mb-4">
-                <h3 className={`${headerFont} text-lg font-bold text-[#1C1917]`}>
+                <h3
+                  className={`${headerFont} text-lg font-bold text-[#1C1917]`}
+                >
                   {kh ? "តម្រង" : "Filters"}
                 </h3>
                 <button
@@ -353,10 +463,11 @@ export function ProductsPage() {
                 </button>
               </div>
 
-              {/* CATEGORY — hidden on sale page */}
               {!isSalePage && (
                 <div className="mb-6">
-                  <h4 className={`${headerFont} font-semibold text-gray-800 mb-3`}>
+                  <h4
+                    className={`${headerFont} font-semibold text-gray-800 mb-3`}
+                  >
                     {kh ? "ប្រភេទ" : "Category"}
                   </h4>
                   <div className="flex flex-wrap gap-2">
@@ -371,7 +482,7 @@ export function ProductsPage() {
                       {kh ? "ទាំងអស់" : "All"}
                     </button>
                     {visibleCategories
-                      .filter((c) => c.slug !== "sale")
+                      .filter((c) => c.slug !== "discount" && c.slug !== "all")
                       .map((cat) => (
                         <button
                           key={cat.slug}
@@ -389,13 +500,14 @@ export function ProductsPage() {
                 </div>
               )}
 
-              {/* PRICE */}
               <div className="mb-4">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className={`${headerFont} font-semibold text-gray-800`}>
                     {kh ? "តម្លៃអតិបរមា" : "Max Price"}
                   </h4>
-                  <span className={`${bodyFont} text-sm font-medium text-black`}>
+                  <span
+                    className={`${bodyFont} text-sm font-medium text-black`}
+                  >
                     ${maxPrice}
                   </span>
                 </div>
@@ -407,15 +519,18 @@ export function ProductsPage() {
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
                   className="w-full accent-black"
                 />
-                <div className={`${bodyFont} flex justify-between text-xs text-gray-400 mt-1`}>
+                <div
+                  className={`${bodyFont} flex justify-between text-xs text-gray-400 mt-1`}
+                >
                   <span>$0</span>
                   <span>${maxPriceInData}</span>
                 </div>
               </div>
 
-              {/* SIZE */}
               <div className="mb-4">
-                <h4 className={`${headerFont} font-semibold text-gray-800 mb-3`}>
+                <h4
+                  className={`${headerFont} font-semibold text-gray-800 mb-3`}
+                >
                   {kh ? "ទំហំស្បែកជើង" : "Shoe Size"}
                 </h4>
                 <div className="flex flex-wrap gap-2">
@@ -437,7 +552,6 @@ export function ProductsPage() {
                 </div>
               </div>
 
-              {/* ACTIONS */}
               <div className="flex gap-3">
                 <button
                   onClick={() => {
